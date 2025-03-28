@@ -2,43 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Style Guide - Zeprium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#f8f6ff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Zeprium" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Design System - Zeprium</title>
   <link rel="stylesheet" href="../css/style.css" />
 </head>
-<body>
-  
-<nav>
-  <a href="../index.html">Home</a> |
-  <a href="../pages/projects.html">Projects</a> |
-  <a href="../pages/contact.html">Contact</a> |
-  <a href="../pages/styleguide.html">Style Guide</a>
-</nav>
+<body class="dev-mode">
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="styleguide.html" class="dev-only">Style Guide</a>
+  </nav>
 
   <main>
-    <h1>UI Style Guide</h1>
-
     <section>
-      <h2>Typography</h2>
-      <p>This is a standard paragraph using the primary font.</p>
-      <h1>Heading 1</h1>
-      <h2>Heading 2</h2>
+      <h1>Design System</h1>
+      <p>This is our design system documentation, showcasing our typography, colors, and components.</p>
     </section>
 
     <section>
-      <h2>Buttons</h2>
-      <a href="#" class="button">Primary Button</a>
+      <h2>Typography</h2>
+      <p>Our primary font is Helvetica Neue, providing a clean and modern look.</p>
+      <div style="margin: 2rem 0;">
+        <h1>Heading 1 (2.5rem)</h1>
+        <h2>Heading 2 (2rem)</h2>
+        <p>Body Text (1.1rem)</p>
+        <p style="font-size: 0.9rem;">Small Text (0.9rem)</p>
+      </div>
     </section>
 
     <section>
       <h2>Colors</h2>
-      <p><span style="color: var(--color-accent);">Accent color example</span></p>
-      <p><span style="color: var(--color-link);">Link color example</span></p>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0;">
+        <div style="background: var(--color-accent); color: white; padding: 1rem; border-radius: 5px;">
+          Accent Color
+        </div>
+        <div style="background: var(--color-bg); color: var(--color-text); padding: 1rem; border-radius: 5px; border: 1px solid #ddd;">
+          Background Color
+        </div>
+        <div style="color: var(--color-link); padding: 1rem; border-radius: 5px; border: 1px solid var(--color-link);">
+          Link Color
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Components</h2>
+      <div style="margin: 2rem 0;">
+        <h3>Buttons</h3>
+        <a href="#" class="button">Primary Button</a>
+        <p style="margin-top: 1rem;">Buttons have hover and active states for better interactivity.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Responsive Design</h2>
+      <p>Our design system is fully responsive, adapting to different screen sizes:</p>
+      <ul style="list-style: none; margin: 1rem 0;">
+        <li>Desktop: > 768px</li>
+        <li>Tablet: 480px - 768px</li>
+        <li>Mobile: < 480px</li>
+      </ul>
     </section>
   </main>
   
-<footer>
-  &copy; 2025 Zeppelin Zhang · Zeprium · All rights reserved.
-</footer>
-
+  <footer>
+    <p>© 2024 Zeprium. All rights reserved.</p>
+  </footer>
 </body>
 </html>
