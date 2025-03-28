@@ -1,0 +1,20 @@
+# macOS系统文件
+.DS_Store
+
+# Node环境（如果将来你用到 npm 或 js bundler）
+node_modules/
+dist/
+.cache/
+
+# Vercel本地设置
+.vercel/
+
+# 日志
+*.log
+
+# 临时编辑器文件
+*.swp
+*.tmp
+
+# cursor或vscode工作区设置（可选）
+.vscode/
