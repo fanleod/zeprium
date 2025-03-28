@@ -2,18 +2,24 @@
 :root {
   --font-main: 'Helvetica Neue', sans-serif;
   --color-bg: #f8f6ff;
-  --color-text: #333333;
+  --color-text: #333;
   --color-accent: #8265e3;
+  --color-muted: #666;
   --color-link: #5a3cc9;
 }
 
 body {
   margin: 0;
-  padding: 0;
   font-family: var(--font-main);
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
+}
+
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 nav {
@@ -28,12 +34,45 @@ nav a {
   font-weight: bold;
 }
 
-nav a:hover {
-  text-decoration: underline;
+footer {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  padding: 2rem 1rem;
 }
 
-main {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
+section {
+  margin-bottom: 3rem;
+}
+
+h1, h2 {
+  color: var(--color-accent);
+}
+
+/* 按钮 */
+.button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--color-accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+.button:hover {
+  background-color: #5f48b0;
+}
+
+/* 响应式设计 */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+  nav {
+    font-size: 0.9rem;
+  }
+  .button {
+    display: block;
+    margin: 1rem auto;
+  }
 }
