@@ -8,15 +8,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Zeprium" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Design System - Zeprium</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png" />
+  <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
+  <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon-precomposed.png" />
   <link rel="stylesheet" href="../css/style.css" />
+  <title>Design System - Zeprium</title>
 </head>
-<body class="dev-mode">
+<body>
   <nav>
     <a href="../index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="projects.html">Projects</a>
-    <a href="styleguide.html" class="dev-only">Style Guide</a>
+    <a href="styleguide.html">Style Guide</a>
   </nav>
 
   <main>
@@ -27,12 +29,13 @@
 
     <section>
       <h2>Typography</h2>
-      <p>Our primary font is Helvetica Neue, providing a clean and modern look.</p>
+      <p>Our primary font is Optima, providing an elegant and sophisticated look.</p>
       <div style="margin: 2rem 0;">
-        <h1>Heading 1 (2.5rem)</h1>
-        <h2>Heading 2 (2rem)</h2>
-        <p>Body Text (1.1rem)</p>
-        <p style="font-size: 0.9rem;">Small Text (0.9rem)</p>
+        <h1>Heading 1 (4rem)</h1>
+        <h2>Heading 2 (3rem)</h2>
+        <h3>Heading 3 (2.5rem)</h3>
+        <p>Body Text (1.25rem)</p>
+        <p style="font-size: 1rem;">Small Text (1rem)</p>
       </div>
     </section>
 
@@ -40,13 +43,13 @@
       <h2>Colors</h2>
       <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0;">
         <div style="background: var(--color-accent); color: white; padding: 1rem; border-radius: 5px;">
-          Accent Color
+          Accent Color (#8265e3)
         </div>
         <div style="background: var(--color-bg); color: var(--color-text); padding: 1rem; border-radius: 5px; border: 1px solid #ddd;">
-          Background Color
+          Background Color (#f8f6ff)
         </div>
         <div style="color: var(--color-link); padding: 1rem; border-radius: 5px; border: 1px solid var(--color-link);">
-          Link Color
+          Link Color (#5a3cc9)
         </div>
       </div>
     </section>
@@ -64,9 +67,9 @@
       <h2>Responsive Design</h2>
       <p>Our design system is fully responsive, adapting to different screen sizes:</p>
       <ul style="list-style: none; margin: 1rem 0;">
-        <li>Desktop: > 768px</li>
-        <li>Tablet: 480px - 768px</li>
-        <li>Mobile: < 480px</li>
+        <li>Desktop: > 768px (18px base font size)</li>
+        <li>Tablet: 480px - 768px (16px base font size)</li>
+        <li>Mobile: < 480px (15px base font size)</li>
       </ul>
     </section>
   </main>
