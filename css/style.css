@@ -639,6 +639,32 @@ article {
   font-weight: 500;
 }
 
+/* 小红书图标特殊样式 */
+.rednote-svg {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.rednote-icon:hover .rednote-svg {
+  filter: grayscale(0%);
+}
+
+/* Podcasts 图标特殊样式 */
+.podcasts-svg {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.podcasts-icon:hover .podcasts-svg {
+  filter: grayscale(0%);
+}
+
 /* Print styles */
 @media print {
   body {
