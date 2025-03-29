@@ -223,34 +223,30 @@ p {
   html {
     font-size: 16px;
   }
+
+  header {
+    padding: 0.4rem 0; /* Keep consistent with larger screens */
+  }
+  
+  .nav-container {
+    padding: 0.4rem 1rem; /* Keep consistent with larger screens */
+  }
   
   main {
-    padding: calc(var(--header-height) + 1.5rem) 1.5rem 1.5rem;
+    padding: 0.75rem 1.5rem 1.25rem; /* Reduced side padding for smaller screens */
   }
   
-  nav {
-    padding: 0.8rem;
+  .blog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
   
-  nav a {
-    margin: 0 0.8rem;
-    font-size: 1rem;
+  .social-icons {
+    gap: 1.5rem;
   }
-
-  h1 {
-    font-size: 3rem;
-  }
-
-  h2 {
-    font-size: 2.5rem;
-  }
-
-  p {
-    font-size: 1.1rem;
-  }
-
-  .logo {
-    max-height: 120px;
+  
+  .social-icon svg {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
 
@@ -265,46 +261,29 @@ p {
     margin-top: 0.4rem; /* Consistent with desktop value */
   }
   
-  nav {
-    padding: 0.5rem;
-    height: auto;
-    flex-wrap: wrap;
-    justify-content: center;
+  header {
+    padding: 0.4rem 0; /* Keep consistent */
   }
   
-  nav a {
-    margin: 0.5rem;
-    font-size: 1rem;
-    padding: 0.5rem;
+  .nav-container {
+    padding: 0.4rem 0.75rem; /* Slightly reduced horizontal padding */
   }
   
   main {
-    padding: calc(var(--header-height) + 1rem) 1rem 1rem;
+    padding: 0.75rem 1rem 1.25rem; /* Further reduced side padding for mobile */
   }
   
-  .button {
-    display: block;
-    margin: 1rem auto;
-    width: 100%;
-    max-width: 300px;
-    padding: 1rem;
-    font-size: 1rem;
+  .blog-grid {
+    grid-template-columns: 1fr;
   }
   
-  h1 {
-    font-size: 2.5rem;
+  .social-icons {
+    gap: 1rem;
   }
   
-  h2 {
-    font-size: 2rem;
-  }
-
-  p {
-    font-size: 1rem;
-  }
-
-  .logo {
-    max-height: 100px;
+  .social-icon svg {
+    width: 2rem;
+    height: 2rem;
   }
 }
 
@@ -464,35 +443,4 @@ article {
 .social-icon span {
   font-size: 0.9rem;
   font-weight: 500;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-  .blog-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-  
-  .social-icons {
-    gap: 1.5rem;
-  }
-  
-  .social-icon svg {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .blog-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .social-icons {
-    gap: 1rem;
-  }
-  
-  .social-icon svg {
-    width: 2rem;
-    height: 2rem;
-  }
 }
