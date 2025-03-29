@@ -345,5 +345,5 @@ article {
 }
 
 .content-box:first-child {
-  margin-top: 0.6rem; /* Changed from 0.75rem to 0.6rem for numerical harmony */
+  margin-top: 1rem; /* Changed from 0.6rem to 1rem as requested */
 }
