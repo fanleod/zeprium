@@ -116,16 +116,31 @@ document.addEventListener('DOMContentLoaded', function() {
   // 检查用户首选主题
   const savedTheme = localStorage.getItem('theme');
   
+  // 应用主题的函数
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // 添加或移除body上的暗色模式类
+    if (theme === 'dark') {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+    
+    // 更新主题颜色
+    updateThemeColor();
+  }
+  
   // 如果用户有保存的主题设置，应用它
   if (savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    applyTheme(savedTheme);
   } else {
     // 否则根据系统设置自动选择
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
     if (prefersDarkScheme.matches) {
-      document.documentElement.setAttribute('data-theme', 'dark');
+      applyTheme('dark');
     } else {
-      document.documentElement.setAttribute('data-theme', 'light');
+      applyTheme('light');
     }
   }
   
@@ -133,10 +148,16 @@ document.addEventListener('DOMContentLoaded', function() {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (!localStorage.getItem('theme')) {
       if (e.matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        applyTheme('dark');
       } else {
-        document.documentElement.setAttribute('data-theme', 'light');
+        applyTheme('light');
       }
     }
   });
+  
+  // 立即检查当前系统偏好并应用
+  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
+    applyTheme('dark');
+  }
 }); 
