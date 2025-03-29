@@ -20,8 +20,8 @@
   --border-radius-small: 0.5rem; /* 8px */
   --border-radius-medium: 1rem; /* 16px */
   --border-radius-large: 1.5rem; /* 24px */
-  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
+  --box-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /* Dark Mode Colors - Will be activated via JavaScript or media query */
@@ -138,7 +138,6 @@ nav a:hover {
 /* 主要内容区域 */
 main {
   font-family: var(--font-main);
-  font-style: italic; /* Italic style for main content */
   max-width: var(--container-width);
   padding: 1.25rem;
   margin-bottom: 2rem; /* 从5rem减少到2rem，因为footer不再固定 */
@@ -191,44 +190,30 @@ p {
   line-height: 1.8;
 }
 
-/* 添加苹果风格圆角的通用类 */
-.apple-radius-small {
-  border-radius: var(--border-radius-small);
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
+/* 移除之前的苹果风格圆角类 */
+.apple-radius-small, .apple-radius-medium, .apple-radius-large {
+  display: none;
 }
 
-.apple-radius-medium {
-  border-radius: var(--border-radius-medium);
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-}
-
-.apple-radius-large {
-  border-radius: var(--border-radius-large);
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-}
-
-/* 苹果风格圆角 */
+/* 移除之前的clip-path方法 */
 @supports (clip-path: inset(0 0 0 0)) or (-webkit-clip-path: inset(0 0 0 0)) {
   .apple-radius-small, .apple-radius-medium, .apple-radius-large, .button, .video-container, .blog-card {
-    border-radius: 0;
+    border-radius: initial;
   }
   
   .apple-radius-small, .button {
-    -webkit-clip-path: url(#apple-squircle-small);
-    clip-path: url(#apple-squircle-small);
+    -webkit-clip-path: none;
+    clip-path: none;
   }
   
   .apple-radius-medium, .video-container, .blog-card {
-    -webkit-clip-path: url(#apple-squircle-medium);
-    clip-path: url(#apple-squircle-medium);
+    -webkit-clip-path: none;
+    clip-path: none;
   }
   
   .apple-radius-large {
-    -webkit-clip-path: url(#apple-squircle-large);
-    clip-path: url(#apple-squircle-large);
+    -webkit-clip-path: none;
+    clip-path: none;
   }
 }
 
@@ -237,7 +222,7 @@ p {
   display: inline-block;
   padding: 1rem 2rem;
   background-color: var(--color-accent);
-  color: var(--color-bg); /* Changed to ensure good contrast with black background */
+  color: var(--color-bg);
   text-decoration: none;
   border-radius: var(--border-radius-small);
   overflow: hidden;
@@ -248,12 +233,14 @@ p {
   font-size: 1.25rem;
   min-width: 12.5rem; /* 200px converted to rem */
   font-weight: 500;
+  transform: translateZ(0); /* 启用GPU加速 */
+  will-change: transform, box-shadow; /* 提示浏览器这些属性将会变化 */
 }
 
 .button:hover {
   background-color: #333333;
   color: #ffffff;
-  transform: translateY(-0.125rem); /* 2px converted to rem */
+  transform: translateY(-0.125rem) translateZ(0); /* 添加translateZ提高性能 */
   box-shadow: var(--box-shadow-hover);
 }
 
@@ -308,6 +295,15 @@ p {
   h3 {
     font-size: 1.5rem;
   }
+
+  .content-box {
+    max-width: 100%; /* Make content boxes full width on smaller screens */
+  }
+  
+  .video-container {
+    margin: 1.5rem auto;
+    box-shadow: var(--box-shadow);
+  }
 }
 
 /* 手机设备 */
@@ -356,6 +352,16 @@ p {
 
   h3 {
     font-size: 1.35rem;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .video-container {
+    margin: 1.25rem auto;
+    box-shadow: var(--box-shadow);
   }
 }
 
@@ -411,6 +417,10 @@ article {
   border-radius: var(--border-radius-medium);
   overflow: hidden;
   box-shadow: var(--box-shadow);
+  position: relative;
+  z-index: 1;
+  transform: translateZ(0); /* 启用GPU加速 */
+  will-change: box-shadow; /* 提示浏览器这些属性将会变化 */
 }
 
 .video-container video {
@@ -448,10 +458,14 @@ article {
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
+  position: relative;
+  z-index: 1;
+  transform: translateZ(0); /* 启用GPU加速 */
+  will-change: transform, box-shadow; /* 提示浏览器这些属性将会变化 */
 }
 
 .blog-card:hover {
-  transform: translateY(-0.25rem);
+  transform: translateY(-0.25rem) translateZ(0); /* 添加translateZ提高性能 */
   box-shadow: var(--box-shadow-hover);
 }
 
@@ -530,28 +544,4 @@ article {
 .social-icon span {
   font-size: 0.9rem;
   font-weight: 500;
-}
-
-/* For consistent appearance on mobile */
-@media (max-width: 768px) {
-  .content-box {
-    max-width: 100%; /* Make content boxes full width on smaller screens */
-  }
-  
-  .video-container {
-    margin: 1.5rem auto;
-    box-shadow: var(--box-shadow);
-  }
-}
-
-@media (max-width: 480px) {
-  .blog-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-  
-  .video-container {
-    margin: 1.25rem auto;
-    box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.08);
-  }
 }

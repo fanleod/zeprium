@@ -1,58 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Zeprium - 简约优雅的个人品牌展示">
+  <meta name="description" content="Zeprium - Elegant personal brand showcase">
   <meta name="theme-color" content="#ffffff">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="format-detection" content="telephone=no">
   
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="icon" href="images/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon-precomposed.png">
   
-  <title>Zeprium - 首页</title>
+  <title>Zeprium - Home</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/theme.js" defer></script>
+  <script src="js/navigation.js" defer></script>
 </head>
 <body>
-  <!-- 苹果平滑圆角 SVG 定义 -->
-  <svg width="0" height="0" style="position: absolute;">
-    <defs>
-      <!-- 小尺寸圆角 (8px) -->
-      <clipPath id="apple-squircle-small">
-        <path d="M4,0 H100% a4,4 0 0 1 4,4 V100% a4,4 0 0 1 -4,4 H4 a4,4 0 0 1 -4,-4 V4 a4,4 0 0 1 4,-4 Z" />
-      </clipPath>
-      
-      <!-- 中等尺寸圆角 (16px) -->
-      <clipPath id="apple-squircle-medium">
-        <path d="M8,0 H100% a8,8 0 0 1 8,8 V100% a8,8 0 0 1 -8,8 H8 a8,8 0 0 1 -8,-8 V8 a8,8 0 0 1 8,-8 Z" />
-      </clipPath>
-      
-      <!-- 大尺寸圆角 (24px) -->
-      <clipPath id="apple-squircle-large">
-        <path d="M12,0 H100% a12,12 0 0 1 12,12 V100% a12,12 0 0 1 -12,12 H12 a12,12 0 0 1 -12,-12 V12 a12,12 0 0 1 12,-12 Z" />
-      </clipPath>
-    </defs>
-  </svg>
-
-  <!-- 网站内容 -->
-  <header>
-    <img src="images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo">
-  </header>
-  
-  <nav>
-    <div class="nav-container">
-      <a href="index.html" class="active">首页</a>
-      <a href="pages/about.html">关于</a>
-      <a href="pages/blog.html">博客</a>
-      <a href="pages/projects.html">项目</a>
-      <a href="pages/contact.html">联系</a>
-      <a href="pages/styleguide.html">样式指南</a>
-    </div>
-  </nav>
-  
   <main>
     <section class="content-box">
       <h1>Welcome to Zeprium</h1>
@@ -127,8 +94,7 @@
         <!-- Xiaohongshu Icon -->
         <a href="https://xiaohongshu.com/user" class="social-icon">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.256 7.913c.355.138.64.398.804.737.165.339.21.724.128 1.093-.232 1.239-1.539 2.205-3.249 2.416 1.502.763 2.566 2.021 2.931 3.467.1.397.083.813-.048 1.2a2.108 2.108 0 01-.673.963 2.272 2.272 0 01-1.078.484 2.292 2.292 0 01-1.172-.135c-.985-.405-1.756-1.396-2.074-2.639l-.327-1.27h-1.13l-.333 1.266c-.336 1.262-1.146 2.268-2.154 2.673-1.113.446-2.367-.03-2.787-1.054-.232-.57-.284-1.2-.146-1.8.367-1.59 1.566-2.969 3.193-3.707-1.68-.211-2.962-1.166-3.178-2.38-.108-.607.054-1.226.444-1.692a2.093 2.093 0
-11.617-.741c1.245 0 2.358.85 2.805 2.068l.321 1.668h1.043l.302-1.563c.422-1.28 1.516-2.174 2.804-2.174.434 0 .844.122 1.213.317z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.256 7.913c.355.138.64.398.804.737.165.339.21.724.128 1.093-.232 1.239-1.539 2.205-3.249 2.416 1.502.763 2.566 2.021 2.931 3.467.1.397.083.813-.048 1.2a2.108 2.108 0 01-.673.963 2.272 2.272 0 01-1.078.484 2.292 2.292 0 01-1.172-.135c-.985-.405-1.756-1.396-2.074-2.639l-.327-1.27h-1.13l-.333 1.266c-.336 1.262-1.146 2.268-2.154 2.673-1.113.446-2.367-.03-2.787-1.054-.232-.57-.284-1.2-.146-1.8.367-1.59 1.566-2.969 3.193-3.707-1.68-.211-2.962-1.166-3.178-2.38-.108-.607.054-1.226.444-1.692a2.093 2.093 0 011.617-.741c1.245 0 2.358.85 2.805 2.068l.321 1.668h1.043l.302-1.563c.422-1.28 1.516-2.174 2.804-2.174.434 0 .844.122 1.213.317z"/>
           </svg>
           <span>小红书</span>
         </a>
