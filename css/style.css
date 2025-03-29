@@ -20,6 +20,8 @@
   --border-radius-small: 0.5rem; /* 8px */
   --border-radius-medium: 1rem; /* 16px */
   --border-radius-large: 1.5rem; /* 24px */
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* Dark Mode Colors - Will be activated via JavaScript or media query */
@@ -190,12 +192,44 @@ p {
 }
 
 /* 添加苹果风格圆角的通用类 */
-.apple-radius {
+.apple-radius-small {
+  border-radius: var(--border-radius-small);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.apple-radius-medium {
   border-radius: var(--border-radius-medium);
-  -webkit-mask-composite: source-over;
-  mask-composite: add;
-  -webkit-mask-image: radial-gradient(white, black);
-  mask-image: radial-gradient(white, black);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.apple-radius-large {
+  border-radius: var(--border-radius-large);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+/* 苹果风格圆角 */
+@supports (clip-path: inset(0 0 0 0)) or (-webkit-clip-path: inset(0 0 0 0)) {
+  .apple-radius-small, .apple-radius-medium, .apple-radius-large, .button, .video-container, .blog-card {
+    border-radius: 0;
+  }
+  
+  .apple-radius-small, .button {
+    -webkit-clip-path: url(#apple-squircle-small);
+    clip-path: url(#apple-squircle-small);
+  }
+  
+  .apple-radius-medium, .video-container, .blog-card {
+    -webkit-clip-path: url(#apple-squircle-medium);
+    clip-path: url(#apple-squircle-medium);
+  }
+  
+  .apple-radius-large {
+    -webkit-clip-path: url(#apple-squircle-large);
+    clip-path: url(#apple-squircle-large);
+  }
 }
 
 /* 按钮样式 */
@@ -206,10 +240,8 @@ p {
   color: var(--color-bg); /* Changed to ensure good contrast with black background */
   text-decoration: none;
   border-radius: var(--border-radius-small);
-  -webkit-mask-composite: source-over;
-  mask-composite: add;
-  -webkit-mask-image: radial-gradient(white, black);
-  mask-image: radial-gradient(white, black);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
   transition: all 0.3s ease;
   text-align: center;
   margin: 0 auto;
@@ -222,6 +254,7 @@ p {
   background-color: #333333;
   color: #ffffff;
   transform: translateY(-0.125rem); /* 2px converted to rem */
+  box-shadow: var(--box-shadow-hover);
 }
 
 /* For dark mode button hover */
@@ -376,12 +409,8 @@ article {
   width: 100%;
   margin: 2rem auto;
   border-radius: var(--border-radius-medium);
-  -webkit-mask-composite: source-over;
-  mask-composite: add;
-  -webkit-mask-image: radial-gradient(white, black);
-  mask-image: radial-gradient(white, black);
   overflow: hidden;
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+  box-shadow: var(--box-shadow);
 }
 
 .video-container video {
@@ -415,19 +444,15 @@ article {
   flex-direction: column;
   background-color: var(--color-bg);
   border-radius: var(--border-radius-medium);
-  -webkit-mask-composite: source-over;
-  mask-composite: add;
-  -webkit-mask-image: radial-gradient(white, black);
-  mask-image: radial-gradient(white, black);
   overflow: hidden;
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+  box-shadow: var(--box-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
 }
 
 .blog-card:hover {
   transform: translateY(-0.25rem);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
+  box-shadow: var(--box-shadow-hover);
 }
 
 .blog-image {
@@ -515,7 +540,7 @@ article {
   
   .video-container {
     margin: 1.5rem auto;
-    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.08);
+    box-shadow: var(--box-shadow);
   }
 }
 

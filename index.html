@@ -1,22 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#ffffff" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Zeprium" />
-  <meta name="format-detection" content="telephone=no" />
-  <link rel="icon" type="image/png" href="images/favicon.png" />
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
-  <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon-precomposed.png" />
-  <link rel="stylesheet" href="css/style.css" />
-  <title>Zeprium</title>
-  <script src="js/theme.js" defer></script>
-  <script src="js/navigation.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Zeprium - 简约优雅的个人品牌展示">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  
+  <title>Zeprium - 首页</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- 苹果平滑圆角 SVG 定义 -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <!-- 小尺寸圆角 (8px) -->
+      <clipPath id="apple-squircle-small">
+        <path d="M4,0 H100% a4,4 0 0 1 4,4 V100% a4,4 0 0 1 -4,4 H4 a4,4 0 0 1 -4,-4 V4 a4,4 0 0 1 4,-4 Z" />
+      </clipPath>
+      
+      <!-- 中等尺寸圆角 (16px) -->
+      <clipPath id="apple-squircle-medium">
+        <path d="M8,0 H100% a8,8 0 0 1 8,8 V100% a8,8 0 0 1 -8,8 H8 a8,8 0 0 1 -8,-8 V8 a8,8 0 0 1 8,-8 Z" />
+      </clipPath>
+      
+      <!-- 大尺寸圆角 (24px) -->
+      <clipPath id="apple-squircle-large">
+        <path d="M12,0 H100% a12,12 0 0 1 12,12 V100% a12,12 0 0 1 -12,12 H12 a12,12 0 0 1 -12,-12 V12 a12,12 0 0 1 12,-12 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <!-- 网站内容 -->
+  <header>
+    <img src="images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo">
+  </header>
+  
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="active">首页</a>
+      <a href="pages/about.html">关于</a>
+      <a href="pages/blog.html">博客</a>
+      <a href="pages/projects.html">项目</a>
+      <a href="pages/contact.html">联系</a>
+      <a href="pages/styleguide.html">样式指南</a>
+    </div>
+  </nav>
+  
   <main>
     <section class="content-box">
       <h1>Welcome to Zeprium</h1>
