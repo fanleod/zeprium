@@ -385,7 +385,7 @@ p {
   }
   
   .social-icons {
-    gap: 1.5rem;
+    gap: 2rem; /* 在小屏幕上减少间距 */
   }
   
   .social-icon svg {
@@ -443,12 +443,14 @@ p {
   }
   
   .social-icons {
-    gap: 1rem;
+    gap: 1.5rem; /* 在更小的屏幕上进一步减少间距 */
   }
   
-  .social-icon svg {
-    width: 2rem;
-    height: 2rem;
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg {
+    width: 2.5rem; /* 在小屏幕上减小图标尺寸 */
+    height: 2.5rem;
   }
 
   h1 {
@@ -603,23 +605,37 @@ article {
   align-self: flex-start;
 }
 
+/* 社交媒体图标容器 */
+.social-icons-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
 /* 社交媒体图标 */
 .social-icons {
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-  flex-wrap: wrap;
+  justify-content: center; 
+  align-items: center;
+  gap: 4rem;
+  margin: 2rem auto;
+  width: 100%;
+  max-width: 720px;
+  padding: 0;
 }
 
 .social-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: var(--color-text);
   transition: transform 0.3s ease, color 0.3s ease;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .social-icon:hover {
@@ -639,6 +655,23 @@ article {
   font-weight: 500;
 }
 
+/* YouTube 图标特殊样式 */
+.youtube-svg {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.youtube-icon:hover .youtube-svg {
+  filter: grayscale(0%);
+}
+
+.youtube-icon:hover span {
+  color: #FF0000; /* YouTube 官方红色 */
+}
+
 /* 小红书图标特殊样式 */
 .rednote-svg {
   width: 3rem;
@@ -652,6 +685,10 @@ article {
   filter: grayscale(0%);
 }
 
+.rednote-icon:hover span {
+  color: #FF2442; /* 小红书官方红色 */
+}
+
 /* Podcasts 图标特殊样式 */
 .podcasts-svg {
   width: 3rem;
@@ -663,6 +700,10 @@ article {
 
 .podcasts-icon:hover .podcasts-svg {
   filter: grayscale(0%);
+}
+
+.podcasts-icon:hover span {
+  color: #872EC4; /* Apple Podcasts 官方紫色 */
 }
 
 /* Print styles */
@@ -870,4 +911,257 @@ article {
 
 .scrolled {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 平板设备 */
+@media (max-width: 768px) {
+  .social-icons {
+    gap: 2rem;
+    max-width: 100%;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 480px) {
+  .social-icons {
+    gap: 1rem;
+    justify-content: space-around;
+    width: 100%;
+  }
+  
+  .social-icon {
+    width: 80px;
+    flex: 0 0 auto;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.8rem;
+  }
+}
+
+/* 极小屏幕适配 (420px 以下) */
+@media (max-width: 420px) {
+  .social-icons-container {
+    padding: 0;
+    width: 100%;
+  }
+  
+  .social-icons {
+    gap: 0;
+    justify-content: space-between;
+    padding: 0 10px;
+    width: 100%;
+  }
+  
+  .social-icon {
+    width: 70px;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.7rem;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+}
+
+/* iPhone 专用适配 */
+/* iPhone SE, 5, 5S, 5C (320px) */
+@media (max-width: 320px) {
+  .social-icons {
+    padding: 0 5px;
+  }
+  
+  .social-icon {
+    width: 60px;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    margin-bottom: 0.15rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.6rem;
+    letter-spacing: -0.03em;
+  }
+}
+
+/* iPhone 6, 7, 8, SE2 (375px) */
+@media (min-width: 321px) and (max-width: 375px) {
+  .social-icons {
+    padding: 0 10px;
+  }
+  
+  .social-icon {
+    width: 65px;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.65rem;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* iPhone X, XS, 11 Pro, 12 mini, 13 mini (375px但设备像素比更高) */
+@media (min-width: 375px) and (max-width: 390px) {
+  .social-icons {
+    padding: 0 10px;
+  }
+  
+  .social-icon {
+    width: 70px;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 1.85rem;
+    height: 1.85rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.67rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* iPhone 12, 12 Pro, 13, 13 Pro, 14, 14 Pro (390px) */
+@media (min-width: 390px) and (max-width: 393px) {
+  .social-icons {
+    padding: 0 10px;
+  }
+  
+  .social-icon {
+    width: 75px;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 1.9rem;
+    height: 1.9rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.68rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* iPhone 6 Plus, 7 Plus, 8 Plus (414px) */
+@media (min-width: 394px) and (max-width: 414px) {
+  .social-icons {
+    padding: 0 15px;
+  }
+  
+  .social-icon {
+    width: 80px;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.7rem;
+    letter-spacing: 0;
+  }
+}
+
+/* iPhone 11, XR, 11 Pro Max, XS Max (414px但设备像素比更高) */
+@media (min-width: 414px) and (max-width: 428px) {
+  .social-icons {
+    padding: 0 15px;
+  }
+  
+  .social-icon {
+    width: 85px;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 2.1rem;
+    height: 2.1rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.72rem;
+  }
+}
+
+/* iPhone 12 Pro Max, 13 Pro Max, 14 Plus, 14 Pro Max (428px) */
+@media (min-width: 428px) and (max-width: 430px) {
+  .social-icons {
+    padding: 0 15px;
+  }
+  
+  .social-icon {
+    width: 90px;
+  }
+  
+  .social-icon svg,
+  .podcasts-svg,
+  .rednote-svg,
+  .youtube-svg {
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .social-icon span {
+    font-size: 0.75rem;
+  }
 }
