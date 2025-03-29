@@ -11,7 +11,16 @@ function createNavigation() {
   const navHTML = `
     <header>
       <picture class="logo-picture">
-        <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" media="all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}"> 
+        <!-- 夜间模式使用的浅色HDR logo -->
+        <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
+                media="(prefers-color-scheme: dark) and ((color-gamut: p3) or (dynamic-range: high))">
+        <!-- 夜间模式使用的浅色普通logo (后备) -->
+        <source srcset="${basePath}images/zeprium-logo-light.png" type="image/png" 
+                media="(prefers-color-scheme: dark)">
+        <!-- 日间模式使用的深色HDR logo -->
+        <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
+                media="(color-gamut: p3) or (dynamic-range: high)">
+        <!-- 普通PNG作为后备 -->
         <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false" style="image-rendering: -webkit-optimize-contrast;">
       </picture>
     </header>

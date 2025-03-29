@@ -53,9 +53,9 @@
     --color-focus-p3: color(display-p3 0.416 0.659 0.91);
   }
   
-  /* 夜间模式下 logo 反转颜色 - 增加优先级确保生效 */
+  /* 夜间模式下logo增强亮度但不再反转颜色，使用专门的浅色logo */
   .site-logo {
-    filter: invert(1) brightness(1.5) !important;
+    filter: brightness(1.2);
   }
   
   /* 夜间模式下导航栏背景 */
@@ -187,12 +187,24 @@ header {
 @supports (color: color(display-p3 1 1 1)) {
   /* 仅在支持HDR的设备和浏览器上启用 */
   @media (dynamic-range: high) or (color-gamut: p3) {
+    /* 亮色模式下的HDR效果 */
     .site-logo {
       filter: brightness(1.25);
     }
     
     .site-logo:hover {
       filter: brightness(1.5);
+    }
+    
+    /* 暗色模式下HDR效果 - 使用专门的浅色logo，只需增强亮度 */
+    @media (prefers-color-scheme: dark) {
+      .site-logo {
+        filter: brightness(1.4);
+      }
+      
+      .site-logo:hover {
+        filter: brightness(1.6);
+      }
     }
   }
 }
@@ -1331,7 +1343,7 @@ article {
     
     /* 暗色模式下的HDR图像 */
     .site-logo {
-      filter: invert(1) brightness(1.5) !important;
+      filter: brightness(1.2);
     }
     
     /* 暗色模式下的P3错误信息 */
