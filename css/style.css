@@ -76,6 +76,14 @@ nav a:hover {
   color: var(--color-accent);
 }
 
+/* 主页logo */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content; 
+}
+
 /* 主要内容区域 */
 main {
   max-width: var(--container-width);
