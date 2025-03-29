@@ -36,15 +36,6 @@ function updateThemeColor() {
   }
 }
 
-// Use a safe way to add event listeners
-function addSafeEventListener(element, event, callback) {
-  if (element && typeof element.addEventListener === 'function') {
-    element.addEventListener(event, callback);
-    return true;
-  }
-  return false;
-}
-
 // 检查是否支持P3色域
 function checkP3Support() {
   let supportsP3 = false;
@@ -59,8 +50,42 @@ function checkP3Support() {
   }
 }
 
-// Run when the page loads
-document.addEventListener('DOMContentLoaded', function() {
+// 检查是否支持HDR
+function checkHDRSupport() {
+  // 检查是否支持 color-gamut: p3
+  const supportsP3 = window.matchMedia('(color-gamut: p3)').matches;
+  // 检查是否支持 dynamic-range: high
+  const supportsDynamicRange = window.matchMedia('(dynamic-range: high)').matches;
+  // 使用CSS变量检查
+  let supportsDisplayP3 = false;
+  try {
+    // 尝试使用display-p3色彩空间
+    supportsDisplayP3 = CSS.supports('color', 'color(display-p3 0 0 0)');
+  } catch (e) {
+    // 如果出错，则不支持
+    supportsDisplayP3 = false;
+  }
+  
+  return supportsP3 || supportsDynamicRange || supportsDisplayP3;
+}
+
+// 应用主题的函数
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  
+  // 添加或移除body上的暗色模式类
+  if (theme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+  
+  // 更新主题颜色
+  updateThemeColor();
+}
+
+// 初始化函数
+function initTheme() {
   // 更新主题颜色
   updateThemeColor();
   
@@ -68,43 +93,6 @@ document.addEventListener('DOMContentLoaded', function() {
   if (checkP3Support()) {
     document.body.classList.add('p3-supported');
     console.log('P3 color gamut supported');
-  }
-});
-
-// Also run when CSS variables might change (e.g., when switching to dark mode)
-const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-if (darkModeMediaQuery && typeof darkModeMediaQuery.addEventListener === 'function') {
-  darkModeMediaQuery.addEventListener('change', updateThemeColor);
-} else if (darkModeMediaQuery && typeof darkModeMediaQuery.addListener === 'function') {
-  // Fallback for older browsers
-  darkModeMediaQuery.addListener(updateThemeColor);
-}
-
-// Safely export the function for potential use by other scripts
-if (window) {
-  window.updateThemeColor = updateThemeColor;
-  window.checkP3Support = checkP3Support;
-}
-
-// 检测颜色主题和保存用户首选项
-document.addEventListener('DOMContentLoaded', function() {
-  // 检查是否支持HDR
-  function checkHDRSupport() {
-    // 检查是否支持 color-gamut: p3
-    const supportsP3 = window.matchMedia('(color-gamut: p3)').matches;
-    // 检查是否支持 dynamic-range: high
-    const supportsDynamicRange = window.matchMedia('(dynamic-range: high)').matches;
-    // 使用CSS变量检查
-    let supportsDisplayP3 = false;
-    try {
-      // 尝试使用display-p3色彩空间
-      supportsDisplayP3 = CSS.supports('color', 'color(display-p3 0 0 0)');
-    } catch (e) {
-      // 如果出错，则不支持
-      supportsDisplayP3 = false;
-    }
-    
-    return supportsP3 || supportsDynamicRange || supportsDisplayP3;
   }
   
   // 如果支持HDR，添加特定类
@@ -115,21 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 检查用户首选主题
   const savedTheme = localStorage.getItem('theme');
-  
-  // 应用主题的函数
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    
-    // 添加或移除body上的暗色模式类
-    if (theme === 'dark') {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-    
-    // 更新主题颜色
-    updateThemeColor();
-  }
   
   // 如果用户有保存的主题设置，应用它
   if (savedTheme) {
@@ -143,24 +116,42 @@ document.addEventListener('DOMContentLoaded', function() {
       applyTheme('light');
     }
   }
-  
-  // 立即检查当前系统偏好并应用
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-  if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
-    applyTheme('dark');
-    document.body.classList.add('dark-mode');  // 确保添加dark-mode类
-  }
-  
-  // 监听系统主题变化
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+}
+
+// 当页面加载完成时初始化主题
+document.addEventListener('DOMContentLoaded', initTheme);
+
+// 监听系统主题变化
+const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+if (darkModeMediaQuery && typeof darkModeMediaQuery.addEventListener === 'function') {
+  darkModeMediaQuery.addEventListener('change', e => {
     if (!localStorage.getItem('theme')) {
       if (e.matches) {
         applyTheme('dark');
-        document.body.classList.add('dark-mode');  // 确保添加dark-mode类
       } else {
         applyTheme('light');
-        document.body.classList.remove('dark-mode');  // 确保移除dark-mode类
       }
     }
+    updateThemeColor();
   });
-}); 
+} else if (darkModeMediaQuery && typeof darkModeMediaQuery.addListener === 'function') {
+  // Fallback for older browsers
+  darkModeMediaQuery.addListener(e => {
+    if (!localStorage.getItem('theme')) {
+      if (e.matches) {
+        applyTheme('dark');
+      } else {
+        applyTheme('light');
+      }
+    }
+    updateThemeColor();
+  });
+}
+
+// Safely export the functions for potential use by other scripts
+if (window) {
+  window.updateThemeColor = updateThemeColor;
+  window.checkP3Support = checkP3Support;
+  window.checkHDRSupport = checkHDRSupport;
+  window.applyTheme = applyTheme;
+} 

@@ -10,13 +10,13 @@ html::-webkit-scrollbar {
   display: none;
 }
 
-/* 为所有可滚动元素隐藏滚动条 */
-* {
+/* 确保所有可滚动容器也隐藏滚动条 */
+.scrollable-container {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-*::-webkit-scrollbar {
+.scrollable-container::-webkit-scrollbar {
   width: 0;
   height: 0;
   display: none;
