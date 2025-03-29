@@ -18,29 +18,84 @@
 </head>
 <body>
   <main>
-    <section>
+    <section class="content-box">
       <h1>Welcome to Zeprium</h1>
       <p>Your digital home for creativity and innovation.</p>
-      <video controls>
-        <source src="videos/intro.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      
+      <div class="video-container">
+        <video controls poster="images/video-poster.jpg">
+          <source src="videos/intro.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </section>
 
-    <section>
+    <section class="content-box">
       <h2>Latest Blog Posts</h2>
-      <article>
-        <h3>Blog Post Title</h3>
-        <p>First blog post coming soon, showcasing my creative writing and reflections.</p>
-        <a href="pages/blog.html">Read more</a>
-      </article>
+      <p>Explore our thoughts, insights, and creative processes.</p>
+      
+      <div class="blog-grid">
+        <!-- Blog Card 1 -->
+        <article class="blog-card">
+          <div class="blog-image" style="background-color: #8265e3;">Design</div>
+          <div class="blog-content">
+            <h3>Design Principles for Modern Web</h3>
+            <p>Exploring the fundamental principles that guide effective and engaging web design in today's digital landscape.</p>
+            <a href="pages/blog.html">Read more</a>
+          </div>
+        </article>
+        
+        <!-- Blog Card 2 -->
+        <article class="blog-card">
+          <div class="blog-image" style="background-color: #7056d4;">Typography</div>
+          <div class="blog-content">
+            <h3>Typography in Digital Media</h3>
+            <p>How typeface selection and text formatting can dramatically impact user experience and brand perception.</p>
+            <a href="pages/blog.html">Read more</a>
+          </div>
+        </article>
+        
+        <!-- Blog Card 3 -->
+        <article class="blog-card">
+          <div class="blog-image" style="background-color: #9375f2;">Creativity</div>
+          <div class="blog-content">
+            <h3>Creative Process Insights</h3>
+            <p>A behind-the-scenes look at our approach to problem-solving and turning concepts into reality.</p>
+            <a href="pages/blog.html">Read more</a>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <section>
-      <h2>Podcast & Videos</h2>
-      <a href="https://podcast.link">Listen to our Podcast</a>
-      <a href="https://youtube.com/channel">Watch on YouTube</a>
-      <a href="https://xiaohongshu.com/user">Follow on Xiaohongshu</a>
+    <section class="content-box">
+      <h2>Connect With Us</h2>
+      <p>Follow our journey across different platforms.</p>
+      <div class="social-icons">
+        <!-- Podcast Icon -->
+        <a href="https://podcast.link" class="social-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a6 6 0 00-6 6v2a6 6 0 0012 0v-2a6 6 0 00-6-6zm0 2a4 4 0 014 4v2a4 4 0 01-8 0v-2a4 4 0 014-4zm0 10a1 1 0 011 1v3a1 1 0 01-2 0v-3a1 1 0 011-1z"/>
+          </svg>
+          <span>Podcast</span>
+        </a>
+        
+        <!-- YouTube Icon -->
+        <a href="https://youtube.com/channel" class="social-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+          <span>YouTube</span>
+        </a>
+        
+        <!-- Xiaohongshu Icon -->
+        <a href="https://xiaohongshu.com/user" class="social-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.256 7.913c.355.138.64.398.804.737.165.339.21.724.128 1.093-.232 1.239-1.539 2.205-3.249 2.416 1.502.763 2.566 2.021 2.931 3.467.1.397.083.813-.048 1.2a2.108 2.108 0 01-.673.963 2.272 2.272 0 01-1.078.484 2.292 2.292 0 01-1.172-.135c-.985-.405-1.756-1.396-2.074-2.639l-.327-1.27h-1.13l-.333 1.266c-.336 1.262-1.146 2.268-2.154 2.673-1.113.446-2.367-.03-2.787-1.054-.232-.57-.284-1.2-.146-1.8.367-1.59 1.566-2.969 3.193-3.707-1.68-.211-2.962-1.166-3.178-2.38-.108-.607.054-1.226.444-1.692a2.093 2.093 0
+11.617-.741c1.245 0 2.358.85 2.805 2.068l.321 1.668h1.043l.302-1.563c.422-1.28 1.516-2.174 2.804-2.174.434 0 .844.122 1.213.317z"/>
+          </svg>
+          <span>小红书</span>
+        </a>
+      </div>
     </section>
   </main>
 
