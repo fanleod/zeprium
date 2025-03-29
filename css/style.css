@@ -125,8 +125,11 @@ nav a:hover {
 
 /* 主要内容区域 */
 main {
-  max-width: 50rem; /* 800px converted to rem */
-  padding: 2rem;
+  font-family: var(--font-main);
+  font-style: italic; /* Italic style for main content */
+  max-width: var(--container-width);
+  padding: 1.25rem;
+  margin-bottom: 5rem;
   text-align: center;
 }
 
@@ -149,24 +152,25 @@ section {
   margin-right: auto;
 }
 
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+  font-style: normal;
+  font-weight: 300; /* Lighter weight for headings */
+  margin-bottom: 1rem;
   line-height: 1.2;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  letter-spacing: var(--letter-spacing);
 }
 
 h1 {
   font-size: 4rem;
-  letter-spacing: -0.02em;
-  font-weight: 600;
 }
 
 h2 {
   font-size: 3rem;
-  letter-spacing: -0.01em;
-  font-weight: 600;
+}
+
+h3 {
+  font-size: 2.5rem;
 }
 
 p {
