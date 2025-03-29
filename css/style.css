@@ -35,6 +35,32 @@
     --color-link: #d0d0d0;
     --color-focus: #6aA8e8;
   }
+  
+  /* 夜间模式下 logo 反转颜色 */
+  .site-logo, .logo {
+    filter: invert(1) brightness(1.5);
+  }
+  
+  /* 夜间模式下导航栏背景 */
+  nav {
+    background: rgba(18, 18, 18, 0.95);
+  }
+  
+  /* 夜间模式下导航链接颜色 */
+  nav a {
+    color: var(--color-text);
+  }
+  
+  /* 夜间模式下博客页脚 */
+  .blog-post footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* 夜间模式下错误消息 */
+  .error-message,
+  .no-posts-message {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
 }
 
 /* 开发模式控制 */
@@ -438,23 +464,6 @@ p {
   }
 }
 
-/* 支持深色模式 */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #1a1a1a;
-    --color-text: #ffffff;
-    --color-muted: #999;
-  }
-  
-  nav {
-    background: rgba(26, 26, 26, 0.95);
-  }
-  
-  nav a {
-    color: var(--color-text);
-  }
-}
-
 /* 支持触摸设备 */
 @media (hover: none) {
   .button:active {
@@ -805,18 +814,6 @@ article {
 
 .read-more:hover::after {
   transform: scaleX(1);
-}
-
-/* 深色模式适配 */
-@media (prefers-color-scheme: dark) {
-  .blog-post footer {
-    border-top-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .error-message,
-  .no-posts-message {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
 }
 
 /* 响应式调整 */
