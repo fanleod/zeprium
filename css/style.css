@@ -109,7 +109,7 @@ footer {
   width: 100%;
   text-align: center;
   padding: 1rem;
-  background: var(--color-muted);
+  background-color: transparent;
   position: fixed;
   bottom: 0;
 }
