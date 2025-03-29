@@ -63,7 +63,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh; /* Ensure body takes at least full viewport height */
 }
 
 /* 导航栏 */
@@ -72,9 +71,6 @@ header {
   justify-content: center;
   align-items: center;
   padding: 1rem 0;
-  width: 100%;
-  background-color: var(--color-bg);
-  z-index: 1000;
 }
 
 .site-logo {
@@ -87,16 +83,12 @@ nav {
   overflow-x: auto;
   white-space: nowrap;
   background: var(--color-bg);
-  z-index: 1000;
-  -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS */
 }
 
 .nav-container {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  max-width: var(--container-width);
-  margin: 0 auto;
 }
 
 nav a {
@@ -136,98 +128,9 @@ main {
   font-family: var(--font-main);
   font-style: italic; /* Italic style for main content */
   max-width: var(--container-width);
-  width: 100%;
-  padding: 1.25rem 2.5rem; /* Increased left and right padding */
-  margin-bottom: 2rem;
-  text-align: center;
-  flex: 1; /* Take up available space */
-}
-
-/* 内容盒子样式 */
-.content-box {
-  max-width: 760px; /* Reduced width for better readability */
-  margin: 0 auto 2rem;
-  width: 100%;
-}
-
-/* 视频容器 */
-.video-container {
-  width: 100%;
-  margin: 2rem auto;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-}
-
-.video-container video {
-  width: 100%;
-  display: block;
-}
-
-/* 博客预览卡片 */
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-  width: 100%;
-}
-
-.blog-card {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-bg);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
-}
-
-.blog-card:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
-}
-
-.blog-image {
-  width: 100%;
-  aspect-ratio: 3/2; /* 2:3 ratio as requested */
-  background-color: var(--color-accent);
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: 300;
-  font-size: 1.5rem;
-  font-family: var(--font-heading);
-}
-
-.blog-content {
   padding: 1.25rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.blog-content h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.blog-content p {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  flex-grow: 1;
-}
-
-.blog-content a {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 500;
-  align-self: flex-start;
+  margin-bottom: 5rem;
+  text-align: center;
 }
 
 /* 页脚 */
@@ -236,7 +139,8 @@ footer {
   text-align: center;
   padding: 1rem;
   background-color: transparent;
-  margin-top: auto; /* Push to bottom with flexbox instead of fixed positioning */
+  position: fixed;
+  bottom: 0;
 }
 
 /* 章节样式 */
@@ -305,7 +209,7 @@ p {
   }
   
   main {
-    padding: 1.25rem 1.5rem;
+    padding: calc(var(--header-height) + 1.5rem) 1.5rem 1.5rem;
   }
   
   nav {
@@ -332,10 +236,6 @@ p {
   .logo {
     max-height: 120px;
   }
-  
-  .blog-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* 手机设备 */
@@ -346,6 +246,7 @@ p {
   
   body {
     padding: 0;
+    margin-top: 0.3rem; /* Smaller top margin on mobile */
   }
   
   nav {
@@ -434,38 +335,4 @@ img, video {
 
 article {
   margin-bottom: 1.5rem;
-}
-
-/* 社交媒体图标 */
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.social-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: var(--color-text);
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.social-icon:hover {
-  transform: translateY(-0.5rem);
-  color: var(--color-accent);
-}
-
-.social-icon svg {
-  width: 3rem;
-  height: 3rem;
-  margin-bottom: 0.75rem;
-  fill: currentColor;
-}
-
-.social-icon span {
-  font-size: 0.9rem;
-  font-weight: 500;
 }
