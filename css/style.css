@@ -347,3 +347,136 @@ article {
 .content-box:first-child {
   margin-top: 1rem; /* Changed from 0.6rem to 1rem as requested */
 }
+
+/* 博客预览卡片 */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.blog-card:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
+}
+
+.blog-image {
+  width: 100%;
+  aspect-ratio: 3/2; /* 2:3 ratio as requested */
+  background-color: var(--color-accent);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 300;
+  font-size: 1.5rem;
+  font-family: var(--font-heading);
+}
+
+.blog-content {
+  padding: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-content p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.blog-content a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+/* 社交媒体图标 */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.3s ease, color 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.social-icon:hover {
+  transform: translateY(-0.5rem);
+  color: var(--color-accent);
+}
+
+.social-icon svg {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.75rem;
+  fill: currentColor;
+}
+
+.social-icon span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .social-icons {
+    gap: 1.5rem;
+  }
+  
+  .social-icon svg {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .social-icons {
+    gap: 1rem;
+  }
+  
+  .social-icon svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}
