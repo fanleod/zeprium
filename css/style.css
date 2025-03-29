@@ -246,7 +246,7 @@ p {
   
   body {
     padding: 0;
-    margin-top: 0.3rem; /* Smaller top margin on mobile */
+    margin-top: 0.6rem;
   }
   
   nav {
@@ -335,4 +335,15 @@ img, video {
 
 article {
   margin-bottom: 1.5rem;
+}
+
+/* 内容盒子样式 */
+.content-box {
+  max-width: 760px; /* Reduced width for better readability */
+  margin: 0 auto 2rem;
+  width: 100%;
+}
+
+.content-box:first-child {
+  margin-top: 0.6rem; /* Changed from 0.75rem to 0.6rem for numerical harmony */
 }
