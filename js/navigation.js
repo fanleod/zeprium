@@ -12,7 +12,7 @@ function createNavigation() {
     <header>
       <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false">
     </header>
-    <nav>
+    <nav id="site-nav">
       <div class="nav-container">
         <a href="${isRoot ? 'index.html' : '../index.html'}" ${currentPath.includes('index.html') ? 'class="active"' : ''} aria-label="Home">Home</a>
         <a href="${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
@@ -36,6 +36,30 @@ function createNavigation() {
     logoImage.addEventListener('contextmenu', function(event) {
       event.preventDefault();
       return false;
+    });
+  }
+  
+  // 添加滚动检测
+  setupScrollDetection();
+}
+
+// 检测页面滚动并为导航栏添加阴影效果
+function setupScrollDetection() {
+  const nav = document.getElementById('site-nav');
+  
+  if (nav) {
+    // 初始检查 - 如果页面已经滚动了
+    if (window.scrollY > 10) {
+      nav.classList.add('scrolled');
+    }
+    
+    // 监听滚动事件
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 10) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
     });
   }
 }
