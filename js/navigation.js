@@ -21,7 +21,7 @@ function createNavigation() {
         <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
                 media="(color-gamut: p3) or (dynamic-range: high)">
         <!-- 普通PNG作为后备 -->
-        <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false" style="image-rendering: -webkit-optimize-contrast;">
+        <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false">
       </picture>
     </header>
     <nav id="site-nav">

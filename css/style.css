@@ -53,9 +53,9 @@
     --color-focus-p3: color(display-p3 0.416 0.659 0.91);
   }
   
-  /* 夜间模式下logo增强亮度但不再反转颜色，使用专门的浅色logo */
+  /* 夜间模式下logo不额外增强亮度，使用原始的浅色logo */
   .site-logo {
-    filter: brightness(1.2);
+    filter: none;
   }
   
   /* 夜间模式下导航栏背景 */
@@ -179,31 +179,28 @@ header {
 .site-logo {
   max-width: 5.5rem; /* 88px converted to rem */
   height: auto;
-  filter: brightness(1);
-  will-change: filter;
-  transition: filter 0.3s ease;
+  filter: none; /* 不应用默认滤镜，使用原始图像 */
+  will-change: transform; /* 改为transform以减少渲染问题 */
+  transition: transform 0.3s ease;
+}
+
+/* logo悬停效果改为轻微上移，不改变亮度 */
+.site-logo:hover {
+  transform: translateY(-2px);
 }
 
 @supports (color: color(display-p3 1 1 1)) {
   /* 仅在支持HDR的设备和浏览器上启用 */
   @media (dynamic-range: high) or (color-gamut: p3) {
-    /* 亮色模式下的HDR效果 */
+    /* HDR模式下使用原始HDR图像，无需额外增强 */
     .site-logo {
-      filter: brightness(1.25);
+      filter: none;
     }
     
-    .site-logo:hover {
-      filter: brightness(1.5);
-    }
-    
-    /* 暗色模式下HDR效果 - 使用专门的浅色logo，只需增强亮度 */
+    /* 暗色模式下也使用原始HDR图像 */
     @media (prefers-color-scheme: dark) {
       .site-logo {
-        filter: brightness(1.4);
-      }
-      
-      .site-logo:hover {
-        filter: brightness(1.6);
+        filter: none;
       }
     }
   }
@@ -1343,7 +1340,7 @@ article {
     
     /* 暗色模式下的HDR图像 */
     .site-logo {
-      filter: brightness(1.2);
+      filter: none;
     }
     
     /* 暗色模式下的P3错误信息 */
