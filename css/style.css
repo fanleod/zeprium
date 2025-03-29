@@ -9,9 +9,9 @@
   /* Light Mode Colors (default) */
   --color-bg: #ffffff;
   --color-text: #333333;
-  --color-accent: #8265e3;
+  --color-accent: #000000;
   --color-muted: #666666;
-  --color-link: #5a3cc9;
+  --color-link: #000000;
   
   /* Layout */
   --container-width: 860px;
@@ -24,9 +24,9 @@
   :root {
     --color-bg: #121212;
     --color-text: #f1f1f1;
-    --color-accent: #a28aff;
+    --color-accent: #d0d0d0;
     --color-muted: #a0a0a0;
-    --color-link: #b8a6ff;
+    --color-link: #d0d0d0;
   }
 }
 
@@ -63,6 +63,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh; /* Ensure body takes at least full viewport height */
+  margin-top: 0.4rem; /* Changed from 0.6rem to 0.4rem as requested */
 }
 
 /* 导航栏 */
@@ -70,7 +72,10 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0.4rem 0; /* Changed from 0.6rem to 0.4rem as requested */
+  width: 100%;
+  background-color: var(--color-bg);
+  z-index: 1000;
 }
 
 .site-logo {
@@ -88,7 +93,9 @@ nav {
 .nav-container {
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 0.4rem 1rem; /* Changed from 0.6rem to 0.4rem as requested */
+  max-width: var(--container-width);
+  margin: 0 auto;
 }
 
 nav a {
@@ -185,7 +192,7 @@ p {
   display: inline-block;
   padding: 1rem 2rem;
   background-color: var(--color-accent);
-  color: var(--color-text);
+  color: var(--color-bg); /* Changed to ensure good contrast with black background */
   text-decoration: none;
   border-radius: 0.3125rem; /* 5px converted to rem */
   transition: all 0.3s ease;
@@ -198,7 +205,16 @@ p {
 
 .button:hover {
   background-color: #333333;
+  color: #ffffff;
   transform: translateY(-0.125rem); /* 2px converted to rem */
+}
+
+/* For dark mode button hover */
+@media (prefers-color-scheme: dark) {
+  .button:hover {
+    background-color: #ffffff;
+    color: #000000;
+  }
 }
 
 /* 响应式设计 */
@@ -246,7 +262,7 @@ p {
   
   body {
     padding: 0;
-    margin-top: 0.6rem;
+    margin-top: 0.4rem; /* Consistent with desktop value */
   }
   
   nav {
@@ -383,7 +399,7 @@ article {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--color-bg); /* Changed to ensure good contrast */
   font-weight: 300;
   font-size: 1.5rem;
   font-family: var(--font-heading);
