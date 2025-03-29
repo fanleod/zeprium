@@ -144,20 +144,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  // 立即检查当前系统偏好并应用
+  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
+    applyTheme('dark');
+    document.body.classList.add('dark-mode');  // 确保添加dark-mode类
+  }
+  
   // 监听系统主题变化
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (!localStorage.getItem('theme')) {
       if (e.matches) {
         applyTheme('dark');
+        document.body.classList.add('dark-mode');  // 确保添加dark-mode类
       } else {
         applyTheme('light');
+        document.body.classList.remove('dark-mode');  // 确保移除dark-mode类
       }
     }
   });
-  
-  // 立即检查当前系统偏好并应用
-  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-  if (prefersDarkScheme.matches && !localStorage.getItem('theme')) {
-    applyTheme('dark');
-  }
 }); 
