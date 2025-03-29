@@ -1,0 +1,57 @@
+[
+  {
+    "id": "design-principles",
+    "category": "Design",
+    "title": "Design Principles for Modern Web",
+    "summary": "Exploring the fundamental principles that guide effective and engaging web design in today's digital landscape.",
+    "url": "pages/blog.html",
+    "urlParams": "?post=design-principles",
+    "color": "#3a3a3a",
+    "date": "2023-11-15",
+    "featured": true
+  },
+  {
+    "id": "typography",
+    "category": "Typography",
+    "title": "Typography in Digital Media",
+    "summary": "How typeface selection and text formatting can dramatically impact user experience and brand perception.",
+    "url": "pages/blog.html",
+    "urlParams": "?post=typography",
+    "color": "#3a3a3a",
+    "date": "2023-10-28",
+    "featured": true
+  },
+  {
+    "id": "creative-process",
+    "category": "Creativity",
+    "title": "Creative Process Insights",
+    "summary": "A behind-the-scenes look at our approach to problem-solving and turning concepts into reality.",
+    "url": "pages/blog.html",
+    "urlParams": "?post=creative-process",
+    "color": "#3a3a3a",
+    "date": "2023-09-14",
+    "featured": true
+  },
+  {
+    "id": "responsive-design",
+    "category": "Design",
+    "title": "The Art of Responsive Design",
+    "summary": "Creating websites that work beautifully across all devices and screen sizes.",
+    "url": "pages/blog.html",
+    "urlParams": "?post=responsive-design",
+    "color": "#3a3a3a",
+    "date": "2023-08-22",
+    "featured": false
+  },
+  {
+    "id": "animation-principles",
+    "category": "Animation",
+    "title": "UI Animation Principles",
+    "summary": "Understanding how subtle animations can dramatically improve user experience and interface feedback.",
+    "url": "pages/blog.html",
+    "urlParams": "?post=animation-principles",
+    "color": "#3a3a3a",
+    "date": "2023-07-30",
+    "featured": false
+  }
+] 
