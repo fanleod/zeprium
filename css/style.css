@@ -6,13 +6,24 @@
   --font-nav: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-footer: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
-  /* Light Mode Colors (default) */
+  /* Light Mode Colors (default) - P3色域支持 */
   --color-bg: #ffffff;
+  --color-bg-p3: color(display-p3 1 1 1);
   --color-text: #333333;
+  --color-text-p3: color(display-p3 0.2 0.2 0.2);
   --color-accent: #000000;
+  --color-accent-p3: color(display-p3 0 0 0);
   --color-muted: #666666;
+  --color-muted-p3: color(display-p3 0.4 0.4 0.4);
   --color-link: #000000;
+  --color-link-p3: color(display-p3 0 0 0);
   --color-focus: #4a90e2;
+  --color-focus-p3: color(display-p3 0.29 0.565 0.886);
+  
+  /* HDR & Wide Color Gamut support */
+  --color-accent-hdr: color(display-p3 0 0 0); /* 在支持HDR的设备上使用更深的黑色 */
+  --color-text-hdr: color(display-p3 0.2 0.2 0.2);
+  --color-white-hdr: color(display-p3 1 1 1);
   
   /* Layout */
   --container-width: 860px;
@@ -29,11 +40,17 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: #121212;
+    --color-bg-p3: color(display-p3 0.071 0.071 0.071);
     --color-text: #f1f1f1;
+    --color-text-p3: color(display-p3 0.945 0.945 0.945);
     --color-accent: #d0d0d0;
+    --color-accent-p3: color(display-p3 0.816 0.816 0.816);
     --color-muted: #a0a0a0;
+    --color-muted-p3: color(display-p3 0.627 0.627 0.627);
     --color-link: #d0d0d0;
+    --color-link-p3: color(display-p3 0.816 0.816 0.816);
     --color-focus: #6aA8e8;
+    --color-focus-p3: color(display-p3 0.416 0.659 0.91);
   }
   
   /* 夜间模式下 logo 反转颜色 */
@@ -143,9 +160,43 @@ header {
   transition: background-color 0.3s ease;
 }
 
+/* 支持HDR显示的logo样式 */
+.logo-picture {
+  display: inline-block;
+  height: auto;
+}
+
 .site-logo {
   max-width: 5.5rem; /* 88px converted to rem */
   height: auto;
+  filter: brightness(1);
+  will-change: filter;
+  transition: filter 0.3s ease;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  /* 仅在支持HDR的设备和浏览器上启用 */
+  @media (dynamic-range: high) or (color-gamut: p3) {
+    /* 亮色模式下的HDR效果 */
+    .site-logo {
+      filter: brightness(1.25);
+    }
+    
+    .site-logo:hover {
+      filter: brightness(1.5);
+    }
+    
+    /* 暗色模式下HDR效果 */
+    @media (prefers-color-scheme: dark) {
+      .site-logo {
+        filter: invert(1) brightness(1.75);
+      }
+      
+      .site-logo:hover {
+        filter: invert(1) brightness(2);
+      }
+    }
+  }
 }
 
 nav {
@@ -222,20 +273,6 @@ nav a:hover::after {
   left: 0;
   transform: scaleX(0.7);
   transition: transform 0.3s ease;
-}
-
-/* 主页logo */
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-}
-
-.logo {
-  max-width: 100%;
-  height: auto;
-  max-height: 120px;
 }
 
 /* 主要内容区域 */
@@ -518,10 +555,12 @@ article {
   aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
 }
 
-.video-container video {
+.video-container video,
+.video-container iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border: none;
 }
 
 /* 内容盒子样式 */
@@ -784,7 +823,7 @@ article {
 }
 
 .blog-post {
-  padding: 1rem;
+    padding: 1rem;
   text-align: left;
 }
 
@@ -1190,4 +1229,193 @@ article {
 .content-box ul li a:hover {
   color: var(--color-link);
   border-bottom: 1px solid var(--color-link);
+}
+
+/* 支持P3色域显示 */
+@supports (color: color(display-p3 1 1 1)) {
+  body {
+    color: var(--color-text-p3);
+    background-color: var(--color-bg-p3);
+  }
+
+  a {
+    color: var(--color-link-p3);
+  }
+  
+  a:focus,
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline-color: var(--color-focus-p3);
+  }
+  
+  /* 导航样式P3支持 */
+  header {
+    background-color: var(--color-bg-p3);
+  }
+  
+  nav {
+    background: var(--color-bg-p3);
+  }
+  
+  nav a {
+    color: var(--color-text-p3);
+  }
+  
+  nav a.active {
+    color: var(--color-accent-p3);
+  }
+  
+  nav a.active::after {
+    background-color: var(--color-accent-p3);
+  }
+  
+  nav a:hover {
+    color: var(--color-accent-p3);
+  }
+  
+  nav a:hover::after {
+    background-color: var(--color-accent-p3);
+  }
+  
+  /* 按钮样式P3支持 */
+  .button {
+    background-color: var(--color-accent-p3);
+    color: var(--color-bg-p3);
+  }
+  
+  .button:hover {
+    background-color: color(display-p3 0.2 0.2 0.2);
+    color: color(display-p3 1 1 1);
+  }
+  
+  /* 视频容器P3支持 */
+  .video-container {
+    box-shadow: 0 4px 20px color(display-p3 0 0 0 / 0.08), 0 1px 4px color(display-p3 0 0 0 / 0.05);
+  }
+  
+  /* 内容盒子P3支持 */
+  .content-box h1, 
+  .content-box h2, 
+  .content-box h3 {
+    color: var(--color-accent-p3);
+  }
+  
+  .content-box p {
+    color: var(--color-text-p3);
+  }
+  
+  /* 博客卡片P3支持 */
+  .blog-card {
+    background-color: var(--color-bg-p3);
+    box-shadow: 0 4px 20px color(display-p3 0 0 0 / 0.08), 0 1px 4px color(display-p3 0 0 0 / 0.05);
+  }
+  
+  .blog-card:hover {
+    box-shadow: 0 8px 30px color(display-p3 0 0 0 / 0.12), 0 2px 8px color(display-p3 0 0 0 / 0.06);
+  }
+  
+  /* 页脚P3支持 */
+  footer {
+    color: color(display-p3 0.4 0.4 0.4);
+  }
+  
+  /* 社交图标P3支持 */
+  .social-icon {
+    color: var(--color-text-p3);
+  }
+  
+  .social-icon:hover {
+    color: var(--color-accent-p3);
+  }
+  
+  .youtube-icon:hover span {
+    color: color(display-p3 1 0 0); /* YouTube 官方红色 P3 增强 */
+  }
+  
+  .rednote-icon:hover span {
+    color: color(display-p3 1 0.142 0.259); /* 小红书官方红色 P3 增强 */
+  }
+  
+  .podcasts-icon:hover span {
+    color: color(display-p3 0.529 0.182 0.769); /* Apple Podcasts 官方紫色 P3 增强 */
+  }
+  
+  /* YouTube图标增强 */
+  .youtube-svg {
+    filter: grayscale(100%);
+  }
+  
+  .youtube-icon:hover .youtube-svg {
+    filter: grayscale(0%);
+  }
+  
+  /* 小红书图标增强 */
+  .rednote-svg {
+    filter: grayscale(100%);
+  }
+  
+  .rednote-icon:hover .rednote-svg {
+    filter: grayscale(0%);
+  }
+  
+  /* Podcasts图标增强 */
+  .podcasts-svg {
+    filter: grayscale(100%);
+  }
+  
+  .podcasts-icon:hover .podcasts-svg {
+    filter: grayscale(0%);
+  }
+  
+  /* 邮件链接P3支持 */
+  .content-box ul li a {
+    color: var(--color-accent-p3);
+  }
+  
+  .content-box ul li a:hover {
+    color: var(--color-link-p3);
+    border-bottom-color: var(--color-link-p3);
+  }
+  
+  /* HDR 增强类 */
+  .p3-supported .social-icon:hover {
+    transform: translateY(-0.5rem);
+  }
+  
+  .p3-supported .site-logo {
+    filter: brightness(1.1);
+  }
+  
+  .p3-supported .site-logo:hover {
+    filter: brightness(1.2);
+  }
+  
+  /* 暗色模式下的P3导航栏 */
+  @media (prefers-color-scheme: dark) {
+    nav {
+      background: color(display-p3 0.071 0.071 0.071 / 0.95);
+    }
+    
+    nav.scrolled {
+      box-shadow: 0 2px 10px color(display-p3 0 0 0 / 0.5);
+    }
+    
+    /* 暗色模式下的HDR图像 */
+    .site-logo {
+      filter: invert(1) brightness(1.5);
+    }
+    
+    /* 暗色模式下的P3错误信息 */
+    .error-message,
+    .no-posts-message {
+      background-color: color(display-p3 1 1 1 / 0.05);
+    }
+    
+    /* 暗色模式下的博客页脚 */
+    .blog-post footer {
+      border-top-color: color(display-p3 1 1 1 / 0.1);
+    }
+  }
 }

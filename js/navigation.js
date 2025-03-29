@@ -10,7 +10,10 @@ function createNavigation() {
   // - Escaping potential XSS vectors
   const navHTML = `
     <header>
-      <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false">
+      <picture class="logo-picture">
+        <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" media="all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}"> 
+        <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false" style="image-rendering: -webkit-optimize-contrast;">
+      </picture>
     </header>
     <nav id="site-nav">
       <div class="nav-container">
