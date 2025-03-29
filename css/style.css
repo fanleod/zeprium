@@ -1,19 +1,33 @@
 /* 基础变量设置 */
 :root {
+  /* Base Typography */
   --font-main: 'Optima', serif;
   --font-heading: 'EB Garamond', serif;
   --font-nav: 'SF Pro', sans-serif;
   --font-footer: 'SF Pro', sans-serif;
+  
+  /* Light Mode Colors (default) */
   --color-bg: #ffffff;
-  --color-bg-day: #000000;
-  --color-bg-night: #d3d3d3;
-  --color-text: #333;
+  --color-text: #333333;
   --color-accent: #8265e3;
-  --color-muted: #666;
+  --color-muted: #666666;
   --color-link: #5a3cc9;
+  
+  /* Layout */
   --container-width: 860px;
   --header-height: 60px;
   --letter-spacing: 0.1em;
+}
+
+/* Dark Mode Colors - Will be activated via JavaScript or media query */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #121212;
+    --color-text: #f1f1f1;
+    --color-accent: #a28aff;
+    --color-muted: #a0a0a0;
+    --color-link: #b8a6ff;
+  }
 }
 
 /* 开发模式控制 */
