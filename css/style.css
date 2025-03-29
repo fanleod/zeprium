@@ -34,7 +34,7 @@ body.dev-mode .dev-only {
 
 html, body {
   background-color: var(--color-bg);
-  font-size: 18px;
+  font-size: 1rem; /* Base font size for rem calculations */
   -webkit-text-size-adjust: 100%;
 }
 
@@ -42,45 +42,45 @@ body {
   font-family: var(--font-main);
   color: var(--color-text);
   line-height: 1.6;
-  overflow-x: hidden;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  letter-spacing: var(--letter-spacing);
 }
 
 /* 导航栏 */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 10);
-  backdrop-filter: blur(10px);
-  padding: 1rem;
-  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
-  height: var(--header-height);
+header {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.site-logo {
+  max-width: 5.5rem; /* 88px converted to rem */
+  height: auto;
+}
+
+nav {
   width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: var(--color-bg);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 nav a {
-  margin: 0 1rem;
+  display: inline-block;
+  margin: 0 1.25rem; /* 20px converted to rem */
   text-decoration: none;
   color: var(--color-text);
-  font-weight: 500;
-  transition: color 0.3s ease;
-  text-align: center;
-  font-size: 1.25rem;
-  font-family: var(--font-nav);
-}
-
-nav a:hover {
-  color: var(--color-accent);
+  font-size: 1rem;
 }
 
 /* 主页logo */
@@ -99,30 +99,19 @@ nav a:hover {
 
 /* 主要内容区域 */
 main {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: calc(var(--header-height) + 2rem) 2rem 2rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 50rem; /* 800px converted to rem */
+  padding: 2rem;
   text-align: center;
-  flex: 1;
 }
 
 /* 页脚 */
 footer {
-  text-align: center;
-  color: var(--color-muted);
-  font-size: 0.8rem;
-  padding: 2rem 1rem;
-  margin-top: auto;
   width: 100%;
-  font-family: var(--font-footer);
+  text-align: center;
+  padding: 1rem;
+  background: var(--color-muted);
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 /* 章节样式 */
@@ -166,20 +155,20 @@ p {
   display: inline-block;
   padding: 1rem 2rem;
   background-color: var(--color-accent);
-  color: white;
+  color: var(--color-text);
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem; /* 5px converted to rem */
   transition: all 0.3s ease;
   text-align: center;
   margin: 0 auto;
   font-size: 1.25rem;
-  min-width: 200px;
+  min-width: 12.5rem; /* 200px converted to rem */
   font-weight: 500;
 }
 
 .button:hover {
-  background-color: #5f48b0;
-  transform: translateY(-2px);
+  background-color: #333333;
+  transform: translateY(-0.125rem); /* 2px converted to rem */
 }
 
 /* 响应式设计 */
@@ -306,4 +295,13 @@ p {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+article {
+  margin-bottom: 1.5rem;
 }
