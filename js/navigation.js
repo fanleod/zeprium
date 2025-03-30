@@ -17,10 +17,7 @@ function createNavigation() {
   } else {
     basePath = '../';
   }
-=======
-  const basePath = isRoot ? '' : '../';
->>>>>>> parent of 45cf682 (更新navigation.js以根据页面层级动态设置基础路径，确保导航链接在不同文件夹结构下正确指向。更新portfolio-template.html中的项目链接，修正为指向当前模板页面。</message>)
-  
+
   // Create the navigation HTML with security best practices
   // - Use of content security policy compatible code
   // - Escaping potential XSS vectors
