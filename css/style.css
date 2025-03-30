@@ -251,7 +251,7 @@ nav::-webkit-scrollbar-thumb {
 
 .nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0.5rem 1rem;
   max-width: var(--container-width);
@@ -262,7 +262,7 @@ nav::-webkit-scrollbar-thumb {
 .nav-links {
   display: flex;
   justify-content: center;
-  flex-grow: 1;
+  width: auto;
 }
 
 /* 语言切换按钮样式 */
