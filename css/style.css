@@ -1268,7 +1268,13 @@ article {
   border-bottom: 1px solid var(--color-link-p3);
 }
 
-/* 支持P3色域显示 */
+/* 对于找不到JXL文件的浏览器，确保不出现404错误提示 */
+@supports (content-visibility: auto) {
+  source[srcset$=".jxl"] {
+    content-visibility: auto;
+  }
+}
+
 @supports (color: color(display-p3 1 1 1)) {
   /* 更新半透明背景色为P3色域 */
   :root {

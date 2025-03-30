@@ -12,18 +12,30 @@ function createNavigation() {
     <header>
       <a href="${isRoot ? 'index.html' : '../index.html'}" aria-label="Back to Homepage">
         <picture class="logo-picture">
+          <!-- JPEG XL HDR (iOS 17+支持) -->
+          <source srcset="${basePath}images/zeprium-logo-light.jxl" type="image/jxl" 
+                  media="(prefers-color-scheme: dark) and (dynamic-range: high)">
           <!-- 夜间模式使用的浅色HDR logo -->
           <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
                   media="(prefers-color-scheme: dark) and (dynamic-range: high)">
+          <!-- JPEG XL P3色域 (iOS 17+支持) -->
+          <source srcset="${basePath}images/zeprium-logo-light.jxl" type="image/jxl" 
+                  media="(prefers-color-scheme: dark) and (color-gamut: p3)">
           <!-- 支持P3色域但非HDR的夜间模式 -->  
           <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
                   media="(prefers-color-scheme: dark) and (color-gamut: p3)">
           <!-- 夜间模式使用的浅色普通logo (后备) -->
           <source srcset="${basePath}images/zeprium-logo-light.png" type="image/png" 
                   media="(prefers-color-scheme: dark)">
+          <!-- JPEG XL HDR (iOS 17+支持) -->
+          <source srcset="${basePath}images/zeprium-logo.jxl" type="image/jxl" 
+                  media="(dynamic-range: high)">
           <!-- 日间模式使用的HDR logo -->
           <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
                   media="(dynamic-range: high)">
+          <!-- JPEG XL P3色域 (iOS 17+支持) -->
+          <source srcset="${basePath}images/zeprium-logo.jxl" type="image/jxl" 
+                  media="(color-gamut: p3)">
           <!-- 支持P3色域但非HDR的日间模式 -->
           <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
                   media="(color-gamut: p3)">
