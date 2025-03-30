@@ -14,13 +14,19 @@ function createNavigation() {
         <picture class="logo-picture">
           <!-- 夜间模式使用的浅色HDR logo -->
           <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
-                  media="(prefers-color-scheme: dark) and ((color-gamut: p3) or (dynamic-range: high))">
+                  media="(prefers-color-scheme: dark) and (dynamic-range: high)">
+          <!-- 支持P3色域但非HDR的夜间模式 -->  
+          <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
+                  media="(prefers-color-scheme: dark) and (color-gamut: p3)">
           <!-- 夜间模式使用的浅色普通logo (后备) -->
           <source srcset="${basePath}images/zeprium-logo-light.png" type="image/png" 
                   media="(prefers-color-scheme: dark)">
-          <!-- 日间模式使用的深色HDR logo -->
+          <!-- 日间模式使用的HDR logo -->
           <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
-                  media="(color-gamut: p3) or (dynamic-range: high)">
+                  media="(dynamic-range: high)">
+          <!-- 支持P3色域但非HDR的日间模式 -->
+          <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
+                  media="(color-gamut: p3)">
           <!-- 普通PNG作为后备 -->
           <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false">
         </picture>
