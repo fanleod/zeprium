@@ -251,22 +251,27 @@ nav::-webkit-scrollbar-thumb {
 
 .nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0.4rem 1rem;
   max-width: var(--container-width);
   margin: 0 auto;
+  position: relative;
 }
 
 .nav-links {
   display: flex;
   justify-content: center;
-  flex-grow: 1;
+  width: auto;
 }
 
 /* 语言切换按钮样式 */
 .lang-switcher {
-  margin-left: 1rem;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
 }
 
 #lang-toggle {
