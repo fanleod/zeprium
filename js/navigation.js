@@ -170,12 +170,12 @@ function setupScrollDetection() {
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
           nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
           if (langSwitcher) {
-            langSwitcher.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
+            langSwitcher.classList.add('scrolled');
           }
         } else {
           nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
           if (langSwitcher) {
-            langSwitcher.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+            langSwitcher.classList.add('scrolled');
           }
         }
       } else {
@@ -186,7 +186,7 @@ function setupScrollDetection() {
         nav.style.backgroundColor = '';
         
         if (langSwitcher) {
-          langSwitcher.style.backgroundColor = '';
+          langSwitcher.classList.remove('scrolled');
         }
       }
     }
