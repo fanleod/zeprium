@@ -279,8 +279,8 @@ nav::-webkit-scrollbar-thumb {
   border: 1px solid var(--color-accent);
   color: var(--color-accent);
   border-radius: 50%;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -311,7 +311,7 @@ nav::-webkit-scrollbar-thumb {
 
 nav a {
   display: inline-block;
-  margin: 0 1.25rem; /* 20px converted to rem */
+  margin: 0 2rem; /* 32px converted to rem */
   text-decoration: none;
   color: var(--color-text);
   font-size: 1rem;
