@@ -1,12 +1,12 @@
-// Function to generate and insert the navigation bar
+// 导航栏脚本 - v1.3
 function createNavigation() {
-  // Get the current page path to highlight the active link
+  // 获取当前页面路径
   const currentPath = window.location.pathname;
   
   // 判断页面层级
   const pathParts = currentPath.split('/').filter(part => part !== '');
-  const isRoot = currentPath === '/' || currentPath.endsWith('index.html');
-  const isInSubfolder = pathParts.length >= 3 && pathParts[pathParts.length - 2] === 'projects'; // 检查是否在projects子文件夹内
+  const isRoot = pathParts.length === 0 || (pathParts.length === 1 && pathParts[0] === 'index.html');
+  const isInSubfolder = pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'projects';
   
   // 根据页面层级确定基础路径
   let basePath = '';
@@ -14,41 +14,27 @@ function createNavigation() {
     basePath = '';
   } else if (isInSubfolder) {
     basePath = '../../';
-  } else {
+  } else if (pathParts.length >= 1) {
     basePath = '../';
   }
   
-  // Create the navigation HTML with security best practices
-  // - Use of content security policy compatible code
-  // - Escaping potential XSS vectors
+  // 创建导航HTML
   const navHTML = `
     <header>
       <a href="${basePath}${isRoot ? 'index.html' : 'index.html'}" aria-label="Back to Homepage">
         <picture class="logo-picture">
-          <!-- JPEG XL HDR (iOS 17+支持) -->
-          <source srcset="${basePath}images/zeprium-logo-light.jxl" type="image/jxl" 
-                  media="(prefers-color-scheme: dark) and (dynamic-range: high)">
           <!-- 夜间模式使用的浅色HDR logo -->
           <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
                   media="(prefers-color-scheme: dark) and (dynamic-range: high)">
-          <!-- JPEG XL P3色域 (iOS 17+支持) -->
-          <source srcset="${basePath}images/zeprium-logo-light.jxl" type="image/jxl" 
-                  media="(prefers-color-scheme: dark) and (color-gamut: p3)">
           <!-- 支持P3色域但非HDR的夜间模式 -->  
           <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
                   media="(prefers-color-scheme: dark) and (color-gamut: p3)">
           <!-- 夜间模式使用的浅色普通logo (后备) -->
           <source srcset="${basePath}images/zeprium-logo-light.png" type="image/png" 
                   media="(prefers-color-scheme: dark)">
-          <!-- JPEG XL HDR (iOS 17+支持) -->
-          <source srcset="${basePath}images/zeprium-logo.jxl" type="image/jxl" 
-                  media="(dynamic-range: high)">
           <!-- 日间模式使用的HDR logo -->
           <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
                   media="(dynamic-range: high)">
-          <!-- JPEG XL P3色域 (iOS 17+支持) -->
-          <source srcset="${basePath}images/zeprium-logo.jxl" type="image/jxl" 
-                  media="(color-gamut: p3)">
           <!-- 支持P3色域但非HDR的日间模式 -->
           <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
                   media="(color-gamut: p3)">
@@ -60,11 +46,11 @@ function createNavigation() {
     <nav id="site-nav">
       <div class="nav-container">
         <div class="nav-links">
-          <a href="${basePath}${isRoot ? 'pages/about.html' : isInSubfolder ? '../about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
-          <a href="${basePath}${isRoot ? 'pages/projects.html' : isInSubfolder ? '../projects.html' : 'projects.html'}" ${currentPath.includes('projects') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
-          <a href="${basePath}${isRoot ? 'pages/blog.html' : isInSubfolder ? '../blog.html' : 'blog.html'}" ${currentPath.includes('blog') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
-          <a href="${basePath}${isRoot ? 'pages/contact.html' : isInSubfolder ? '../contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
-          <a href="${basePath}${isRoot ? 'pages/styleguide.html' : isInSubfolder ? '../styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
+          <a href="${basePath}${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
+          <a href="${basePath}${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
+          <a href="${basePath}${isRoot ? 'pages/blog.html' : 'blog.html'}" ${currentPath.includes('blog') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
+          <a href="${basePath}${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
+          <a href="${basePath}${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
         </div>
         <div class="lang-switcher">
           <button id="lang-toggle" aria-label="Switch language" title="切换语言">
@@ -75,59 +61,104 @@ function createNavigation() {
     </nav>
   `;
   
-  // Get the body element
-  const body = document.body;
+  // 在body开始处插入导航
+  document.body.insertAdjacentHTML('afterbegin', navHTML);
   
-  // Insert the navigation at the beginning of the body
-  body.insertAdjacentHTML('afterbegin', navHTML);
+  // 初始化语言切换按钮
+  setupLanguageSwitcher();
   
-  // Add event listener to prevent right-click on logo via JavaScript instead of inline HTML
+  // 阻止logo右键点击
   const logoImage = document.querySelector('.site-logo');
   if (logoImage) {
-    logoImage.addEventListener('contextmenu', function(event) {
-      event.preventDefault();
-      return false;
-    });
+    logoImage.addEventListener('contextmenu', e => e.preventDefault());
   }
   
   // 添加滚动检测
   setupScrollDetection();
 }
 
+// 设置语言切换功能
+function setupLanguageSwitcher() {
+  const langToggle = document.getElementById('lang-toggle');
+  if (!langToggle) return;
+  
+  // 应用保存的语言设置
+  const savedLang = localStorage.getItem('zeprium-lang');
+  if (savedLang === 'zh') {
+    langToggle.querySelector('.lang-text').textContent = '中';
+    langToggle.classList.add('lang-zh');
+    document.documentElement.setAttribute('lang', 'zh');
+    switchLanguage('zh');
+  }
+  
+  // 添加点击事件
+  langToggle.addEventListener('click', function() {
+    const langText = this.querySelector('.lang-text');
+    if (langText.textContent === 'EN') {
+      langText.textContent = '中';
+      this.classList.add('lang-zh');
+      document.documentElement.setAttribute('lang', 'zh');
+      localStorage.setItem('zeprium-lang', 'zh');
+      switchLanguage('zh');
+    } else {
+      langText.textContent = 'EN';
+      this.classList.remove('lang-zh');
+      document.documentElement.setAttribute('lang', 'en');
+      localStorage.setItem('zeprium-lang', 'en');
+      switchLanguage('en');
+    }
+    
+    // 触发语言改变事件
+    document.dispatchEvent(new CustomEvent('languageChanged', {
+      detail: { language: langText.textContent === 'EN' ? 'en' : 'zh' }
+    }));
+  });
+}
+
+// 切换内容语言
+function switchLanguage(lang) {
+  document.querySelectorAll('[data-lang-en], [data-lang-zh]').forEach(el => {
+    const attributeName = `data-lang-${lang}`;
+    if (el.hasAttribute(attributeName)) {
+      el.textContent = el.getAttribute(attributeName);
+    }
+  });
+}
+
 // 检测页面滚动并为导航栏添加阴影效果
 function setupScrollDetection() {
   const nav = document.getElementById('site-nav');
   const header = document.querySelector('header');
+  const langSwitcher = document.querySelector('.lang-switcher');
   
   if (nav && header) {
     // 获取header的高度作为滚动阈值
     const headerHeight = header.offsetHeight;
     
     // 初始检查 - 如果页面已经滚动超过header高度
-    if (window.scrollY > headerHeight) {
-      nav.classList.add('scrolled');
-      // 显式设置CSS属性，解决一些浏览器的兼容性问题
-      nav.style.webkitBackdropFilter = 'blur(10px)';
-      nav.style.backdropFilter = 'blur(10px)';
-      
-      // 根据暗色/亮色模式设置不同的背景色
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
-      } else {
-        nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-      }
-    } else {
-      nav.classList.remove('scrolled');
-      // 清除显式设置的CSS属性
-      nav.style.webkitBackdropFilter = '';
-      nav.style.backdropFilter = '';
-      nav.style.backgroundColor = '';
+    updateScrollStyle(window.scrollY > headerHeight);
+    
+    // 监听滚动事件 - 使用防抖以提高性能
+    window.addEventListener('scroll', debounce(() => {
+      updateScrollStyle(window.scrollY > headerHeight);
+    }, 10));
+    
+    // 监听窗口大小改变，重新计算header高度
+    window.addEventListener('resize', debounce(() => {
+      updateScrollStyle(window.scrollY > header.offsetHeight);
+    }, 100));
+    
+    // 监听颜色模式变化
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (nav.classList.contains('scrolled')) {
+          updateScrollStyle(true);
+        }
+      });
     }
     
-    // 监听滚动事件
-    window.addEventListener('scroll', function() {
-      // 只有当滚动位置超过header高度时才添加阴影
-      if (window.scrollY > headerHeight) {
+    function updateScrollStyle(isScrolled) {
+      if (isScrolled) {
         nav.classList.add('scrolled');
         // 显式设置CSS属性，解决一些浏览器的兼容性问题
         nav.style.webkitBackdropFilter = 'blur(10px)';
@@ -136,59 +167,38 @@ function setupScrollDetection() {
         // 根据暗色/亮色模式设置不同的背景色
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
           nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
+          if (langSwitcher) {
+            langSwitcher.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
+          }
         } else {
           nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-        }
-      } else {
-        nav.classList.remove('scrolled');
-        // 清除显式设置的CSS属性
-        nav.style.webkitBackdropFilter = '';
-        nav.style.backdropFilter = '';
-        nav.style.backgroundColor = '';
-      }
-    });
-    
-    // 监听颜色模式变化
-    if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        if (nav.classList.contains('scrolled')) {
-          if (e.matches) {
-            // 切换到暗色模式
-            nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
-          } else {
-            // 切换到亮色模式
-            nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+          if (langSwitcher) {
+            langSwitcher.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
           }
         }
-      });
-    }
-    
-    // 监听窗口大小改变，重新计算header高度
-    window.addEventListener('resize', function() {
-      const newHeaderHeight = header.offsetHeight;
-      // 重新检查滚动位置
-      if (window.scrollY > newHeaderHeight) {
-        nav.classList.add('scrolled');
-        // 显式设置CSS属性
-        nav.style.webkitBackdropFilter = 'blur(10px)';
-        nav.style.backdropFilter = 'blur(10px)';
-        
-        // 根据暗色/亮色模式设置不同的背景色
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
-        } else {
-          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-        }
       } else {
         nav.classList.remove('scrolled');
         // 清除显式设置的CSS属性
         nav.style.webkitBackdropFilter = '';
         nav.style.backdropFilter = '';
         nav.style.backgroundColor = '';
+        
+        if (langSwitcher) {
+          langSwitcher.style.backgroundColor = '';
+        }
       }
-    });
+    }
   }
 }
 
-// Run when the page loads
+// 防抖函数 - 避免过多事件触发
+function debounce(func, wait = 20) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
+// 页面加载时运行
 document.addEventListener('DOMContentLoaded', createNavigation); 
