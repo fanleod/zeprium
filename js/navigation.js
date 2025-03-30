@@ -2,16 +2,13 @@
 function createNavigation() {
   // 获取当前页面路径
   const currentPath = window.location.pathname;
-  
-  // 判断页面层级
-  const pathParts = currentPath.split('/').filter(part => part !== '');
   const isRoot = currentPath === '/' || currentPath.endsWith('index.html');
   const basePath = isRoot ? '' : '../';
   
   // 创建导航HTML
   const navHTML = `
     <header>
-      <a href="${isRoot ? 'index.html' : '../index.html'}" aria-label="Back to Homepage">
+      <a href="${basePath}index.html" aria-label="Back to Homepage">
         <picture class="logo-picture">
           <!-- 夜间模式使用的浅色HDR logo -->
           <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
@@ -36,11 +33,11 @@ function createNavigation() {
     <nav id="site-nav">
       <div class="nav-container">
         <div class="nav-links">
-          <a href="${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
-          <a href="${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects.html') || currentPath.includes('projects/') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
-          <a href="${isRoot ? 'pages/blog.html' : 'blog.html'}" ${(currentPath.includes('blog.html') || currentPath.includes('/blog/')) ? 'class="active"' : ''} aria-label="Blog">Blog</a>
-          <a href="${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
-          <a href="${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
+          <a href="${basePath}${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
+          <a href="${basePath}${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
+          <a href="${basePath}${isRoot ? 'pages/blog.html' : 'blog.html'}" ${currentPath.includes('blog') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
+          <a href="${basePath}${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
+          <a href="${basePath}${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
         </div>
         <div class="lang-switcher">
           <button id="lang-toggle" aria-label="Switch language" title="切换语言">
