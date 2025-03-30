@@ -6,28 +6,12 @@ function createNavigation() {
   // 判断页面层级
   const pathParts = currentPath.split('/').filter(part => part !== '');
   const isRoot = currentPath === '/' || currentPath.endsWith('index.html');
-  const isInProjectsSubfolder = pathParts.length >= 2 && pathParts[0] === 'pages' && pathParts[1] === 'projects' && pathParts.length >= 3;
-  const isInBlogSubfolder = pathParts.length >= 2 && pathParts[0] === 'pages' && pathParts[1] === 'blog' && pathParts.length >= 3;
-  const isInSubfolder = isInProjectsSubfolder || isInBlogSubfolder;
-  const isInPages = pathParts.length >= 1 && pathParts[0] === 'pages' && !isInSubfolder;
-  
-  // 根据页面层级确定基础路径
-  let basePath = '';
-  if (isRoot) {
-    basePath = '';
-  } else if (isInSubfolder) {
-    basePath = '../../';
-  } else if (pathParts.length >= 1) {
-    basePath = '../';
-  }
-=======
   const basePath = isRoot ? '' : '../';
->>>>>>> parent of 45cf682 (更新navigation.js以根据页面层级动态设置基础路径，确保导航链接在不同文件夹结构下正确指向。更新portfolio-template.html中的项目链接，修正为指向当前模板页面。</message>)
   
   // 创建导航HTML
   const navHTML = `
     <header>
-      <a href="${basePath}index.html" aria-label="Back to Homepage">
+      <a href="${isRoot ? 'index.html' : '../index.html'}" aria-label="Back to Homepage">
         <picture class="logo-picture">
           <!-- 夜间模式使用的浅色HDR logo -->
           <source srcset="${basePath}images/zeprium-logo-light.avif" type="image/avif" 
@@ -52,11 +36,11 @@ function createNavigation() {
     <nav id="site-nav">
       <div class="nav-container">
         <div class="nav-links">
-          <a href="${basePath}${isRoot ? 'pages/about.html' : isInSubfolder ? '../about.html' : 'about.html'}" ${currentPath.includes('/about.html') ? 'class="active"' : ''}>About</a>
-          <a href="${basePath}${isRoot ? 'pages/projects.html' : isInSubfolder ? '../projects.html' : 'projects.html'}" ${(currentPath.includes('/projects.html') || (isInProjectsSubfolder && !currentPath.endsWith('.html'))) ? 'class="active"' : ''}>Projects</a>
-          <a href="${basePath}${isRoot ? 'pages/blog.html' : isInSubfolder ? '../blog.html' : 'blog.html'}" ${(currentPath.includes('/blog.html') || (isInBlogSubfolder && !currentPath.endsWith('.html'))) ? 'class="active"' : ''}>Blog</a>
-          <a href="${basePath}${isRoot ? 'pages/contact.html' : isInSubfolder ? '../contact.html' : 'contact.html'}" ${currentPath.includes('/contact.html') ? 'class="active"' : ''}>Contact</a>
-          <a href="${basePath}${isRoot ? 'pages/styleguide.html' : isInSubfolder ? '../styleguide.html' : 'styleguide.html'}" ${currentPath.includes('/styleguide.html') ? 'class="active"' : ''}>Style Guide</a>
+          <a href="${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
+          <a href="${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects.html') || currentPath.includes('projects/') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
+          <a href="${isRoot ? 'pages/blog.html' : 'blog.html'}" ${(currentPath.includes('blog.html') || currentPath.includes('/blog/')) ? 'class="active"' : ''} aria-label="Blog">Blog</a>
+          <a href="${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
+          <a href="${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
         </div>
         <div class="lang-switcher">
           <button id="lang-toggle" aria-label="Switch language" title="切换语言">
