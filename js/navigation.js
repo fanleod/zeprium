@@ -5,8 +5,8 @@ function createNavigation() {
   
   // 判断页面层级
   const pathParts = currentPath.split('/').filter(part => part !== '');
-  const isRoot = currentPath === '/' || currentPath.endsWith('index.html');
-  const isInSubfolder = pathParts.length >= 3 && pathParts[pathParts.length - 2] === 'projects'; // 检查是否在projects子文件夹内
+  const isRoot = pathParts.length === 0 || (pathParts.length === 1 && pathParts[0] === 'index.html');
+  const isInSubfolder = pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'projects';
   
   // 根据页面层级确定基础路径
   let basePath = '';
@@ -14,7 +14,7 @@ function createNavigation() {
     basePath = '';
   } else if (isInSubfolder) {
     basePath = '../../';
-  } else {
+  } else if (pathParts.length >= 1) {
     basePath = '../';
   }
   
@@ -23,7 +23,7 @@ function createNavigation() {
   // - Escaping potential XSS vectors
   const navHTML = `
     <header>
-      <a href="${basePath}${isRoot ? 'index.html' : 'index.html'}" aria-label="Back to Homepage">
+      <a href="${basePath}index.html" aria-label="Back to Homepage">
         <picture class="logo-picture">
           <!-- JPEG XL HDR (iOS 17+支持) -->
           <source srcset="${basePath}images/zeprium-logo-light.jxl" type="image/jxl" 
@@ -60,11 +60,11 @@ function createNavigation() {
     <nav id="site-nav">
       <div class="nav-container">
         <div class="nav-links">
-          <a href="${basePath}${isRoot ? 'pages/about.html' : isInSubfolder ? '../about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
-          <a href="${basePath}${isRoot ? 'pages/projects.html' : isInSubfolder ? '../projects.html' : 'projects.html'}" ${currentPath.includes('projects') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
-          <a href="${basePath}${isRoot ? 'pages/blog.html' : isInSubfolder ? '../blog.html' : 'blog.html'}" ${currentPath.includes('blog') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
-          <a href="${basePath}${isRoot ? 'pages/contact.html' : isInSubfolder ? '../contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
-          <a href="${basePath}${isRoot ? 'pages/styleguide.html' : isInSubfolder ? '../styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
+          <a href="${basePath}${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
+          <a href="${basePath}${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
+          <a href="${basePath}${isRoot ? 'pages/blog.html' : 'blog.html'}" ${currentPath.includes('blog') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
+          <a href="${basePath}${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
+          <a href="${basePath}${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
         </div>
         <div class="lang-switcher">
           <button id="lang-toggle" aria-label="Switch language" title="切换语言">
