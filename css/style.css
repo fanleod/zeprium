@@ -35,8 +35,8 @@
   --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
   --box-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
   
-  /* 半透明背景色 */
-  --color-bg-translucent: rgba(255, 255, 255, 0.8);
+  /* 更新半透明背景色为P3色域 */
+  --color-bg-translucent: color(display-p3 1 1 1 / 0.8);
 }
 
 /* Dark Mode Colors - Will be activated via JavaScript or media query */
@@ -55,8 +55,8 @@
     --color-focus: #6aA8e8;
     --color-focus-p3: color(display-p3 0.416 0.659 0.91);
     
-    /* 暗色模式下半透明背景色 */
-    --color-bg-translucent: rgba(18, 18, 18, 0.85);
+    /* 更新半透明背景色为P3色域 */
+    --color-bg-translucent: color(display-p3 0.071 0.071 0.071 / 0.85);
   }
   
   /* 夜间模式下logo增强亮度但不再反转颜色，使用专门的浅色logo */
@@ -66,16 +66,15 @@
   
   /* 夜间模式下导航栏背景 */
   nav {
-    background: color(display-p3 0.071 0.071 0.071 / 0.95);
+    background: rgba(18, 18, 18, 0.95);
   }
   
   /* 夜间模式下导航栏阴影 */
   nav.scrolled {
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    background: var(--color-bg-translucent);
-    box-shadow: 0 4px 20px color(display-p3 0 0 0 / 0.3), 
-                0 1px 4px color(display-p3 0 0 0 / 0.15);
+    backdrop-filter: blur(10px);
+    background-color: rgba(18, 18, 18, 0.85);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.15);
   }
   
   /* 夜间模式下导航链接颜色 */
@@ -175,15 +174,9 @@ header {
   align-items: center;
   padding: 0.4rem 0; /* Changed from 0.6rem to 0.4rem as requested */
   width: 100%;
-  background-color: var(--color-bg-p3);
+  background-color: var(--color-bg);
   z-index: 1000;
   transition: background-color 0.3s ease;
-}
-
-header a {
-  display: inline-block;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 /* 支持HDR显示的logo样式 */
@@ -195,33 +188,31 @@ header a {
 .site-logo {
   max-width: 5.5rem; /* 88px converted to rem */
   height: auto;
-  filter: none; /* 不应用默认滤镜，使用原始图像 */
-  will-change: transform; /* 改为transform以减少渲染问题 */
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-/* logo悬停效果改为轻微上移，不改变亮度 */
-.site-logo:hover {
-  transform: translateY(-2px);
+  filter: brightness(1);
+  will-change: filter;
+  transition: filter 0.3s ease;
 }
 
 @supports (color: color(display-p3 1 1 1)) {
   /* 仅在支持HDR的设备和浏览器上启用 */
   @media (dynamic-range: high) or (color-gamut: p3) {
-    /* HDR模式下使用原始HDR图像，无需额外增强 */
+    /* 亮色模式下的HDR效果 */
     .site-logo {
-      filter: none;
+      filter: brightness(1.25);
     }
     
-    /* 暗色模式下也使用原始HDR图像 */
+    .site-logo:hover {
+      filter: brightness(1.5);
+    }
+    
+    /* 暗色模式下HDR效果 - 使用专门的浅色logo，只需增强亮度 */
     @media (prefers-color-scheme: dark) {
       .site-logo {
-        filter: none;
+        filter: brightness(1.4);
       }
       
       .site-logo:hover {
-        transform: translateY(-2px);
+        filter: brightness(1.6);
       }
     }
   }
@@ -231,22 +222,13 @@ nav {
   width: 100%;
   overflow-x: auto;
   white-space: nowrap;
-  background: var(--color-bg-p3);
+  background: var(--color-bg);
   scrollbar-width: none; /* For Firefox - 隐藏滚动条 */
   -ms-overflow-style: none; /* For Internet Explorer and Edge - 隐藏滚动条 */
   position: sticky;
   top: 0;
   z-index: 1000;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease;
-}
-
-/* 定义滚动时的导航栏样式 */
-nav.scrolled {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background: var(--color-bg-translucent);
-  box-shadow: 0 4px 20px color(display-p3 0 0 0 / 0.08), 
-              0 1px 4px color(display-p3 0 0 0 / 0.05);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease;
 }
 
 /* 隐藏 WebKit 浏览器的滚动条 */
@@ -275,14 +257,14 @@ nav a {
   display: inline-block;
   margin: 0 1.25rem; /* 20px converted to rem */
   text-decoration: none;
-  color: var(--color-text-p3);
+  color: var(--color-text);
   font-size: 1rem;
   transition: color 0.3s ease;
   position: relative; /* For underline effect */
 }
 
 nav a.active {
-  color: var(--color-accent-p3);
+  color: var(--color-accent);
   font-weight: 600;
 }
 
@@ -291,13 +273,13 @@ nav a.active::after {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: var(--color-accent-p3);
+  background-color: var(--color-accent);
   bottom: -4px;
   left: 0;
 }
 
 nav a:hover {
-  color: var(--color-accent-p3);
+  color: var(--color-accent);
 }
 
 nav a:hover::after {
@@ -305,7 +287,7 @@ nav a:hover::after {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: var(--color-accent-p3);
+  background-color: var(--color-accent);
   bottom: -4px;
   left: 0;
   transform: scaleX(0.7);
@@ -400,8 +382,8 @@ p {
 .button {
   display: inline-block;
   padding: 1rem 2rem;
-  background-color: var(--color-accent-p3);
-  color: var(--color-bg-p3);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
   text-decoration: none;
   border-radius: var(--border-radius-small);
   overflow: hidden;
@@ -419,8 +401,8 @@ p {
 }
 
 .button:hover {
-  background-color: color(display-p3 0.2 0.2 0.2);
-  color: color(display-p3 1 1 1);
+  background-color: #333333;
+  color: #ffffff;
   transform: translateY(-0.125rem) translateZ(0); /* 添加translateZ提高性能 */
   box-shadow: var(--box-shadow-hover);
 }
@@ -431,7 +413,7 @@ p {
 }
 
 .button:focus-visible {
-  outline: 3px solid var(--color-focus-p3);
+  outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -708,7 +690,7 @@ article {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: var(--color-text-p3);
+  color: var(--color-text);
   transition: transform 0.3s ease, color 0.3s ease;
   margin-bottom: 1rem;
   text-align: center;
@@ -716,7 +698,7 @@ article {
 
 .social-icon:hover {
   transform: translateY(-0.5rem);
-  color: var(--color-accent-p3);
+  color: var(--color-accent);
 }
 
 .social-icon svg {
@@ -745,7 +727,7 @@ article {
 }
 
 .youtube-icon:hover span {
-  color: color(display-p3 1 0 0); /* YouTube 官方红色 P3 增强 */
+  color: #FF0000; /* YouTube 官方红色 */
 }
 
 /* 小红书图标特殊样式 */
@@ -762,7 +744,7 @@ article {
 }
 
 .rednote-icon:hover span {
-  color: color(display-p3 1 0.142 0.259); /* 小红书官方红色 P3 增强 */
+  color: #FF2442; /* 小红书官方红色 */
 }
 
 /* Podcasts 图标特殊样式 */
@@ -779,7 +761,7 @@ article {
 }
 
 .podcasts-icon:hover span {
-  color: color(display-p3 0.529 0.182 0.769); /* Apple Podcasts 官方紫色 P3 增强 */
+  color: #872EC4; /* Apple Podcasts 官方紫色 */
 }
 
 /* Print styles */
@@ -1257,42 +1239,19 @@ article {
 }
 
 .content-box ul li a {
-  color: var(--color-accent-p3);
+  color: var(--color-accent);
   text-decoration: none;
   transition: color 0.3s ease, border-bottom 0.3s ease;
   border-bottom: 1px solid transparent;
 }
 
 .content-box ul li a:hover {
-  color: var(--color-link-p3);
-  border-bottom: 1px solid var(--color-link-p3);
+  color: var(--color-link);
+  border-bottom: 1px solid var(--color-link);
 }
 
-/* 对于找不到JXL文件的浏览器，确保不出现404错误提示 */
-@supports (content-visibility: auto) {
-  source[srcset$=".jxl"] {
-    content-visibility: auto;
-  }
-}
-
+/* 支持P3色域显示 */
 @supports (color: color(display-p3 1 1 1)) {
-  /* 更新半透明背景色为P3色域 */
-  :root {
-    --color-bg-translucent: color(display-p3 1 1 1 / 0.8);
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-bg-translucent: color(display-p3 0.071 0.071 0.071 / 0.85);
-    }
-    
-    /* 暗色模式下P3色域的导航栏阴影 */
-    nav.scrolled {
-      box-shadow: 0 4px 20px color(display-p3 0 0 0 / 0.3), 
-                  0 1px 4px color(display-p3 0 0 0 / 0.15);
-    }
-  }
-
   body {
     color: var(--color-text-p3);
     background-color: var(--color-bg-p3);
@@ -1317,14 +1276,6 @@ article {
   
   nav {
     background: var(--color-bg-p3);
-  }
-  
-  nav.scrolled {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    background: var(--color-bg-translucent);
-    box-shadow: 0 4px 20px color(display-p3 0 0 0 / 0.08), 
-                0 1px 4px color(display-p3 0 0 0 / 0.05);
   }
   
   nav a {
@@ -1396,10 +1347,19 @@ article {
     }
     
     nav.scrolled {
-      box-shadow: 0 2px 10px color(display-p3 0 0 0 / 0.5);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      background-color: var(--color-bg-translucent);
+      box-shadow: 0 4px 20px color(display-p3 0 0 0 / 0.3), 
+                  0 1px 4px color(display-p3 0 0 0 / 0.15);
     }
     
-    /* 暗色模式下的错误信息 */
+    /* 暗色模式下的HDR图像 */
+    .site-logo {
+      filter: brightness(1.2);
+    }
+    
+    /* 暗色模式下的P3错误信息 */
     .error-message,
     .no-posts-message {
       background-color: color(display-p3 1 1 1 / 0.05);
@@ -1410,19 +1370,12 @@ article {
       border-top-color: color(display-p3 1 1 1 / 0.1);
     }
   }
-  
-  /* 专门处理HDR显示 */
-  @media (dynamic-range: high) {
-    /* HDR模式下的增强效果 */
-    .site-logo {
-      filter: brightness(1.1);
-    }
-    
-    @media (prefers-color-scheme: dark) {
-      /* 暗色HDR模式下的效果 */
-      .site-logo {
-        filter: brightness(1.2);
-      }
-    }
-  }
+}
+
+/* 定义滚动时的导航栏样式 - 亮色模式 */
+nav.scrolled {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
 }

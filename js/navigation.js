@@ -86,8 +86,22 @@ function setupScrollDetection() {
     // 初始检查 - 如果页面已经滚动超过header高度
     if (window.scrollY > headerHeight) {
       nav.classList.add('scrolled');
+      // 显式设置CSS属性，解决一些浏览器的兼容性问题
+      nav.style.webkitBackdropFilter = 'blur(10px)';
+      nav.style.backdropFilter = 'blur(10px)';
+      
+      // 根据暗色/亮色模式设置不同的背景色
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
+      } else {
+        nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+      }
     } else {
       nav.classList.remove('scrolled');
+      // 清除显式设置的CSS属性
+      nav.style.webkitBackdropFilter = '';
+      nav.style.backdropFilter = '';
+      nav.style.backgroundColor = '';
     }
     
     // 监听滚动事件
@@ -95,10 +109,39 @@ function setupScrollDetection() {
       // 只有当滚动位置超过header高度时才添加阴影
       if (window.scrollY > headerHeight) {
         nav.classList.add('scrolled');
+        // 显式设置CSS属性，解决一些浏览器的兼容性问题
+        nav.style.webkitBackdropFilter = 'blur(10px)';
+        nav.style.backdropFilter = 'blur(10px)';
+        
+        // 根据暗色/亮色模式设置不同的背景色
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
+        } else {
+          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+        }
       } else {
         nav.classList.remove('scrolled');
+        // 清除显式设置的CSS属性
+        nav.style.webkitBackdropFilter = '';
+        nav.style.backdropFilter = '';
+        nav.style.backgroundColor = '';
       }
     });
+    
+    // 监听颜色模式变化
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (nav.classList.contains('scrolled')) {
+          if (e.matches) {
+            // 切换到暗色模式
+            nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
+          } else {
+            // 切换到亮色模式
+            nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+          }
+        }
+      });
+    }
     
     // 监听窗口大小改变，重新计算header高度
     window.addEventListener('resize', function() {
@@ -106,8 +149,22 @@ function setupScrollDetection() {
       // 重新检查滚动位置
       if (window.scrollY > newHeaderHeight) {
         nav.classList.add('scrolled');
+        // 显式设置CSS属性
+        nav.style.webkitBackdropFilter = 'blur(10px)';
+        nav.style.backdropFilter = 'blur(10px)';
+        
+        // 根据暗色/亮色模式设置不同的背景色
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
+        } else {
+          nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+        }
       } else {
         nav.classList.remove('scrolled');
+        // 清除显式设置的CSS属性
+        nav.style.webkitBackdropFilter = '';
+        nav.style.backdropFilter = '';
+        nav.style.backgroundColor = '';
       }
     });
   }
