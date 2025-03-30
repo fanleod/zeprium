@@ -48,11 +48,11 @@ function createNavigation() {
     <nav id="site-nav">
       <div class="nav-container">
         <div class="nav-links">
-          <a href="${basePath}${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
-          <a href="${basePath}${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
-          <a href="${basePath}${isRoot ? 'pages/blog.html' : 'blog.html'}" ${currentPath.includes('blog') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
-          <a href="${basePath}${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
-          <a href="${basePath}${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
+          <a href="${basePath}pages/about.html" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
+          <a href="${basePath}pages/projects.html" ${currentPath.includes('projects') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
+          <a href="${basePath}pages/blog.html" ${currentPath.includes('blog') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
+          <a href="${basePath}pages/contact.html" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
+          <a href="${basePath}pages/styleguide.html" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
         </div>
         <div class="lang-switcher">
           <button id="lang-toggle" aria-label="Switch language" title="切换语言">
