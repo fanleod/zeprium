@@ -20,12 +20,14 @@ class BlogManager {
     // State management
     this.posts = [];
     this.isLoaded = false;
+    this.currentLanguage = 'en';
     
     // Bind methods
     this.loadBlogCards = this.loadBlogCards.bind(this);
     this.renderCards = this.renderCards.bind(this);
     this.filterPosts = this.filterPosts.bind(this);
     this.createBlogCard = this.createBlogCard.bind(this);
+    this.handleLanguageChange = this.handleLanguageChange.bind(this);
     
     // Initialize if DOM is already loaded
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -43,12 +45,30 @@ class BlogManager {
     
     // Only proceed if we find a blog grid on the page
     if (blogGrid) {
+      // Get current language from localStorage
+      this.currentLanguage = localStorage.getItem('zeprium-lang') || 'en';
+      
+      // Load blog cards
       this.loadBlogCards();
       
       // If we're on the blog page, set up category filters
       if (window.location.pathname.includes('/blog.html')) {
         this.setupFilters();
       }
+      
+      // Listen for language change events
+      document.addEventListener('languageChanged', this.handleLanguageChange);
+    }
+  }
+  
+  /**
+   * Handle language change events
+   * @param {Event} event - Custom event with language data
+   */
+  handleLanguageChange(event) {
+    if (event.detail && event.detail.language) {
+      this.currentLanguage = event.detail.language;
+      this.renderCards(null, true); // Re-render with same posts but clear existing
     }
   }
   
@@ -85,9 +105,13 @@ class BlogManager {
       // Provide fallback content in case of error
       const blogGrid = document.querySelector(this.config.gridSelector);
       if (blogGrid) {
+        const errorMessage = this.currentLanguage === 'zh' 
+          ? '无法加载博客文章。请稍后再试。'
+          : 'Unable to load blog posts. Please try again later.';
+        
         blogGrid.innerHTML = `
           <div class="error-message">
-            <p>Unable to load blog posts. Please try again later.</p>
+            <p>${errorMessage}</p>
           </div>
         `;
       }
@@ -127,9 +151,13 @@ class BlogManager {
         blogGrid.appendChild(card);
       });
     } else {
+      const noPostsMessage = this.currentLanguage === 'zh'
+        ? '没有找到符合条件的文章。'
+        : 'No posts found matching your criteria.';
+        
       blogGrid.innerHTML = `
         <div class="no-posts-message">
-          <p>No posts found matching your criteria.</p>
+          <p>${noPostsMessage}</p>
         </div>
       `;
     }
@@ -147,18 +175,42 @@ class BlogManager {
     article.setAttribute('data-category', post.category);
     article.setAttribute('data-post-id', post.id);
     
+    // Get the content in the current language
+    const title = this.currentLanguage === 'zh' && post.title_zh ? post.title_zh : post.title;
+    const summary = this.currentLanguage === 'zh' && post.summary_zh ? post.summary_zh : post.summary;
+    const category = this.currentLanguage === 'zh' && post.category_zh ? post.category_zh : post.category;
+    const readMore = this.currentLanguage === 'zh' ? '阅读更多' : 'Read more';
+    
+    // 确定文章URL，支持两种模式：单独HTML页面或参数化URL
+    let postUrl = post.url;
+    if (post.urlParams) {
+      // 添加URL参数和语言参数（如果需要）
+      postUrl += post.urlParams + (this.currentLanguage === 'zh' ? '&lang=zh' : '');
+    } else if (this.currentLanguage === 'zh') {
+      // 对于单独HTML页面，添加语言查询参数
+      postUrl += (postUrl.includes('?') ? '&' : '?') + 'lang=zh';
+    }
+    
+    // 处理图片显示
+    let imageHtml = '';
+    if (post.image) {
+      imageHtml = `<div class="blog-image" style="background-image: url('${post.image}');" aria-label="${category} category"></div>`;
+    } else {
+      imageHtml = `<div class="blog-image" style="background-color: ${post.color};" aria-label="${category} category">${category}</div>`;
+    }
+    
     // Create card content with proper accessibility attributes
     article.innerHTML = `
-      <div class="blog-image" style="background-color: ${post.color};" aria-label="${post.category} category">
-        ${post.category}
-      </div>
+      ${imageHtml}
       <div class="blog-content">
-        <h3>${post.title}</h3>
-        <p>${post.summary}</p>
+        <h3>${title}</h3>
+        <p>${summary}</p>
         <div class="blog-meta">
           <time datetime="${post.date}">${this.formatDate(post.date)}</time>
         </div>
-        <a href="${post.url}${post.urlParams}" aria-label="Read more about ${post.title}" class="read-more">Read more</a>
+        <a href="${postUrl}" 
+           aria-label="${this.currentLanguage === 'zh' ? '阅读更多关于' : 'Read more about'} ${title}" 
+           class="read-more">${readMore}</a>
       </div>
     `;
     
@@ -172,11 +224,20 @@ class BlogManager {
    */
   formatDate(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    
+    if (this.currentLanguage === 'zh') {
+      return date.toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } else {
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
   }
   
   /**
@@ -200,7 +261,7 @@ class BlogManager {
     
     // Create "All" filter button
     const allBtn = document.createElement('button');
-    allBtn.textContent = 'All';
+    allBtn.textContent = this.currentLanguage === 'zh' ? '全部' : 'All';
     allBtn.className = 'filter-btn active';
     allBtn.setAttribute('data-category', 'all');
     filterContainer.appendChild(allBtn);
@@ -208,7 +269,13 @@ class BlogManager {
     // Create category filter buttons
     categories.forEach(category => {
       const btn = document.createElement('button');
-      btn.textContent = category;
+      
+      // Get category name in current language
+      const categoryPost = this.posts.find(post => post.category === category);
+      const categoryName = this.currentLanguage === 'zh' && categoryPost.category_zh ? 
+        categoryPost.category_zh : category;
+      
+      btn.textContent = categoryName;
       btn.className = 'filter-btn';
       btn.setAttribute('data-category', category);
       filterContainer.appendChild(btn);

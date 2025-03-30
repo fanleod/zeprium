@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Zeprium" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="title-en" content="Design Principles for Modern Web - Zeprium">
+  <meta name="title-zh" content="现代网页设计原则 - Zeprium">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <link rel="icon" type="image/png" href="../../images/favicon.png" />
+  <link rel="icon" type="image/svg+xml" href="../../images/icon.svg" />
+  <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png" />
+  <link rel="apple-touch-icon-precomposed" href="../../images/apple-touch-icon-precomposed.png" />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/hide-scrollbar.css" />
+  <title>Design Principles for Modern Web - Zeprium</title>
+  <script src="../../js/theme.js" defer></script>
+  <script src="../../js/navigation.js" defer></script>
+  <script src="../../js/lang-switcher.js" defer></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+  <main id="main-content">
+    <article class="blog-article-container no-select">
+      <header>
+        <div class="post-category" style="background-color: #3a3a3a;">
+          <span data-lang-en="Design" data-lang-zh="设计">Design</span>
+        </div>
+        <h1 data-lang-en="Design Principles for Modern Web" data-lang-zh="现代网页设计原则">Design Principles for Modern Web</h1>
+        <div class="post-meta">
+          <time datetime="2023-11-15">November 15, 2023</time>
+        </div>
+      </header>
+      
+      <!-- 文章特色图片 -->
+      <div class="blog-post-image">
+        <img src="../../images/blog/design-principles.jpg" alt="Modern Web Design" />
+      </div>
+      
+      <!-- 文章内容 - 英文版 -->
+      <div class="post-content" data-lang-en>
+        <p>Exploring the fundamental principles that guide effective and engaging web design in today's digital landscape.</p>
+        
+        <h2>The Foundation of Modern Web Design</h2>
+        <p>In the ever-evolving world of digital design, certain principles remain constant despite technological advancements. These foundational elements ensure websites not only look aesthetically pleasing but also function optimally for users.</p>
+        
+        <h3>User-Centered Design</h3>
+        <p>The most crucial aspect of web design is focusing on the user experience. Understanding your audience's needs, behaviors, and preferences allows you to create intuitive interfaces that guide visitors through your content seamlessly.</p>
+        
+        <h3>Visual Hierarchy</h3>
+        <p>Establishing a clear visual hierarchy helps users navigate your site by emphasizing important elements. This can be achieved through size, color, contrast, spacing, and typography.</p>
+        
+        <h2>Responsive Design is Non-Negotiable</h2>
+        <p>With the variety of devices used to access websites today, responsive design has evolved from a luxury to a necessity. A well-designed website should provide an optimal viewing experience across a wide range of devices.</p>
+        
+        <h3>Mobile-First Approach</h3>
+        <p>Starting your design process with mobile users in mind helps prioritize content and functionality. This approach ensures that the most essential elements remain accessible regardless of screen size.</p>
+      </div>
+      
+      <!-- 文章内容 - 中文版 -->
+      <div class="post-content" data-lang-zh>
+        <p>探索指导当今数字环境中有效和吸引人的网页设计的基本原则。</p>
+        
+        <h2>现代网页设计的基础</h2>
+        <p>在不断发展的数字设计世界中，尽管技术在不断进步，某些原则仍然保持不变。这些基础元素确保网站不仅在美学上令人愉悦，而且还能为用户提供最佳功能。</p>
+        
+        <h3>以用户为中心的设计</h3>
+        <p>网页设计最关键的方面是关注用户体验。了解您的受众需求、行为和偏好，可以创建直观的界面，引导访问者无缝浏览您的内容。</p>
+        
+        <h3>视觉层次结构</h3>
+        <p>建立清晰的视觉层次结构有助于用户通过强调重要元素来浏览您的网站。这可以通过大小、颜色、对比度、间距和排版来实现。</p>
+        
+        <h2>响应式设计是不可谈判的</h2>
+        <p>随着现今用于访问网站的设备种类繁多，响应式设计已经从奢侈品发展为必需品。设计良好的网站应该在各种设备上提供最佳的视觉体验。</p>
+        
+        <h3>移动优先的方法</h3>
+        <p>从以移动用户为中心开始您的设计过程有助于确定内容和功能的优先级。这种方法确保无论屏幕大小如何，最基本的元素都保持可访问性。</p>
+      </div>
+      
+      <footer>
+        <a href="../blog.html" class="button secondary" data-lang-en="← Back to all posts" data-lang-zh="← 返回所有文章">← Back to all posts</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; <time id="current-year">2025</time> Zeprium. <span data-lang-en="All rights reserved." data-lang-zh="保留所有权利。">All rights reserved.</span></p>
+  </footer>
+
+  <script>
+    // Update copyright year to current year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // 显示正确的语言内容
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedLang = localStorage.getItem('zeprium-lang') || 'en';
+      
+      // 隐藏所有语言版本内容
+      document.querySelectorAll('.post-content').forEach(el => {
+        el.style.display = 'none';
+      });
+      
+      // 显示当前语言版本内容
+      const currentLangContent = document.querySelector(`.post-content[data-lang-${savedLang}]`);
+      if (currentLangContent) {
+        currentLangContent.style.display = 'block';
+      }
+      
+      // 监听语言变化
+      document.addEventListener('languageChanged', function(event) {
+        if (event.detail && event.detail.language) {
+          const lang = event.detail.language;
+          
+          // 隐藏所有语言版本内容
+          document.querySelectorAll('.post-content').forEach(el => {
+            el.style.display = 'none';
+          });
+          
+          // 显示当前语言版本内容
+          const content = document.querySelector(`.post-content[data-lang-${lang}]`);
+          if (content) {
+            content.style.display = 'block';
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html> 

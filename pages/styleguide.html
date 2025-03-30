@@ -8,20 +8,27 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Zeprium" />
   <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="title-en" content="Style Guide - Zeprium">
+  <meta name="title-zh" content="风格指南 - Zeprium">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';" />
   <link rel="icon" type="image/png" href="../images/favicon.png" />
   <link rel="icon" type="image/svg+xml" href="../images/icon.svg" />
   <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
   <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon-precomposed.png" />
   <link rel="stylesheet" href="../css/style.css" />
-  <title>Design System - Zeprium</title>
+  <link rel="stylesheet" href="../css/hide-scrollbar.css" />
+  <title>Style Guide - Zeprium</title>
   <script src="../js/theme.js" defer></script>
   <script src="../js/navigation.js" defer></script>
+  <script src="../js/lang-switcher.js" defer></script>
 </head>
 <body>
-  <main>
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+  <main id="main-content">
     <section class="content-box">
-      <h1>Design System</h1>
-      <p>This is our design system documentation, showcasing our typography, colors, and components.</p>
+      <h1 data-lang-en="Style Guide" data-lang-zh="风格指南">Style Guide</h1>
+      <p data-lang-en="This page showcases the design elements and components used throughout the site." data-lang-zh="此页面展示了整个网站中使用的设计元素和组件。">This page showcases the design elements and components used throughout the site.</p>
     </section>
 
     <section class="content-box">
@@ -72,7 +79,7 @@
   </main>
   
   <footer>
-    <p>&copy; <time id="current-year">2025</time> Zeprium. All rights reserved.</p>
+    <p>&copy; <time id="current-year">2025</time> Zeprium. <span data-lang-en="All rights reserved." data-lang-zh="保留所有权利。">All rights reserved.</span></p>
   </footer>
 
   <script>

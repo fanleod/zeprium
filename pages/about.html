@@ -2,37 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#ffffff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Zeprium" />
   <meta name="format-detection" content="telephone=no" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="title-en" content="About - Zeprium">
+  <meta name="title-zh" content="关于 - Zeprium">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';" />
   <link rel="icon" type="image/png" href="../images/favicon.png" />
   <link rel="icon" type="image/svg+xml" href="../images/icon.svg" />
   <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
   <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon-precomposed.png" />
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/hide-scrollbar.css" />
   <title>About - Zeprium</title>
   <script src="../js/theme.js" defer></script>
   <script src="../js/navigation.js" defer></script>
+  <script src="../js/lang-switcher.js" defer></script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
   <main id="main-content">
     <section class="content-box">
-      <h1>About Me</h1>
-      <p>Learn more about who I am and what I do.</p>
+      <h1 data-lang-en="About Me" data-lang-zh="关于我">About Me</h1>
+      <p data-lang-en="Learn more about who I am and what I do." data-lang-zh="了解更多关于我是谁以及我做什么。">Learn more about who I am and what I do.</p>
+      
+      <div class="about-content">
+        <p data-lang-en="I am a passionate creator working at the intersection of design and technology. With over a decade of experience in digital media, I strive to create experiences that are both beautiful and functional." 
+           data-lang-zh="我是一位热情的创作者，工作在设计与技术的交叉点上。凭借十多年的数字媒体经验，我致力于创造既美观又实用的体验。">
+          I am a passionate creator working at the intersection of design and technology. With over a decade of experience in digital media, I strive to create experiences that are both beautiful and functional.
+        </p>
+        
+        <p data-lang-en="My approach combines aesthetic sensibility with technical expertise, allowing me to bridge the gap between vision and execution. I believe in the power of simplicity and the importance of user-centered design in everything I create." 
+           data-lang-zh="我的方法将美学感知与技术专长相结合，使我能够架起愿景与执行之间的桥梁。我相信简约的力量和以用户为中心的设计在我所创造的一切中的重要性。">
+          My approach combines aesthetic sensibility with technical expertise, allowing me to bridge the gap between vision and execution. I believe in the power of simplicity and the importance of user-centered design in everything I create.
+        </p>
+      </div>
+      
       <div style="margin-top: 2rem;">
-        <a href="contact.html" class="button">Contact Me</a>
+        <a href="contact.html" class="button" data-lang-en="Contact Me" data-lang-zh="联系我">Contact Me</a>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; <time id="current-year">2025</time> Zeprium. All rights reserved.</p>
+    <p>&copy; <time id="current-year">2025</time> Zeprium. <span data-lang-en="All rights reserved." data-lang-zh="保留所有权利。">All rights reserved.</span></p>
   </footer>
 
   <script>

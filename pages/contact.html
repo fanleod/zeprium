@@ -8,30 +8,56 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Zeprium" />
   <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="title-en" content="Contact - Zeprium">
+  <meta name="title-zh" content="联系 - Zeprium">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';" />
   <link rel="icon" type="image/png" href="../images/favicon.png" />
   <link rel="icon" type="image/svg+xml" href="../images/icon.svg" />
   <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
   <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon-precomposed.png" />
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/hide-scrollbar.css" />
   <title>Contact - Zeprium</title>
   <script src="../js/theme.js" defer></script>
   <script src="../js/navigation.js" defer></script>
+  <script src="../js/lang-switcher.js" defer></script>
 </head>
 <body>
-  <main>
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+  <main id="main-content">
     <section class="content-box">
-      <h1>Contact</h1>
-      <p>You're welcome to reach out for collaborations, creative inquiries, or just to connect.</p>
-      <ul>
-        <li>Email: <a href="mailto:zepriumwork@gmail.com">zepriumwork@gmail.com</a></li>
-        <li>WeChat: zeprium_work</li>
-        <li>X: zeprium_work</li>
+      <h1 data-lang-en="Contact Me" data-lang-zh="联系我">Contact Me</h1>
+      <p data-lang-en="Have a question or want to collaborate? Get in touch!" data-lang-zh="有问题或想合作？请联系我！">Have a question or want to collaborate? Get in touch!</p>
+      
+      <ul class="contact-list">
+        <li data-lang-en="Email: <a href='mailto:hello@zeprium.com'>hello@zeprium.com</a>" data-lang-zh="邮箱：<a href='mailto:hello@zeprium.com'>hello@zeprium.com</a>">
+          Email: <a href="mailto:hello@zeprium.com">hello@zeprium.com</a>
+        </li>
+        <li data-lang-en="For business inquiries: <a href='mailto:business@zeprium.com'>business@zeprium.com</a>" data-lang-zh="商务合作：<a href='mailto:business@zeprium.com'>business@zeprium.com</a>">
+          For business inquiries: <a href="mailto:business@zeprium.com">business@zeprium.com</a>
+        </li>
       </ul>
+      
+      <div class="social-links-container">
+        <h2 data-lang-en="Find Me Online" data-lang-zh="在线找到我">Find Me Online</h2>
+        <ul class="social-links">
+          <li data-lang-en="<a href='https://twitter.com/zeprium' target='_blank' rel='noopener noreferrer'>Twitter</a>" data-lang-zh="<a href='https://twitter.com/zeprium' target='_blank' rel='noopener noreferrer'>Twitter</a>">
+            <a href="https://twitter.com/zeprium" target="_blank" rel="noopener noreferrer">Twitter</a>
+          </li>
+          <li data-lang-en="<a href='https://instagram.com/zeprium' target='_blank' rel='noopener noreferrer'>Instagram</a>" data-lang-zh="<a href='https://instagram.com/zeprium' target='_blank' rel='noopener noreferrer'>Instagram</a>">
+            <a href="https://instagram.com/zeprium" target="_blank" rel="noopener noreferrer">Instagram</a>
+          </li>
+          <li data-lang-en="<a href='https://linkedin.com/in/zeprium' target='_blank' rel='noopener noreferrer'>LinkedIn</a>" data-lang-zh="<a href='https://linkedin.com/in/zeprium' target='_blank' rel='noopener noreferrer'>领英</a>">
+            <a href="https://linkedin.com/in/zeprium" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </li>
+        </ul>
+      </div>
     </section>
   </main>
-  
+
   <footer>
-    <p>&copy; <time id="current-year">2025</time> Zeprium. All rights reserved.</p>
+    <p>&copy; <time id="current-year">2025</time> Zeprium. <span data-lang-en="All rights reserved." data-lang-zh="保留所有权利。">All rights reserved.</span></p>
   </footer>
 
   <script>

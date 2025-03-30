@@ -8,28 +8,61 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Zeprium" />
   <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="title-en" content="Projects - Zeprium">
+  <meta name="title-zh" content="项目 - Zeprium">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';" />
   <link rel="icon" type="image/png" href="../images/favicon.png" />
   <link rel="icon" type="image/svg+xml" href="../images/icon.svg" />
   <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
   <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon-precomposed.png" />
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/hide-scrollbar.css" />
   <title>Projects - Zeprium</title>
   <script src="../js/theme.js" defer></script>
   <script src="../js/navigation.js" defer></script>
+  <script src="../js/lang-switcher.js" defer></script>
 </head>
 <body>
-  <main>
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
+  <main id="main-content">
     <section class="content-box">
-      <h1>My Projects</h1>
-      <p>Explore my work and creative endeavors.</p>
-      <div style="margin-top: 2rem;">
-        <a href="portfolio-01.html" class="button">View Project 01</a>
+      <h1 data-lang-en="My Projects" data-lang-zh="我的项目">My Projects</h1>
+      <p data-lang-en="Explore some of my recent work and creative endeavors." data-lang-zh="探索我最近的一些作品和创意项目。">Explore some of my recent work and creative endeavors.</p>
+      
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image"></div>
+          <div class="project-content">
+            <h3 data-lang-en="Digital Experience Design" data-lang-zh="数字体验设计">Digital Experience Design</h3>
+            <p data-lang-en="Creating immersive and intuitive user experiences for digital platforms." data-lang-zh="为数字平台创建沉浸式和直观的用户体验。">Creating immersive and intuitive user experiences for digital platforms.</p>
+            <a href="projects/portfolio-template.html" class="read-more" data-lang-en="View Project" data-lang-zh="查看项目">View Project</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="project-image"></div>
+          <div class="project-content">
+            <h3 data-lang-en="Brand Identity Systems" data-lang-zh="品牌标识系统">Brand Identity Systems</h3>
+            <p data-lang-en="Developing comprehensive visual languages for emerging brands." data-lang-zh="为新兴品牌开发全面的视觉语言。">Developing comprehensive visual languages for emerging brands.</p>
+            <a href="projects/portfolio-template.html" class="read-more" data-lang-en="View Project" data-lang-zh="查看项目">View Project</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="project-image"></div>
+          <div class="project-content">
+            <h3 data-lang-en="Interactive Installations" data-lang-zh="互动装置">Interactive Installations</h3>
+            <p data-lang-en="Blending technology and art to create engaging physical experiences." data-lang-zh="融合技术和艺术，创造引人入胜的实体体验。">Blending technology and art to create engaging physical experiences.</p>
+            <a href="projects/portfolio-template.html" class="read-more" data-lang-en="View Project" data-lang-zh="查看项目">View Project</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; <time id="current-year">2025</time> Zeprium. All rights reserved.</p>
+    <p>&copy; <time id="current-year">2025</time> Zeprium. <span data-lang-en="All rights reserved." data-lang-zh="保留所有权利。">All rights reserved.</span></p>
   </footer>
 
   <script>

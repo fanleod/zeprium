@@ -1,23 +1,148 @@
-/* 隐藏所有滚动条但保留滚动功能 */
+/* 隐藏所有滚动条但保留滚动功能 - 增强版 */
+
+/* 重置所有元素的滚动条样式 */
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+/* 对所有元素的滚动条应用隐藏 */
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  display: none !important;
+}
+
+/* 特别针对根元素 */
 html {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  overflow-y: scroll;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-/* WebKit浏览器（Chrome、Safari等）隐藏滚动条 */
-html::-webkit-scrollbar {
-  display: none;
+body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-/* 确保所有可滚动容器也隐藏滚动条 */
-.scrollable-container {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* 紧急修复特定元素滚动条问题 */
+body > * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-.scrollable-container::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
+body > *::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+/* 特别针对常见元素 */
+div, section, article, nav, main, aside, header, footer, ul, ol, pre, code {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+div::-webkit-scrollbar,
+section::-webkit-scrollbar,
+article::-webkit-scrollbar,
+nav::-webkit-scrollbar,
+main::-webkit-scrollbar,
+aside::-webkit-scrollbar,
+header::-webkit-scrollbar,
+footer::-webkit-scrollbar,
+ul::-webkit-scrollbar,
+ol::-webkit-scrollbar,
+pre::-webkit-scrollbar,
+code::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 特别针对特定类名 */
+.content-box,
+.blog-grid,
+.projects-grid,
+.blog-card,
+.project-card,
+.blog-content,
+.project-content,
+.post-content,
+.video-container,
+.scrollable-container,
+.project-image-grid,
+.project-hero,
+.project-header,
+.project-overview,
+.project-challenge,
+.project-process,
+.project-outcome,
+.project-reflection,
+.related-projects,
+.project-container,
+.blog-article-container {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.content-box::-webkit-scrollbar,
+.blog-grid::-webkit-scrollbar,
+.projects-grid::-webkit-scrollbar,
+.blog-card::-webkit-scrollbar,
+.project-card::-webkit-scrollbar,
+.blog-content::-webkit-scrollbar,
+.project-content::-webkit-scrollbar,
+.post-content::-webkit-scrollbar,
+.video-container::-webkit-scrollbar,
+.scrollable-container::-webkit-scrollbar,
+.project-image-grid::-webkit-scrollbar,
+.project-hero::-webkit-scrollbar,
+.project-header::-webkit-scrollbar,
+.project-overview::-webkit-scrollbar,
+.project-challenge::-webkit-scrollbar,
+.project-process::-webkit-scrollbar,
+.project-outcome::-webkit-scrollbar,
+.project-reflection::-webkit-scrollbar,
+.related-projects::-webkit-scrollbar,
+.project-container::-webkit-scrollbar,
+.blog-article-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Safari和Chrome特定规则 */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-track {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* 强制隐藏滚动条 - 最后的兜底方案 */
+html, body {
+  overflow: -moz-scrollbars-none !important;
+}
+
+@media screen and (min-width: 0\0) {
+  html, body {
+    -ms-overflow-style: none !important;
+  }
 } 

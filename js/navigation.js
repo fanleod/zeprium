@@ -46,11 +46,18 @@ function createNavigation() {
     </header>
     <nav id="site-nav">
       <div class="nav-container">
-        <a href="${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
-        <a href="${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects.html') || currentPath.includes('portfolio-01.html') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
-        <a href="${isRoot ? 'pages/blog.html' : 'blog.html'}" ${currentPath.includes('blog.html') ? 'class="active"' : ''} aria-label="Blog">Blog</a>
-        <a href="${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
-        <a href="${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
+        <div class="nav-links">
+          <a href="${isRoot ? 'pages/about.html' : 'about.html'}" ${currentPath.includes('about.html') ? 'class="active"' : ''} aria-label="About">About</a>
+          <a href="${isRoot ? 'pages/projects.html' : 'projects.html'}" ${currentPath.includes('projects.html') || currentPath.includes('projects/') ? 'class="active"' : ''} aria-label="Projects">Projects</a>
+          <a href="${isRoot ? 'pages/blog.html' : 'blog.html'}" ${(currentPath.includes('blog.html') || currentPath.includes('/blog/')) ? 'class="active"' : ''} aria-label="Blog">Blog</a>
+          <a href="${isRoot ? 'pages/contact.html' : 'contact.html'}" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
+          <a href="${isRoot ? 'pages/styleguide.html' : 'styleguide.html'}" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
+        </div>
+        <div class="lang-switcher">
+          <button id="lang-toggle" aria-label="Switch language" title="切换语言">
+            <span class="lang-text">EN</span>
+          </button>
+        </div>
       </div>
     </nav>
   `;

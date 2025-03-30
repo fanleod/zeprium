@@ -9,6 +9,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="format-detection" content="telephone=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="title-en" content="Zeprium - Home">
+  <meta name="title-zh" content="Zeprium - 首页">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; media-src 'self'; frame-src 'self' https://www.youtube.com;">
   
   <link rel="icon" href="images/favicon.png" type="image/png">
@@ -21,14 +23,15 @@
   <link rel="stylesheet" href="css/hide-scrollbar.css">
   <script src="js/theme.js" defer></script>
   <script src="js/navigation.js" defer></script>
+  <script src="js/lang-switcher.js" defer></script>
   <script src="js/blog-cards.js" defer></script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
   <main id="main-content">
     <section class="content-box">
-      <h1>Welcome to Zeprium</h1>
-      <p>Your digital home for creativity and innovation.</p>
+      <h1 data-lang-en="Welcome to Zeprium" data-lang-zh="欢迎来到 Zeprium">Welcome to Zeprium</h1>
+      <p data-lang-en="Your digital home for creativity and innovation." data-lang-zh="您的创意与创新的数字家园。">Your digital home for creativity and innovation.</p>
       
       <div class="video-container">
         <iframe 
@@ -44,8 +47,8 @@
     </section>
 
     <section class="content-box">
-      <h2>Latest Blog Posts</h2>
-      <p>Explore our thoughts, insights, and creative processes.</p>
+      <h2 data-lang-en="Latest Blog Posts" data-lang-zh="最新博客文章">Latest Blog Posts</h2>
+      <p data-lang-en="Explore our thoughts, insights, and creative processes." data-lang-zh="探索我们的想法、见解和创作过程。">Explore our thoughts, insights, and creative processes.</p>
       
       <div class="blog-grid">
         <!-- Blog cards will be dynamically loaded by blog-cards.js -->
@@ -53,8 +56,8 @@
     </section>
 
     <section class="content-box">
-      <h2>Connect With Us</h2>
-      <p>Follow our journey across different platforms.</p>
+      <h2 data-lang-en="Connect With Us" data-lang-zh="关注我们">Connect With Us</h2>
+      <p data-lang-en="Follow our journey across different platforms." data-lang-zh="在不同平台上关注我们的旅程。">Follow our journey across different platforms.</p>
       <div class="social-icons-container">
         <div class="social-icons">
           <!-- Podcasts Icon -->
