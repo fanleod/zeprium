@@ -431,7 +431,7 @@ section {
 ==================================== */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -444,6 +444,7 @@ section {
   overflow: hidden;
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
 }
 
 .blog-card:hover {
@@ -457,6 +458,7 @@ section {
   padding-bottom: 60%;
   position: relative;
   overflow: hidden;
+  background-color: var(--color-accent);
 }
 
 .blog-image img {
@@ -470,21 +472,43 @@ section {
 }
 
 .blog-content {
-  padding: 1.25rem;
+  padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .blog-content h3 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin-bottom: 0.75rem;
+  line-height: 1.3;
 }
 
 .blog-content p {
-  font-size: 0.95rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
   text-align: left;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.blog-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.blog-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: var(--border-radius-small);
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .blog-content a {
@@ -920,10 +944,13 @@ nav.scrolled {
 /* Projects Grid */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 3rem; /* 增加卡片之间的间距 */
-  margin-top: 3rem;
-  padding: 0 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .project-card {
@@ -951,6 +978,16 @@ nav.scrolled {
   background-color: var(--color-accent);
 }
 
+.project-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
 .project-content {
   padding: 1.5rem;
   flex: 1;
@@ -960,32 +997,103 @@ nav.scrolled {
 
 .project-content h3 {
   font-size: 1.4rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
 }
 
 .project-content p {
   font-size: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: left;
   line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.project-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: var(--border-radius-small);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.project-type {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-muted);
+  color: var(--color-bg);
+  border-radius: var(--border-radius-small);
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 /* 响应式调整 */
+@media (max-width: 1200px) {
+  .projects-grid {
+    max-width: 900px;
+  }
+}
+
 @media (max-width: 768px) {
   .projects-grid {
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .project-content {
+    padding: 1.25rem;
+  }
+
+  .project-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .project-content p {
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
   .projects-grid {
-  gap: 1.5rem;
-    margin-top: 1.5rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
   }
-  
+
   .project-content {
-    padding: 1.25rem;
+    padding: 1rem;
+  }
+
+  .project-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .project-content p {
+    font-size: 0.9rem;
+  }
+
+  .project-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-status,
+  .project-type {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
   }
 }
 

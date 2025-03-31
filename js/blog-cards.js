@@ -200,11 +200,12 @@ class BlogManager {
     article.innerHTML = `
       ${imageHtml}
       <div class="blog-content">
-        <h3>${title}</h3>
-        <p>${summary}</p>
         <div class="blog-meta">
+          <span class="blog-category" style="background-color: ${post.color};">${category}</span>
           <time datetime="${post.date}">${this.formatDate(post.date)}</time>
         </div>
+        <h3>${title}</h3>
+        <p>${summary}</p>
         <a href="${postUrl}" 
            aria-label="${this.currentLanguage === 'zh' ? '阅读更多关于' : 'Read more about'} ${title}" 
            class="read-more">${readMore}</a>
