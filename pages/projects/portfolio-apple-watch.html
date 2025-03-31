@@ -237,8 +237,6 @@
     // 显示正确的语言内容
     document.addEventListener('DOMContentLoaded', function() {
       const savedLang = localStorage.getItem('zeprium-lang') || 'en';
-      
-      // 更新 HTML 的 lang 属性
       document.documentElement.lang = savedLang;
       
       // 监听语言变化

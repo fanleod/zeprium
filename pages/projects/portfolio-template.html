@@ -237,54 +237,15 @@
     // 显示正确的语言内容
     document.addEventListener('DOMContentLoaded', function() {
       const savedLang = localStorage.getItem('zeprium-lang') || 'en';
-      
-      // 隐藏所有语言版本内容
-      document.querySelectorAll('.project-content').forEach(el => {
-        el.style.display = 'none';
-      });
-      
-      // 显示当前语言版本内容
-      document.querySelectorAll(`.project-content[data-lang-${savedLang}]`).forEach(el => {
-        el.style.display = 'block';
-      });
-      
-      // 更新所有带有语言属性的元素
-      updateAllLanguageElements(savedLang);
+      document.documentElement.lang = savedLang;
       
       // 监听语言变化
       document.addEventListener('languageChanged', function(event) {
         if (event.detail && event.detail.language) {
-          const lang = event.detail.language;
-          
-          // 隐藏所有语言版本内容
-          document.querySelectorAll('.project-content').forEach(el => {
-            el.style.display = 'none';
-          });
-          
-          // 显示当前语言版本内容
-          document.querySelectorAll(`.project-content[data-lang-${lang}]`).forEach(el => {
-            el.style.display = 'block';
-          });
-          
-          // 更新所有带有语言属性的元素
-          updateAllLanguageElements(lang);
+          document.documentElement.lang = event.detail.language;
         }
       });
     });
-    
-    // 更新所有带有语言属性的元素
-    function updateAllLanguageElements(lang) {
-      document.querySelectorAll(`[data-lang-${lang}]`).forEach(element => {
-        const content = element.getAttribute(`data-lang-${lang}`);
-        if (content) {
-          if (content.includes('<') && content.includes('>')) {
-            element.innerHTML = content;
-          } else {
-            element.textContent = content;
-          }
-        }
-      });
-    }
   </script>
 </body>
 </html> 
