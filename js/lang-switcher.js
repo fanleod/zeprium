@@ -87,14 +87,13 @@ function updatePageTitle(lang) {
  * @param {string} lang - The language code ('en' or 'zh')
  */
 function updatePageContent(lang) {
-  // Find all elements with data-lang attributes
+  // 更新所有带有语言属性的文本内容
+  // Update all text content with language attributes
   const elements = document.querySelectorAll(`[data-lang-${lang}]`);
   
   elements.forEach(element => {
     const content = element.getAttribute(`data-lang-${lang}`);
     if (content) {
-      // If the element has inner HTML that needs to be preserved (like links),
-      // we need to handle it carefully
       if (content.includes('<') && content.includes('>')) {
         element.innerHTML = content;
       } else {
@@ -102,6 +101,27 @@ function updatePageContent(lang) {
       }
     }
   });
+
+  // 更新项目内容区域的显示/隐藏
+  // Update project content area visibility
+  const projectContents = document.querySelectorAll('.project-content');
+  if (projectContents.length > 0) {
+    // 检查是否在项目详情页面
+    // Check if we're on a project detail page
+    const isProjectDetail = projectContents[0].closest('.project-container') !== null;
+    
+    if (isProjectDetail) {
+      // 只在项目详情页面执行显示/隐藏逻辑
+      // Only execute show/hide logic on project detail pages
+      projectContents.forEach(el => {
+        el.style.display = 'none';
+      });
+      
+      document.querySelectorAll(`.project-content[data-lang-${lang}]`).forEach(el => {
+        el.style.display = 'block';
+      });
+    }
+  }
 }
 
 /**

@@ -954,14 +954,13 @@ nav.scrolled {
 }
 
 .project-card {
-  display: flex;
-  flex-direction: column;
   background: var(--color-bg);
   border-radius: var(--border-radius-medium);
-  overflow: hidden;
+  padding: 1.5rem;
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-card:hover {
@@ -971,25 +970,16 @@ nav.scrolled {
 
 .project-image {
   width: 100%;
-  height: 0;
-  padding-bottom: 60%;
-  position: relative;
-  overflow: hidden;
-  background-color: var(--color-accent);
-}
-
-.project-image img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  height: 300px; /* 固定高度 */
+  background-size: cover; /* 覆盖整个容器 */
+  background-position: center; /* 居中显示 */
+  background-repeat: no-repeat; /* 不重复 */
+  border-radius: var(--border-radius-medium);
+  overflow: hidden; /* 裁剪超出部分 */
+  margin-bottom: 1.5rem;
 }
 
 .project-content {
-  padding: 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1011,14 +1001,14 @@ nav.scrolled {
 
 .project-meta {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+  gap: 0.5rem;
   color: var(--color-muted);
+  font-size: 1.1rem;
 }
 
-.project-status {
+.project-category {
   display: inline-block;
   padding: 0.25rem 0.75rem;
   background-color: var(--color-accent);
@@ -1028,14 +1018,99 @@ nav.scrolled {
   font-weight: 500;
 }
 
-.project-type {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  background-color: var(--color-muted);
-  color: var(--color-bg);
-  border-radius: var(--border-radius-small);
-  font-size: 0.85rem;
-  font-weight: 500;
+.project-date {
+  color: var(--color-muted);
+}
+
+/* Language-specific content visibility */
+.project-content[data-lang-en],
+.project-content[data-lang-zh] {
+  display: none; /* 默认隐藏所有语言版本 */
+}
+
+/* 显示当前语言版本 */
+html[lang="en"] .project-content[data-lang-en],
+html[lang="zh"] .project-content[data-lang-zh] {
+  display: block;
+}
+
+.project-hero {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.project-hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--border-radius-medium);
+}
+
+.project-overview,
+.project-challenge,
+.project-process,
+.project-outcome,
+.project-reflection {
+  max-width: 600px;
+  margin: 0 auto 4rem;
+}
+
+.project-overview h2,
+.project-challenge h2,
+.project-process h2,
+.project-outcome h2,
+.project-reflection h2 {
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.project-content {
+  text-align: center;
+}
+
+.project-content h3 {
+  margin: 2rem 0 0.5rem;
+  line-height: 1.2;
+}
+
+.project-content p {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.project-image {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.project-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--border-radius-medium);
+}
+
+.image-caption {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.project-image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-medium);
 }
 
 /* 响应式调整 */
@@ -1110,4 +1185,129 @@ nav.scrolled {
   margin-bottom: 1.5rem;
   font-size: 1.25rem;
   line-height: 1.8;
+}
+
+/* Project Page Specific Styles */
+.project-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.project-header {
+  margin-bottom: 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.project-header h1 {
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.project-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-muted);
+  font-size: 1.1rem;
+}
+
+.project-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: var(--border-radius-small);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.project-date {
+  color: var(--color-muted);
+}
+
+.project-hero {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.project-hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--border-radius-medium);
+}
+
+.project-overview,
+.project-challenge,
+.project-process,
+.project-outcome,
+.project-reflection {
+  max-width: 600px;
+  margin: 0 auto 4rem;
+}
+
+.project-overview h2,
+.project-challenge h2,
+.project-process h2,
+.project-outcome h2,
+.project-reflection h2 {
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.project-content {
+  text-align: center;
+}
+
+.project-content h3 {
+  margin: 2rem 0 0.5rem;
+  line-height: 1.2;
+}
+
+.project-content p {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.project-image {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.project-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--border-radius-medium);
+}
+
+.image-caption {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.project-image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-medium);
 }

@@ -28,10 +28,10 @@
   <main id="main-content">
     <article class="project-container no-select">
       <header class="project-header">
-        <h1 data-lang-en="Project Title" data-lang-zh="项目标题">Project Title</h1>
+        <h1 data-lang-en="Bringing the First Apple Watch to Life — 0→1 Product & Interaction Design" data-lang-zh="唤醒腕上科技：Apple Watch 初代的 0→1 产品与交互设计">Project Title</h1>
         <div class="project-meta">
           <span class="project-category" data-lang-en="UX/UI Design" data-lang-zh="UX/UI设计">UX/UI Design</span>
-          <span class="project-date">2023</span>
+          <span class="project-date">2014</span>
         </div>
       </header>
       
@@ -238,53 +238,16 @@
     document.addEventListener('DOMContentLoaded', function() {
       const savedLang = localStorage.getItem('zeprium-lang') || 'en';
       
-      // 隐藏所有语言版本内容
-      document.querySelectorAll('.project-content').forEach(el => {
-        el.style.display = 'none';
-      });
-      
-      // 显示当前语言版本内容
-      document.querySelectorAll(`.project-content[data-lang-${savedLang}]`).forEach(el => {
-        el.style.display = 'block';
-      });
-      
-      // 更新所有带有语言属性的元素
-      updateAllLanguageElements(savedLang);
+      // 更新 HTML 的 lang 属性
+      document.documentElement.lang = savedLang;
       
       // 监听语言变化
       document.addEventListener('languageChanged', function(event) {
         if (event.detail && event.detail.language) {
-          const lang = event.detail.language;
-          
-          // 隐藏所有语言版本内容
-          document.querySelectorAll('.project-content').forEach(el => {
-            el.style.display = 'none';
-          });
-          
-          // 显示当前语言版本内容
-          document.querySelectorAll(`.project-content[data-lang-${lang}]`).forEach(el => {
-            el.style.display = 'block';
-          });
-          
-          // 更新所有带有语言属性的元素
-          updateAllLanguageElements(lang);
+          document.documentElement.lang = event.detail.language;
         }
       });
     });
-    
-    // 更新所有带有语言属性的元素
-    function updateAllLanguageElements(lang) {
-      document.querySelectorAll(`[data-lang-${lang}]`).forEach(element => {
-        const content = element.getAttribute(`data-lang-${lang}`);
-        if (content) {
-          if (content.includes('<') && content.includes('>')) {
-            element.innerHTML = content;
-          } else {
-            element.textContent = content;
-          }
-        }
-      });
-    }
   </script>
 </body>
 </html> 
