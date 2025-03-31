@@ -1,15 +1,14 @@
 /**
- * Blog Cards Management
+ * 博客卡片管理系统
  * 
- * This module handles the loading, rendering, and management of blog posts
- * across the Zeprium website. It fetches data from JSON and dynamically
- * generates blog card components.
+ * 该模块负责处理 Zeprium 网站博客文章的加载、渲染和管理。
+ * 从 JSON 文件获取数据并动态生成博客卡片组件。
  */
 
 // 博客卡片加载和渲染控制器
 class BlogManager {
   constructor(options = {}) {
-    // Default configuration
+    // 默认配置
     this.config = {
       dataUrl: 'data/blog-posts.json',
       gridSelector: '.blog-grid',
@@ -17,19 +16,19 @@ class BlogManager {
       ...options
     };
     
-    // State management
+    // 状态管理
     this.posts = [];
     this.isLoaded = false;
-    this.currentLanguage = 'en';
+    this.currentLanguage = localStorage.getItem('zeprium-lang') || 'en';
     
-    // Bind methods
+    // 绑定方法
     this.loadBlogCards = this.loadBlogCards.bind(this);
     this.renderCards = this.renderCards.bind(this);
     this.filterPosts = this.filterPosts.bind(this);
     this.createBlogCard = this.createBlogCard.bind(this);
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
     
-    // Initialize if DOM is already loaded
+    // 初始化
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
       this.init();
     } else {
@@ -38,123 +37,136 @@ class BlogManager {
   }
   
   /**
-   * Initialize the blog manager
+   * 初始化博客管理器
    */
   init() {
     const blogGrid = document.querySelector(this.config.gridSelector);
     
-    // Only proceed if we find a blog grid on the page
     if (blogGrid) {
-      // Get current language from localStorage
-      this.currentLanguage = localStorage.getItem('zeprium-lang') || 'en';
-      
-      // Load blog cards
+      // 加载博客卡片
       this.loadBlogCards();
       
-      // If we're on the blog page, set up category filters
+      // 在博客页面设置分类过滤器
       if (window.location.pathname.includes('/blog.html')) {
         this.setupFilters();
       }
       
-      // Listen for language change events
+      // 监听语言变更事件
       document.addEventListener('languageChanged', this.handleLanguageChange);
     }
   }
   
   /**
-   * Handle language change events
-   * @param {Event} event - Custom event with language data
+   * 处理语言变更事件
+   * @param {Event} event - 包含语言数据的自定义事件
    */
   handleLanguageChange(event) {
-    if (event.detail && event.detail.language) {
+    if (event.detail?.language) {
       this.currentLanguage = event.detail.language;
-      this.renderCards(null, true); // Re-render with same posts but clear existing
+      this.renderCards(null, true);
     }
   }
   
   /**
-   * Load blog posts from JSON data file
+   * 从 JSON 数据文件加载博客文章
    */
   async loadBlogCards() {
+    if (this.isLoaded) return;
+    
     try {
-      // Only load once
-      if (this.isLoaded) return;
-      
       const response = await fetch(this.config.dataUrl);
-      
-      // Check if the response is ok
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP 错误！状态码：${response.status}`);
       }
       
       this.posts = await response.json();
       this.isLoaded = true;
       
-      // Render the cards
+      // 渲染卡片
       this.renderCards();
       
-      // Setup post rendering
+      // 设置文章渲染
       if (window.location.pathname.includes('/blog.html')) {
         this.handleBlogPostDisplay();
       }
       
       return this.posts;
     } catch (error) {
-      console.error('Error loading blog posts:', error);
-      
-      // Provide fallback content in case of error
-      const blogGrid = document.querySelector(this.config.gridSelector);
-      if (blogGrid) {
-        const errorMessage = this.currentLanguage === 'zh' 
-          ? '无法加载博客文章。请稍后再试。'
-          : 'Unable to load blog posts. Please try again later.';
-        
-        blogGrid.innerHTML = `
-          <div class="error-message">
-            <p>${errorMessage}</p>
-          </div>
-        `;
-      }
+      console.error('加载博客文章时出错：', error);
+      this.displayErrorMessage();
     }
   }
   
   /**
-   * Render blog cards to the DOM
-   * @param {Array} posts - Optional filtered subset of posts to render
-   * @param {Boolean} clearExisting - Whether to clear existing content
+   * 显示错误信息
+   */
+  displayErrorMessage() {
+    const blogGrid = document.querySelector(this.config.gridSelector);
+    const blogSection = blogGrid?.closest('section.content-box');
+
+    if (blogGrid) blogGrid.innerHTML = '';
+
+    if (blogSection) {
+      const errorMessage = this.currentLanguage === 'zh' 
+        ? '无法加载博客文章。请稍后再试。'
+        : 'Unable to load blog posts. Please try again later.';
+      
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.innerHTML = `<p>${errorMessage}</p>`;
+      
+      blogSection.appendChild(errorDiv);
+    }
+  }
+  
+  /**
+   * 渲染博客卡片到 DOM
+   * @param {Array} posts - 可选的要渲染的文章子集
+   * @param {Boolean} clearExisting - 是否清除现有内容
    */
   renderCards(posts = null, clearExisting = true) {
     const blogGrid = document.querySelector(this.config.gridSelector);
     if (!blogGrid) return;
     
-    // Determine which posts to render
     const postsToRender = posts || this.posts;
-    
-    // Consider if we're on the homepage and should limit cards
     const isHomePage = window.location.pathname === '/' || 
                       window.location.pathname.endsWith('index.html');
     
-    // For homepage, only show featured posts up to the max limit
     const displayPosts = isHomePage 
       ? postsToRender.filter(post => post.featured).slice(0, this.config.maxHomePageCards)
       : postsToRender;
     
-    // Clear existing cards if needed
     if (clearExisting) {
       blogGrid.innerHTML = '';
     }
     
-    // Create and append cards
     if (displayPosts.length > 0) {
       displayPosts.forEach(post => {
         const card = this.createBlogCard(post);
         blogGrid.appendChild(card);
       });
     } else {
-      const noPostsMessage = this.currentLanguage === 'zh'
-        ? '没有找到符合条件的文章。'
-        : 'No posts found matching your criteria.';
-        
+      this.displayNoPostsMessage();
+    }
+  }
+  
+  /**
+   * 显示无文章消息
+   */
+  displayNoPostsMessage() {
+    const blogGrid = document.querySelector(this.config.gridSelector);
+    const blogSection = blogGrid?.closest('section.content-box');
+    
+    const noPostsMessage = this.currentLanguage === 'zh'
+      ? '没有找到符合条件的文章。'
+      : 'No posts found matching your criteria.';
+    
+    if (blogSection) {
+      const noPostsDiv = document.createElement('div');
+      noPostsDiv.className = 'no-posts-message';
+      noPostsDiv.innerHTML = `<p>${noPostsMessage}</p>`;
+      blogSection.appendChild(noPostsDiv);
+    } else {
       blogGrid.innerHTML = `
         <div class="no-posts-message">
           <p>${noPostsMessage}</p>
@@ -164,42 +176,27 @@ class BlogManager {
   }
   
   /**
-   * Create a blog card DOM element
-   * @param {Object} post - Blog post data
-   * @returns {HTMLElement} - Blog card element
+   * 创建博客卡片 DOM 元素
+   * @param {Object} post - 博客文章数据
+   * @returns {HTMLElement} - 博客卡片元素
    */
   createBlogCard(post) {
-    // Create card article element
     const article = document.createElement('article');
     article.className = 'blog-card';
     article.setAttribute('data-category', post.category);
     article.setAttribute('data-post-id', post.id);
     
-    // Get the content in the current language
     const title = this.currentLanguage === 'zh' && post.title_zh ? post.title_zh : post.title;
     const summary = this.currentLanguage === 'zh' && post.summary_zh ? post.summary_zh : post.summary;
     const category = this.currentLanguage === 'zh' && post.category_zh ? post.category_zh : post.category;
     const readMore = this.currentLanguage === 'zh' ? '阅读更多' : 'Read more';
     
-    // 确定文章URL，支持两种模式：单独HTML页面或参数化URL
-    let postUrl = post.url;
-    if (post.urlParams) {
-      // 添加URL参数和语言参数（如果需要）
-      postUrl += post.urlParams + (this.currentLanguage === 'zh' ? '&lang=zh' : '');
-    } else if (this.currentLanguage === 'zh') {
-      // 对于单独HTML页面，添加语言查询参数
-      postUrl += (postUrl.includes('?') ? '&' : '?') + 'lang=zh';
-    }
+    // 处理文章 URL
+    const postUrl = this.getPostUrl(post);
     
     // 处理图片显示
-    let imageHtml = '';
-    if (post.image) {
-      imageHtml = `<div class="blog-image" style="background-image: url('${post.image}');" aria-label="${category} category"></div>`;
-    } else {
-      imageHtml = `<div class="blog-image" style="background-color: ${post.color};" aria-label="${category} category">${category}</div>`;
-    }
+    const imageHtml = this.getImageHtml(post, category);
     
-    // Create card content with proper accessibility attributes
     article.innerHTML = `
       ${imageHtml}
       <div class="blog-content">
@@ -218,36 +215,99 @@ class BlogManager {
   }
   
   /**
-   * Format date in a user-friendly way
-   * @param {String} dateString - ISO date string
-   * @returns {String} - Formatted date
+   * 获取文章 URL
+   * @param {Object} post - 博客文章数据
+   * @returns {String} - 处理后的 URL
    */
-  formatDate(dateString) {
-    const date = new Date(dateString);
-    
-    if (this.currentLanguage === 'zh') {
-      return date.toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    } else {
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+  getPostUrl(post) {
+    let postUrl = post.url;
+    if (post.urlParams) {
+      postUrl += post.urlParams + (this.currentLanguage === 'zh' ? '&lang=zh' : '');
+    } else if (this.currentLanguage === 'zh') {
+      postUrl += (postUrl.includes('?') ? '&' : '?') + 'lang=zh';
     }
+    return postUrl;
   }
   
   /**
-   * Set up category filter buttons on the blog page
+   * 获取图片 HTML
+   * @param {Object} post - 博客文章数据
+   * @param {String} category - 文章分类
+   * @returns {String} - 图片 HTML
+   */
+  getImageHtml(post, category) {
+    if (post.image) {
+      return `<div class="blog-image" style="background-image: url('${post.image}');" aria-label="${category} category"></div>`;
+    }
+    return `<div class="blog-image" style="background-color: ${post.color};" aria-label="${category} category">${category}</div>`;
+  }
+  
+  /**
+   * 格式化日期
+   * @param {String} dateString - ISO 日期字符串
+   * @returns {String} - 格式化后的日期
+   */
+  formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    
+    return date.toLocaleDateString(
+      this.currentLanguage === 'zh' ? 'zh-CN' : 'en-US',
+      options
+    );
+  }
+  
+  /**
+   * 设置博客页面的分类过滤器
    */
   setupFilters() {
-    // Get unique categories from posts
     const categories = [...new Set(this.posts.map(post => post.category))];
+    const filterContainer = this.getOrCreateFilterContainer();
     
-    // Find or create filter container
+    // 创建"全部"过滤器按钮
+    const allBtn = document.createElement('button');
+    allBtn.textContent = this.currentLanguage === 'zh' ? '全部' : 'All';
+    allBtn.className = 'button active';
+    allBtn.setAttribute('data-category', 'all');
+    filterContainer.appendChild(allBtn);
+    
+    // 创建分类过滤器按钮
+    categories.forEach(category => {
+      const btn = document.createElement('button');
+      
+      // Get category name in current language
+      const categoryPost = this.posts.find(post => post.category === category);
+      const categoryName = this.currentLanguage === 'zh' && categoryPost.category_zh ? 
+        categoryPost.category_zh : category;
+      
+      btn.textContent = categoryName;
+      btn.className = 'button';
+      btn.setAttribute('data-category', category);
+      filterContainer.appendChild(btn);
+    });
+    
+    // Add event listeners to filter buttons
+    document.querySelectorAll('.blog-filters .button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        // Update active button
+        document.querySelectorAll('.blog-filters .button').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        
+        const category = e.target.getAttribute('data-category');
+        this.filterPosts(category);
+      });
+    });
+  }
+  
+  /**
+   * 获取或创建过滤器容器
+   * @returns {HTMLElement} - 过滤器容器
+   */
+  getOrCreateFilterContainer() {
     let filterContainer = document.querySelector('.blog-filters');
     if (!filterContainer) {
       filterContainer = document.createElement('div');
@@ -258,45 +318,12 @@ class BlogManager {
         blogSection.insertBefore(filterContainer, document.querySelector(this.config.gridSelector));
       }
     }
-    
-    // Create "All" filter button
-    const allBtn = document.createElement('button');
-    allBtn.textContent = this.currentLanguage === 'zh' ? '全部' : 'All';
-    allBtn.className = 'filter-btn active';
-    allBtn.setAttribute('data-category', 'all');
-    filterContainer.appendChild(allBtn);
-    
-    // Create category filter buttons
-    categories.forEach(category => {
-      const btn = document.createElement('button');
-      
-      // Get category name in current language
-      const categoryPost = this.posts.find(post => post.category === category);
-      const categoryName = this.currentLanguage === 'zh' && categoryPost.category_zh ? 
-        categoryPost.category_zh : category;
-      
-      btn.textContent = categoryName;
-      btn.className = 'filter-btn';
-      btn.setAttribute('data-category', category);
-      filterContainer.appendChild(btn);
-    });
-    
-    // Add event listeners to filter buttons
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        // Update active button
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        
-        const category = e.target.getAttribute('data-category');
-        this.filterPosts(category);
-      });
-    });
+    return filterContainer;
   }
   
   /**
-   * Filter posts by category
-   * @param {String} category - Category to filter by, or 'all'
+   * 按分类过滤文章
+   * @param {String} category - 要过滤的分类，或 'all'
    */
   filterPosts(category) {
     if (category === 'all') {
@@ -308,7 +335,7 @@ class BlogManager {
   }
   
   /**
-   * Handle displaying individual blog posts based on URL parameters
+   * 处理基于 URL 参数的单个博客文章显示
    */
   handleBlogPostDisplay() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -318,59 +345,75 @@ class BlogManager {
       const post = this.posts.find(p => p.id === postId);
       
       if (post) {
-        // Hide the blog grid
-        const blogGrid = document.querySelector(this.config.gridSelector);
-        if (blogGrid) {
-          blogGrid.style.display = 'none';
-        }
-        
-        // Hide filters if they exist
-        const filters = document.querySelector('.blog-filters');
-        if (filters) {
-          filters.style.display = 'none';
-        }
-        
-        // Get or create blog post container
-        let postContainer = document.querySelector('.blog-post-container');
-        if (!postContainer) {
-          postContainer = document.createElement('div');
-          postContainer.className = 'blog-post-container';
-          const contentBox = document.querySelector('section.content-box');
-          if (contentBox) {
-            contentBox.appendChild(postContainer);
-          }
-        }
-        
-        // Update page title
-        document.title = `${post.title} - Zeprium`;
-        
-        // Populate with post content
-        postContainer.innerHTML = `
-          <article class="blog-post">
-            <header>
-              <div class="post-category" style="background-color: ${post.color};">${post.category}</div>
-              <h1>${post.title}</h1>
-              <div class="post-meta">
-                <time datetime="${post.date}">${this.formatDate(post.date)}</time>
-              </div>
-            </header>
-            <div class="post-content">
-              <p>${post.summary}</p>
-              <p>This is a placeholder for the full blog post content. In a production environment, this would be loaded from a CMS or database.</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl eu nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl eu nisl.</p>
-            </div>
-            <footer>
-              <a href="blog.html" class="button secondary">← Back to all posts</a>
-            </footer>
-          </article>
-        `;
+        this.hideBlogElements();
+        this.displayBlogPost(post);
       }
     }
   }
+  
+  /**
+   * 隐藏博客元素
+   */
+  hideBlogElements() {
+    const blogGrid = document.querySelector(this.config.gridSelector);
+    const filters = document.querySelector('.blog-filters');
+    
+    if (blogGrid) blogGrid.style.display = 'none';
+    if (filters) filters.style.display = 'none';
+  }
+  
+  /**
+   * 显示博客文章
+   * @param {Object} post - 博客文章数据
+   */
+  displayBlogPost(post) {
+    document.title = `${post.title} - Zeprium`;
+    
+    const postContainer = this.getOrCreatePostContainer();
+    const title = this.currentLanguage === 'zh' && post.title_zh ? post.title_zh : post.title;
+    const category = this.currentLanguage === 'zh' && post.category_zh ? post.category_zh : post.category;
+    
+    postContainer.innerHTML = `
+      <article class="blog-post">
+        <header>
+          <div class="post-category" style="background-color: ${post.color};">${category}</div>
+          <h1>${title}</h1>
+          <div class="post-meta">
+            <time datetime="${post.date}">${this.formatDate(post.date)}</time>
+          </div>
+        </header>
+        <div class="post-content">
+          <p>${post.summary}</p>
+          <p>这是博客文章的完整内容占位符。在生产环境中，这将从 CMS 或数据库加载。</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl eu nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquam nisl, eu aliquam nisl nisl eu nisl.</p>
+        </div>
+        <footer>
+          <a href="blog.html" class="button secondary">← ${this.currentLanguage === 'zh' ? '返回所有文章' : 'Back to all posts'}</a>
+        </footer>
+      </article>
+    `;
+  }
+  
+  /**
+   * 获取或创建文章容器
+   * @returns {HTMLElement} - 文章容器
+   */
+  getOrCreatePostContainer() {
+    let postContainer = document.querySelector('.blog-post-container');
+    if (!postContainer) {
+      postContainer = document.createElement('div');
+      postContainer.className = 'blog-post-container';
+      const contentBox = document.querySelector('section.content-box');
+      if (contentBox) {
+        contentBox.appendChild(postContainer);
+      }
+    }
+    return postContainer;
+  }
 }
 
-// Initialize the blog manager
+// 初始化博客管理器
 const blogManager = new BlogManager();
 
-// Export for potential use by other modules
+// 导出供其他模块使用
 window.blogManager = blogManager; 
