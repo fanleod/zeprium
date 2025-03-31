@@ -28,9 +28,9 @@
   --color-focus-p3: color(display-p3 0.29 0.565 0.886);
   
   /* HDR & Wide Color Gamut support */
-  --color-accent-hdr: color(display-p3 0 0 0);
-  --color-text-hdr: color(display-p3 0.2 0.2 0.2);
-  --color-white-hdr: color(display-p3 1 1 1);
+  --color-accent-hdr: color(bt2020 0 0 0);
+  --color-text-hdr: color(bt2020 0.2 0.2 0.2);
+  --color-white-hdr: color(bt2020 1 1 1);
   
   /* Layout */
   --container-width: 100%;
@@ -556,39 +556,42 @@ section {
    8. BUTTONS & INTERACTIVE ELEMENTS
 ==================================== */
 .button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
+  /* Primary Button styles */
+  padding: 1rem 2rem;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  min-width: 160px; /* wider minimum width */
+  min-height: 48px; /* meets touchable area standards */
   background-color: var(--color-accent);
   color: var(--color-bg);
-  text-decoration: none;
   border-radius: var(--border-radius-small);
-  font-weight: 500;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-  letter-spacing: var(--letter-spacing);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  /* improved interaction states */
+  transition: all 0.2s ease;
+  
+  /* ensure content centering */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  -webkit-tap-highlight-color: transparent;
+  text-decoration: none; /* Remove text underline */
 }
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .button:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
-  box-shadow: none;
+    box-shadow: none;
 }
 
 /* ====================================
@@ -790,6 +793,10 @@ img, video {
   
   .error-message,
   .no-posts-message {
+    text-align: center;
+  width: 100%;
+    padding: 2rem 1rem;
+    margin: 2rem auto;
     background-color: rgba(255, 255, 255, 0.05);
   }
   
