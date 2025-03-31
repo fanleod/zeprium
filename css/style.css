@@ -385,7 +385,7 @@ section {
 }
 
 /* Content boxes */
-  .content-box {
+.content-box {
   margin-bottom: 3rem;
   max-width: 100%;
 }
@@ -965,4 +965,19 @@ img, video {
   .project-content {
     padding: 1.25rem;
   }
+}
+
+/* About page specific styles */
+.about-content {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 0 2rem; /* 添加左右内边距 */
+}
+
+.about-content p {
+  text-align: left;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.8;
 }
