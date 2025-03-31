@@ -54,13 +54,13 @@ function createNavigation() {
           <a href="${basePath}pages/contact.html" ${currentPath.includes('contact.html') ? 'class="active"' : ''} aria-label="Contact">Contact</a>
           <a href="${basePath}pages/styleguide.html" ${currentPath.includes('styleguide.html') ? 'class="active"' : ''} aria-label="Style Guide">Style Guide</a>
         </div>
-        <div class="lang-switcher">
-          <button id="lang-toggle" aria-label="Switch language" title="切换语言">
-            <span class="lang-text">EN</span>
-          </button>
-        </div>
       </div>
     </nav>
+    <div class="lang-switcher">
+      <button id="lang-toggle" aria-label="Switch language" title="切换语言">
+        <span class="lang-text">EN</span>
+      </button>
+    </div>
   `;
   
   // 在body开始处插入导航
@@ -169,14 +169,13 @@ function setupScrollDetection() {
         // 根据暗色/亮色模式设置不同的背景色
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
           nav.style.backgroundColor = 'rgba(18, 18, 18, 0.85)';
-          if (langSwitcher) {
-            langSwitcher.classList.add('scrolled');
-          }
         } else {
           nav.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-          if (langSwitcher) {
-            langSwitcher.classList.add('scrolled');
-          }
+        }
+        
+        // 处理语言切换按钮的滚动样式
+        if (langSwitcher) {
+          langSwitcher.classList.add('scrolled');
         }
       } else {
         nav.classList.remove('scrolled');
@@ -185,6 +184,7 @@ function setupScrollDetection() {
         nav.style.backdropFilter = '';
         nav.style.backgroundColor = '';
         
+        // 处理语言切换按钮的滚动样式
         if (langSwitcher) {
           langSwitcher.classList.remove('scrolled');
         }
