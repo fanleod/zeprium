@@ -396,13 +396,32 @@ section {
 }
 
 /* Content boxes */
-  .content-box {
+.content-box {
   margin-bottom: 3rem;
   max-width: 100%;
 }
 
 .content-box:first-child {
   margin-top: 0;
+}
+
+.content-box h1 {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-content {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-content p {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.8;
 }
 
 /* Video container */
@@ -648,13 +667,41 @@ section {
 /* ====================================
    9. FOOTER
 ==================================== */
-footer {
+body > footer {
   width: 100%;
   text-align: center;
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   background-color: transparent;
-  margin-top: 1rem;
-  color: var(--color-muted);
+  margin-top: auto;
+  color: var(--color-text);
+  font-family: var(--font-footer);
+  font-size: 0.6rem !important;
+  font-weight: 200;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+body > footer p {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+
+/* Blog post specific footer */
+.blog-post footer {
+  border-top: 1px solid var(--color-muted);
+  margin-top: 2rem;
+  padding-top: 2rem;
+}
+
+/* Print styles */
+@media print {
+  header, footer {
+    text-align: center;
+    margin: 1em 0;
+  }
 }
 
 /* ====================================
@@ -963,7 +1010,7 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
   background: var(--color-bg);
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0; /* 只保留上方圆角 */
   overflow: hidden;
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -995,7 +1042,7 @@ nav.scrolled {
 }
 
 .project-content {
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1135,11 +1182,11 @@ html[lang="zh"] .project-content[data-lang-zh] {
   .projects-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
-    padding: 0 1.5rem;
+    padding: 0 1rem; /* 保持一致的左右内边距 */
   }
 
   .project-content {
-    padding: 1.25rem;
+    padding: 1rem 1.25rem; /* 调整移动端内边距 */
   }
 
   .project-content h3 {
@@ -1155,19 +1202,11 @@ html[lang="zh"] .project-content[data-lang-zh] {
   .projects-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
-    padding: 0 1rem;
+    padding: 0 0.75rem; /* 进一步减小移动端左右内边距 */
   }
 
   .project-content {
-    padding: 1rem;
-  }
-
-  .project-content h3 {
-    font-size: 1.2rem;
-  }
-
-  .project-content p {
-    font-size: 0.9rem;
+    padding: 0.875rem 1rem; /* 进一步调整移动端内边距 */
   }
 
   .project-meta {
