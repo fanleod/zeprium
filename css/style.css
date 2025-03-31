@@ -245,18 +245,25 @@ nav::-webkit-scrollbar {
 
 .nav-container {
   display: flex;
-  justify-content: auto; 
+  justify-content: center; /* 居中对齐导航容器 */
   align-items: center;
   padding: 0.5rem 2rem;
   max-width: var(--container-width);
   margin: 0 auto;
   position: relative;
+  overflow-x: auto; /* 允许横向滚动 */
+  scrollbar-width: none; /* Firefox 隐藏滚动条 */
+}
+
+.nav-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Edge 隐藏滚动条 */
 }
 
 .nav-links {
   display: flex;
   justify-content: center; /* 始终保持导航链接居中 */
   width: auto;
+  white-space: nowrap; /* 确保链接不换行 */
 }
 
 /* Language switcher - 重新定位为页面右侧独立元素 */
@@ -680,6 +687,12 @@ img, video {
   
   .video-container {
     margin: 1.5rem 0;
+  }
+  
+  .nav-container {
+    padding-left: max(2rem, 50vw - 240px); /* 动态计算左内边距，创造视觉居中效果 */
+    padding-right: 2rem;
+    justify-content: flex-start; /* 小屏幕左对齐容器 */
   }
 }
 
