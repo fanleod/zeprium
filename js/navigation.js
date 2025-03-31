@@ -66,9 +66,6 @@ function createNavigation() {
   // 在body开始处插入导航
   document.body.insertAdjacentHTML('afterbegin', navHTML);
   
-  // 初始化语言切换按钮
-  setupLanguageSwitcher();
-  
   // 阻止logo右键点击
   const logoImage = document.querySelector('.site-logo');
   if (logoImage) {
@@ -77,54 +74,8 @@ function createNavigation() {
   
   // 添加滚动检测
   setupScrollDetection();
-}
-
-// 设置语言切换功能
-function setupLanguageSwitcher() {
-  const langToggle = document.getElementById('lang-toggle');
-  if (!langToggle) return;
   
-  // 应用保存的语言设置
-  const savedLang = localStorage.getItem('zeprium-lang');
-  if (savedLang === 'zh') {
-    langToggle.querySelector('.lang-text').textContent = '中';
-    langToggle.classList.add('lang-zh');
-    document.documentElement.setAttribute('lang', 'zh');
-    switchLanguage('zh');
-  }
-  
-  // 添加点击事件
-  langToggle.addEventListener('click', function() {
-    const langText = this.querySelector('.lang-text');
-    if (langText.textContent === 'EN') {
-      langText.textContent = '中';
-      this.classList.add('lang-zh');
-      document.documentElement.setAttribute('lang', 'zh');
-      localStorage.setItem('zeprium-lang', 'zh');
-      switchLanguage('zh');
-    } else {
-      langText.textContent = 'EN';
-      this.classList.remove('lang-zh');
-      document.documentElement.setAttribute('lang', 'en');
-      localStorage.setItem('zeprium-lang', 'en');
-      switchLanguage('en');
-    }
-    
-    // 触发语言改变事件
-    document.dispatchEvent(new CustomEvent('languageChanged', {
-      detail: { language: langText.textContent === 'EN' ? 'en' : 'zh' }
-    }));
-  });
-}
-
-// 切换内容语言
-function switchLanguage(lang) {
-  document.querySelectorAll('[data-lang-en], [data-lang-zh]').forEach(el => {
-    const attributeName = `data-lang-${lang}`;
-    if (el.hasAttribute(attributeName)) {
-      el.textContent = el.getAttribute(attributeName);
-    }
-  });
+  // 语言切换初始化由lang-switcher.js负责，此处不再重复设置
 }
 
 // 检测页面滚动并为导航栏添加阴影效果

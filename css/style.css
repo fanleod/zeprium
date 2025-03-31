@@ -33,7 +33,7 @@
   --color-white-hdr: color(display-p3 1 1 1);
   
   /* Layout */
-  --container-width: 860px;
+  --container-width: 100%;
   --header-height: 60px;
   --letter-spacing: 0.1em;
   --border-radius-small: 0.5rem;
@@ -47,13 +47,13 @@
   --color-bg-translucent-p3: color(display-p3 1 1 1 / 0.8);
   
   /* Navigation */
-  --nav-item-spacing: 2.5rem; /* 增加导航项间距 */
-  --nav-left-padding: 1rem; /* 导航栏左侧内边距 */
+  --nav-item-spacing: 3rem; /* 增加导航项间距 */
+  --nav-left-padding: 1rem; /* 导航栏左侧内边距，设置为blog卡片左侧边距的两倍 */
 }
 
 /* Dark Mode Colors */
 @media (prefers-color-scheme: dark) {
-  :root {
+:root {
     --color-bg: #121212;
     --color-bg-p3: color(display-p3 0.071 0.071 0.071);
     --color-text: #f1f1f1;
@@ -245,9 +245,9 @@ nav::-webkit-scrollbar {
 
 .nav-container {
   display: flex;
-  justify-content: center; /* 始终保持导航容器居中 */
+  justify-content: auto; 
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 2rem;
   max-width: var(--container-width);
   margin: 0 auto;
   position: relative;
@@ -257,14 +257,13 @@ nav::-webkit-scrollbar {
   display: flex;
   justify-content: center; /* 始终保持导航链接居中 */
   width: auto;
-  /* 默认不添加左侧内边距，只在媒体查询中添加 */
 }
 
 /* Language switcher - 重新定位为页面右侧独立元素 */
 .lang-switcher {
   position: fixed;
-  right: 1rem;
-  top: 60px; /* 与导航栏对齐 */
+  right: var(--nav-left-padding); /* 使用与导航相同的边距 */
+  top: calc(var(--header-height) / 2 + 1rem); /* 与导航栏水平居中对齐 */
   z-index: 1000;
   background-color: var(--color-bg);
   border-radius: 50%;
@@ -379,7 +378,7 @@ section {
 }
 
 /* Content boxes */
-.content-box {
+  .content-box {
   margin-bottom: 3rem;
   max-width: 100%;
 }
@@ -509,7 +508,7 @@ section {
 
 .social-icons {
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   align-items: center;
   flex-wrap: wrap;
   gap: 1.5rem;
@@ -643,15 +642,6 @@ img, video {
     padding: 0.5rem 0;
   }
   
-  .nav-container {
-    padding: 0.5rem 0.75rem;
-    /* 始终保持居中布局，不再左对齐 */
-  }
-  
-  nav a {
-    margin: 0 1.25rem; /* 移动端稍微减小导航项间距 */
-  }
-  
   main {
     padding: 0.5rem 1rem 1rem;
   }
@@ -693,17 +683,6 @@ img, video {
   }
 }
 
-/* 当屏幕宽度不足以容纳所有导航项时，添加左侧内边距防止内容紧贴边缘 */
-@media (max-width: 600px) {
-  .nav-links {
-    padding-left: var(--nav-left-padding);
-    justify-content: flex-start; /* 内容较多时左对齐以提高可用性 */
-  }
-  
-  nav a {
-    margin: 0 1rem; /* 进一步减小导航项间距 */
-  }
-}
 
 @media (max-width: 480px) {
   html {
@@ -718,17 +697,7 @@ img, video {
     padding: 0.5rem 0;
   }
   
-  .nav-container {
-    padding: 0.5rem 0.5rem;
-  }
-  
-  nav a {
-    margin: 0 0.75rem; /* 更小设备进一步减小导航项间距 */
-  }
-  
-  .lang-switcher {
-    top: 58px; /* 调整较小屏幕的位置 */
-  }
+ 
   
   #lang-toggle {
     width: 2rem;
@@ -782,24 +751,24 @@ img, video {
 /* ====================================
    12. DARK MODE SPECIFIC
 ==================================== */
-@media (prefers-color-scheme: dark) {
-  nav {
+  @media (prefers-color-scheme: dark) {
+    nav {
     background: rgba(18, 18, 18, 0.95);
-  }
-  
-  nav.scrolled {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    }
+    
+    nav.scrolled {
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     background-color: rgba(18, 18, 18, 0.85);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.15);
-  }
-  
-  .site-logo {
-    filter: brightness(1.2);
-  }
-  
+    }
+    
+    .site-logo {
+      filter: brightness(1.2);
+    }
+    
   .lang-switcher {
-    background-color: var(--color-bg);
+  background-color: var(--color-bg);
   }
   
   .scrolled .lang-switcher {
