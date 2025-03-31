@@ -250,7 +250,7 @@ nav::-webkit-scrollbar {
   padding: 0.5rem 2rem;
   max-width: var(--container-width);
   margin: 0 auto;
-  position: relative;
+  position: relative; /* 添加相对定位 */
   overflow-x: auto; /* 允许横向滚动 */
   scrollbar-width: none; /* Firefox 隐藏滚动条 */
 }
@@ -266,12 +266,25 @@ nav::-webkit-scrollbar {
   white-space: nowrap; /* 确保链接不换行 */
 }
 
-/* Language switcher - 重新定位为页面右侧独立元素 */
+/* Language switcher container */
+.lang-switcher-container {
+  position: absolute; /* 改为绝对定位 */
+  right: 0;
+  top: 50%; /* 垂直居中 */
+  transform: translateY(-50%); /* 确保完全居中 */
+  width: 60px;
+  height: auto; /* 改为自适应高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  pointer-events: none; /* 允许点击穿透到下面的元素 */
+}
+
+/* Language switcher - 重新定位为容器内的元素 */
 .lang-switcher {
-  position: fixed;
-  right: var(--nav-left-padding); /* 使用与导航相同的边距 */
-  top: calc(var(--header-height) / 2 + 1rem); /* 与导航栏水平居中对齐 */
-  z-index: 1000;
+  position: relative;
+  pointer-events: auto; /* 恢复按钮的点击事件 */
   background-color: var(--color-bg);
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -279,8 +292,6 @@ nav::-webkit-scrollbar {
 }
 
 .lang-switcher.scrolled {
-  position: fixed;
-  top: 0.75rem;
   background-color: var(--color-bg-translucent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -713,8 +724,17 @@ img, video {
     padding-right: 2rem;
     justify-content: flex-start; /* 小屏幕左对齐容器 */
   }
+  
+  .lang-switcher-container {
+    width: 50px;
+  }
+  
+  #lang-toggle {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.7rem;
+  }
 }
-
 
 @media (max-width: 480px) {
   html {
@@ -729,12 +749,14 @@ img, video {
     padding: 0.5rem 0;
   }
   
- 
+  .lang-switcher-container {
+    width: 45px;
+  }
   
   #lang-toggle {
-    width: 2rem;
-    height: 2rem;
-    font-size: 0.75rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.65rem;
   }
   
   main {

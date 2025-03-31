@@ -56,13 +56,15 @@ function createNavHTML(basePath, currentPath) {
         <div class="nav-links">
           ${createNavLinks(basePath, currentPath)}
         </div>
+        <div class="lang-switcher-container">
+          <div class="lang-switcher">
+            <button id="lang-toggle" aria-label="Switch language" title="切换语言">
+              <span class="lang-text">EN</span>
+            </button>
+          </div>
+        </div>
       </div>
     </nav>
-    <div class="lang-switcher">
-      <button id="lang-toggle" aria-label="Switch language" title="切换语言">
-        <span class="lang-text">EN</span>
-      </button>
-    </div>
   `;
 }
 
