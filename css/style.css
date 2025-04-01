@@ -333,6 +333,7 @@ nav a {
   font-size: 1rem;
   transition: color 0.3s ease;
   position: relative;
+  -webkit-tap-highlight-color: transparent; /* 移除Safari点击高亮 */
 }
 
 nav a.active {
@@ -350,20 +351,41 @@ nav a.active::after {
   left: 0;
 }
 
-nav a:hover {
-  color: var(--color-accent);
+/* 桌面端hover效果 */
+@media (hover: hover) {
+  nav a:hover {
+    color: var(--color-accent);
+  }
+
+  nav a:hover::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-accent);
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0.7);
+    transition: transform 0.3s ease;
+  }
 }
 
-nav a:hover::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background-color: var(--color-accent);
-  bottom: -4px;
-  left: 0;
-  transform: scaleX(0.7);
-  transition: transform 0.3s ease;
+/* 移动端触摸效果 */
+@media (hover: none) {
+  nav a:active {
+    color: var(--color-accent);
+  }
+
+  nav a:active::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-accent);
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0.7);
+  }
 }
 
 /* Navigation scroll effect */
@@ -1010,7 +1032,7 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
   background: var(--color-bg);
-  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0; /* 只保留上方圆角 */
+  border-radius: var(--border-radius-medium); /* 修改为四周都有圆角 */
   overflow: hidden;
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1038,7 +1060,7 @@ nav.scrolled {
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0; /* 图片只保留上方圆角 */
 }
 
 .project-content {
@@ -1047,17 +1069,18 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
   text-align: center;
+  margin-top: -1rem; /* 添加负边距使内容向上移动 */
 }
 
 .project-content h3 {
   font-size: 1.4rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   line-height: 1.3;
 }
 
 .project-content p {
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   line-height: 1.6;
   color: var(--color-muted);
 }
@@ -1067,6 +1090,7 @@ nav.scrolled {
   text-decoration: none;
   font-weight: 500;
   margin-top: auto;
+  margin-bottom: 0.75rem;
   align-self: center;
 }
 
