@@ -327,7 +327,7 @@ nav::-webkit-scrollbar {
 /* Navigation links */
 nav a {
   display: inline-block;
-  margin: 0 calc(var(--nav-item-spacing) / 2);
+  margin: 0 calc(var(--nav-item-spacing) / 2); /* 增加导航项间距 */
   text-decoration: none;
   color: var(--color-text);
   font-size: 1rem;
