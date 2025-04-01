@@ -200,7 +200,6 @@ header {
 .site-logo {
   max-width: 5.5rem;
   height: auto;
-  filter: brightness(1);
   will-change: filter;
   transition: filter 0.3s ease;
 }
