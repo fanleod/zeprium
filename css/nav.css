@@ -10,10 +10,4 @@
   #site-nav.scrolled {
     background-color: rgba(18, 18, 18, 0.85);
   }
-}
-
-.nav-links a.active {
-  font-weight: 600;
-  border-bottom: 2px solid currentColor;
-  padding-bottom: 2px;
 } 

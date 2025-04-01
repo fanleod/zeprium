@@ -92,9 +92,18 @@ function createNavLinks(basePath, currentPath) {
   return links.map(link => {
     // 从完整路径中提取文件名
     const currentFile = currentPath.split('/').pop();
-    const linkFile = link.href.split('/').pop();
-    const isActive = currentFile === linkFile;
-    console.log(`Comparing: ${currentFile} === ${linkFile} => ${isActive}`);
+    const linkFile = link.href;
+    
+    // 检查当前页面是否是首页
+    const isHomePage = currentFile === 'index.html';
+    
+    // 如果是首页，所有链接都不应该是active状态
+    // 如果不是首页，则比较文件名
+    const isActive = isHomePage ? false : currentFile === linkFile;
+    
+    console.log(`Current file: ${currentFile}, Link file: ${linkFile}, Is active: ${isActive}`);
+    
+    // 始终使用 pages/ 前缀的路径
     return `<a href="${basePath}pages/${link.href}" ${isActive ? 'class="active"' : ''} aria-label="${link.label}">${link.label}</a>`;
   }).join('');
 }
