@@ -47,7 +47,7 @@ function createNavHTML(basePath, currentPath) {
           <source srcset="${basePath}images/zeprium-logo.avif" type="image/avif" 
                   media="(color-gamut: p3)">
           <!-- 普通PNG后备 -->
-          <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" class="site-logo" draggable="false">
+          <img src="${basePath}images/zeprium-logo.png" alt="Zeprium Logo" loading="lazy" class="site-logo" draggable="false">
         </picture>
       </a>
     </header>
