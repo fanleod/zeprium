@@ -340,6 +340,7 @@ nav a {
   touch-action: manipulation;
 }
 
+/* 基础下划线样式 */
 nav a::after {
   content: '';
   position: absolute;
@@ -353,49 +354,50 @@ nav a::after {
   transform-origin: left;
 }
 
+/* 活动状态样式 */
 nav a.active {
-  color: var(--color-accent);
-  font-weight: 600;
+  color: var(--color-accent) !important;
+  font-weight: 600 !important;
 }
 
 nav a.active::after {
-  transform: scaleX(1);
+  transform: scaleX(1) !important;
 }
 
 /* 桌面端hover效果 */
 @media (hover: hover) {
   nav a:hover {
-    color: var(--color-accent);
+    color: var(--color-accent) !important;
   }
 
   nav a:hover::after {
-    transform: scaleX(0.7);
+    transform: scaleX(0.7) !important;
   }
 }
 
 /* 移动端触摸效果 */
 @media (hover: none) {
   nav a:active {
-    color: var(--color-accent);
+    color: var(--color-accent) !important;
   }
 
   nav a:active::after {
-    transform: scaleX(0.7);
+    transform: scaleX(0.7) !important;
   }
 }
 
-/* 确保移动端点击状态正确显示 */
+/* 移动端特定样式 */
 @media (max-width: 768px) {
   nav a {
     padding: 0.5rem 0;
   }
 
   nav a:active {
-    color: var(--color-accent);
+    color: var(--color-accent) !important;
   }
 
   nav a:active::after {
-    transform: scaleX(0.7);
+    transform: scaleX(0.7) !important;
   }
 }
 
