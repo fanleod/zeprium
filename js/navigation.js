@@ -79,7 +79,11 @@ function createNavLinks(basePath, currentPath) {
   ];
 
   return links.map(link => {
-    const isActive = currentPath.includes(link.href);
+    // 改进active状态的判断逻辑
+    const isActive = currentPath.endsWith(link.href) || 
+                    currentPath.includes(`/pages/${link.href}`) ||
+                    (link.href === 'index.html' && currentPath === '/');
+    
     return `<a href="${basePath}pages/${link.href}" ${isActive ? 'class="active"' : ''} aria-label="${link.label}">${link.label}</a>`;
   }).join('');
 }
