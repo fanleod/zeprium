@@ -1,12 +1,12 @@
 // 导航栏脚本 - v1.4
-function createNavigation() {
+export function createNavigation(basePath = '') {
   // 获取当前页面路径和基础路径
   const currentPath = window.location.pathname;
   const pathParts = currentPath.split('/').filter(Boolean);
-  const basePath = getBasePath(pathParts);
+  const calculatedBasePath = basePath || getBasePath(pathParts);
 
   // 创建导航HTML
-  const navHTML = createNavHTML(basePath, currentPath);
+  const navHTML = createNavHTML(calculatedBasePath, currentPath);
   
   // 在body开始处插入导航
   document.body.insertAdjacentHTML('afterbegin', navHTML);
@@ -17,11 +17,22 @@ function createNavigation() {
 
 // 根据路径确定基础路径
 function getBasePath(pathParts) {
-  const isRoot = pathParts.length === 0 || (pathParts.length === 1 && pathParts[0] === 'index.html');
-  const isInSubfolder = pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'projects';
+  // 如果是根目录
+  if (pathParts.length === 0 || (pathParts.length === 1 && pathParts[0] === 'index.html')) {
+    return '';
+  }
   
-  if (isRoot) return '';
-  if (isInSubfolder) return '../../';
+  // 如果在 pages 目录下
+  if (pathParts[pathParts.length - 1].endsWith('.html') && pathParts[pathParts.length - 2] === 'pages') {
+    return '../';
+  }
+  
+  // 如果在 projects 子目录下
+  if (pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'projects') {
+    return '../../';
+  }
+  
+  // 默认返回上级目录
   return '../';
 }
 
@@ -165,7 +176,4 @@ function debounce(func, wait = 20) {
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
-}
-
-// 初始化导航
-document.addEventListener('DOMContentLoaded', createNavigation); 
+} 
