@@ -90,9 +90,11 @@ function createNavLinks(basePath, currentPath) {
   ];
 
   return links.map(link => {
+    // 从完整路径中提取文件名
     const currentFile = currentPath.split('/').pop();
-    const isActive = currentFile === link.href;
-    console.log(`Comparing: ${currentFile} === ${link.href} => ${isActive}`);
+    const linkFile = link.href.split('/').pop();
+    const isActive = currentFile === linkFile;
+    console.log(`Comparing: ${currentFile} === ${linkFile} => ${isActive}`);
     return `<a href="${basePath}pages/${link.href}" ${isActive ? 'class="active"' : ''} aria-label="${link.label}">${link.label}</a>`;
   }).join('');
 }
