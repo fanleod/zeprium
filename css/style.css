@@ -354,35 +354,37 @@ nav a::after {
   transform-origin: left;
 }
 
-/* 活动状态样式 */
-nav a.active {
-  color: var(--color-accent) !important;
-  font-weight: 600 !important;
+/* 活动状态样式 - 增加选择器优先级 */
+nav a.active,
+nav a.active:hover,
+nav a.active:active {
+  color: var(--color-accent);
+  font-weight: 600;
 }
 
 nav a.active::after {
-  transform: scaleX(1) !important;
+  transform: scaleX(1);
 }
 
 /* 桌面端hover效果 */
 @media (hover: hover) {
   nav a:hover {
-    color: var(--color-accent) !important;
+    color: var(--color-accent);
   }
 
   nav a:hover::after {
-    transform: scaleX(0.7) !important;
+    transform: scaleX(0.7);
   }
 }
 
 /* 移动端触摸效果 */
 @media (hover: none) {
   nav a:active {
-    color: var(--color-accent) !important;
+    color: var(--color-accent);
   }
 
   nav a:active::after {
-    transform: scaleX(0.7) !important;
+    transform: scaleX(0.7);
   }
 }
 
@@ -393,11 +395,11 @@ nav a.active::after {
   }
 
   nav a:active {
-    color: var(--color-accent) !important;
+    color: var(--color-accent);
   }
 
   nav a:active::after {
-    transform: scaleX(0.7) !important;
+    transform: scaleX(0.7);
   }
 }
 
