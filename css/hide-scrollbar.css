@@ -1,56 +1,50 @@
-/* ==========================================================================
-   Scrollbar Hiding Utility
-   ========================================================================== */
+/* 隐藏所有滚动条但保留滚动功能 - 增强版 */
 
-/* CSS Variables for consistent values */
-:root {
-  --scrollbar-width: 0;
-  --scrollbar-height: 0;
-  --scrollbar-display: none;
-  --scrollbar-background: transparent;
-  --scrollbar-track-color: transparent;
-  --scrollbar-thumb-color: transparent;
-}
-
-/* Base scrollbar hiding for all elements */
+/* 重置所有元素的滚动条样式 */
 * {
-  /* Firefox */
-  scrollbar-width: var(--scrollbar-width) !important;
-  /* IE and Edge */
-  -ms-overflow-style: none !important;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
 }
 
-/* Webkit scrollbar base styles */
+/* 对所有元素的滚动条应用隐藏 */
 *::-webkit-scrollbar {
-  width: var(--scrollbar-width) !important;
-  height: var(--scrollbar-height) !important;
-  background: var(--scrollbar-background) !important;
-  display: var(--scrollbar-display) !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  display: none !important;
 }
 
-/* Root elements specific rules */
+/* 特别针对根元素 */
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  scrollbar-width: var(--scrollbar-width) !important;
+  scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
 
 body {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  scrollbar-width: var(--scrollbar-width) !important;
+  scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  overflow: -moz-scrollbars-none !important; /* Firefox specific */
 }
 
-/* Common HTML elements */
+/* 紧急修复特定元素滚动条问题 */
+body > * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+body > *::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+/* 特别针对常见元素 */
 div, section, article, nav, main, aside, header, footer, ul, ol, pre, code {
-  scrollbar-width: var(--scrollbar-width) !important;
+  scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
 
-/* Webkit specific rules for common elements */
 div::-webkit-scrollbar,
 section::-webkit-scrollbar,
 article::-webkit-scrollbar,
@@ -63,82 +57,92 @@ ul::-webkit-scrollbar,
 ol::-webkit-scrollbar,
 pre::-webkit-scrollbar,
 code::-webkit-scrollbar {
-  display: var(--scrollbar-display) !important;
-  width: var(--scrollbar-width) !important;
-  height: var(--scrollbar-height) !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-/* Common class-based elements */
-[class*="content"],
-[class*="container"],
-[class*="grid"],
-[class*="card"],
-[class*="scroll"],
-[class*="box"],
-[class*="panel"],
-[class*="wrapper"] {
-  scrollbar-width: var(--scrollbar-width) !important;
+/* 特别针对特定类名 */
+.content-box,
+.blog-grid,
+.projects-grid,
+.blog-card,
+.project-card,
+.blog-content,
+.project-content,
+.post-content,
+.video-container,
+.scrollable-container,
+.project-image-grid,
+.project-hero,
+.project-header,
+.project-overview,
+.project-challenge,
+.project-process,
+.project-outcome,
+.project-reflection,
+.related-projects,
+.project-container,
+.blog-article-container {
+  scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
 
-/* Webkit specific rules for class-based elements */
-[class*="content"]::-webkit-scrollbar,
-[class*="container"]::-webkit-scrollbar,
-[class*="grid"]::-webkit-scrollbar,
-[class*="card"]::-webkit-scrollbar,
-[class*="scroll"]::-webkit-scrollbar,
-[class*="box"]::-webkit-scrollbar,
-[class*="panel"]::-webkit-scrollbar,
-[class*="wrapper"]::-webkit-scrollbar {
-  display: var(--scrollbar-display) !important;
-  width: var(--scrollbar-width) !important;
-  height: var(--scrollbar-height) !important;
+.content-box::-webkit-scrollbar,
+.blog-grid::-webkit-scrollbar,
+.projects-grid::-webkit-scrollbar,
+.blog-card::-webkit-scrollbar,
+.project-card::-webkit-scrollbar,
+.blog-content::-webkit-scrollbar,
+.project-content::-webkit-scrollbar,
+.post-content::-webkit-scrollbar,
+.video-container::-webkit-scrollbar,
+.scrollable-container::-webkit-scrollbar,
+.project-image-grid::-webkit-scrollbar,
+.project-hero::-webkit-scrollbar,
+.project-header::-webkit-scrollbar,
+.project-overview::-webkit-scrollbar,
+.project-challenge::-webkit-scrollbar,
+.project-process::-webkit-scrollbar,
+.project-outcome::-webkit-scrollbar,
+.project-reflection::-webkit-scrollbar,
+.related-projects::-webkit-scrollbar,
+.project-container::-webkit-scrollbar,
+.blog-article-container::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-/* Webkit scrollbar components */
+/* Safari和Chrome特定规则 */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
 ::-webkit-scrollbar-track {
-  display: var(--scrollbar-display) !important;
-  width: var(--scrollbar-width) !important;
-  height: var(--scrollbar-height) !important;
-  background: var(--scrollbar-track-color) !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  display: var(--scrollbar-display) !important;
-  width: var(--scrollbar-width) !important;
-  height: var(--scrollbar-height) !important;
-  background: var(--scrollbar-thumb-color) !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
-/* IE and Edge specific rules */
+/* 强制隐藏滚动条 - 最后的兜底方案 */
+html, body {
+  overflow: -moz-scrollbars-none !important;
+}
+
 @media screen and (min-width: 0\0) {
   html, body {
     -ms-overflow-style: none !important;
-  }
-}
-
-/* Print media query */
-@media print {
-  * {
-    scrollbar-width: var(--scrollbar-width) !important;
-    -ms-overflow-style: none !important;
-  }
-  
-  *::-webkit-scrollbar {
-    display: var(--scrollbar-display) !important;
-  }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-  * {
-    scrollbar-color: transparent transparent !important;
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    scroll-behavior: auto !important;
   }
 } 
