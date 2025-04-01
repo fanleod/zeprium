@@ -340,35 +340,28 @@ nav a {
   outline: none;
 }
 
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-accent);
+  bottom: -4px;
+  left: 0;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+nav a:hover::after,
+nav a.active::after {
+  transform: scaleX(1);
+}
+
+nav a:hover,
 nav a.active {
   color: var(--color-accent);
   font-weight: 600;
-}
-
-nav a.active::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background-color: var(--color-accent);
-  bottom: -4px;
-  left: 0;
-}
-
-nav a:hover {
-  color: var(--color-accent);
-}
-
-nav a:hover::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background-color: var(--color-accent);
-  bottom: -4px;
-  left: 0;
-  transform: scaleX(0.7);
-  transition: transform 0.3s ease;
 }
 
 /* Navigation scroll effect */
