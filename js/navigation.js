@@ -90,7 +90,9 @@ function createNavLinks(basePath, currentPath) {
   ];
 
   return links.map(link => {
-    const isActive = currentPath.includes(link.href);
+    const currentFile = currentPath.split('/').pop();
+    const isActive = currentFile === link.href;
+    console.log(`Comparing: ${currentFile} === ${link.href} => ${isActive}`);
     return `<a href="${basePath}pages/${link.href}" ${isActive ? 'class="active"' : ''} aria-label="${link.label}">${link.label}</a>`;
   }).join('');
 }
