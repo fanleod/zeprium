@@ -113,29 +113,8 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* 移除所有可点击元素的focus outline */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: none;
-}
-
-/* 移除Safari的默认focus样式 */
-@supports (-webkit-touch-callout: none) {
-  a:focus,
-  button:focus,
-  input:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-  }
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 /* Skip to content link for accessibility */
@@ -348,22 +327,20 @@ nav::-webkit-scrollbar {
 /* Navigation links */
 nav a {
   display: inline-block;
-  margin: 0 calc(var(--nav-item-spacing) / 2);
+  margin: 0 calc(var(--nav-item-spacing) / 2); /* 增加导航项间距 */
   text-decoration: none;
   color: var(--color-text);
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   position: relative;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
-  outline: none;
 }
 
-/* 基础下划线样式 */
-nav a::after {
+nav a.active {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+nav a.active::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -371,80 +348,22 @@ nav a::after {
   background-color: var(--color-accent);
   bottom: -4px;
   left: 0;
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-  transform-origin: left;
 }
 
-/* 活动状态样式 */
-nav a.active,
-nav a.active:hover,
-nav a.active:active,
-nav a.active:focus {
+nav a:hover {
   color: var(--color-accent);
-  font-weight: 600;
 }
 
-nav a.active::after {
-  transform: scaleX(1);
-}
-
-/* 桌面端hover效果 */
-@media (hover: hover) {
-  nav a:hover {
-    color: var(--color-accent);
-  }
-
-  nav a:hover::after {
-    transform: scaleX(0.7);
-  }
-}
-
-/* 移动端触摸效果 */
-@media (hover: none) {
-  nav a:active {
-    color: var(--color-accent);
-  }
-
-  nav a:active::after {
-    transform: scaleX(0.7);
-  }
-}
-
-/* 移动端特定样式 */
-@media (max-width: 768px) {
-  nav a {
-    padding: 0.5rem 0;
-  }
-
-  nav a:active {
-    color: var(--color-accent);
-  }
-
-  nav a:active::after {
-    transform: scaleX(0.7);
-  }
-}
-
-/* 确保Safari上的active状态正确显示 */
-@supports (-webkit-touch-callout: none) {
-  nav a:active {
-    color: var(--color-accent);
-  }
-  
-  nav a:active::after {
-    transform: scaleX(0.7);
-  }
-}
-
-/* 移除所有导航链接的focus outline */
-nav a:focus {
-  outline: none;
-}
-
-/* 移除Safari的默认focus样式 */
-nav a:focus-visible {
-  outline: none;
+nav a:hover::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-accent);
+  bottom: -4px;
+  left: 0;
+  transform: scaleX(0.7);
+  transition: transform 0.3s ease;
 }
 
 /* Navigation scroll effect */
