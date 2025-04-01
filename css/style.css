@@ -113,8 +113,29 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 3px solid var(--color-focus);
-  outline-offset: 2px;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 移除所有可点击元素的focus outline */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
+
+/* 移除Safari的默认focus样式 */
+@supports (-webkit-touch-callout: none) {
+  a:focus,
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 /* Skip to content link for accessibility */
@@ -338,8 +359,7 @@ nav a {
   -webkit-user-select: none;
   user-select: none;
   touch-action: manipulation;
-  outline: none; /* 移除默认的outline */
-  -webkit-tap-highlight-color: transparent; /* 移除Safari的点击高亮 */
+  outline: none;
 }
 
 /* 基础下划线样式 */
@@ -356,7 +376,7 @@ nav a::after {
   transform-origin: left;
 }
 
-/* 活动状态样式 - 增加选择器优先级 */
+/* 活动状态样式 */
 nav a.active,
 nav a.active:hover,
 nav a.active:active,
@@ -406,16 +426,6 @@ nav a.active::after {
   }
 }
 
-/* 移除所有导航链接的focus outline */
-nav a:focus {
-  outline: none;
-}
-
-/* 移除Safari的默认focus样式 */
-nav a:focus-visible {
-  outline: none;
-}
-
 /* 确保Safari上的active状态正确显示 */
 @supports (-webkit-touch-callout: none) {
   nav a:active {
@@ -425,6 +435,16 @@ nav a:focus-visible {
   nav a:active::after {
     transform: scaleX(0.7);
   }
+}
+
+/* 移除所有导航链接的focus outline */
+nav a:focus {
+  outline: none;
+}
+
+/* 移除Safari的默认focus样式 */
+nav a:focus-visible {
+  outline: none;
 }
 
 /* Navigation scroll effect */
