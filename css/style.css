@@ -338,6 +338,8 @@ nav a {
   -webkit-user-select: none;
   user-select: none;
   touch-action: manipulation;
+  outline: none; /* 移除默认的outline */
+  -webkit-tap-highlight-color: transparent; /* 移除Safari的点击高亮 */
 }
 
 /* 基础下划线样式 */
@@ -357,7 +359,8 @@ nav a::after {
 /* 活动状态样式 - 增加选择器优先级 */
 nav a.active,
 nav a.active:hover,
-nav a.active:active {
+nav a.active:active,
+nav a.active:focus {
   color: var(--color-accent);
   font-weight: 600;
 }
@@ -398,6 +401,27 @@ nav a.active::after {
     color: var(--color-accent);
   }
 
+  nav a:active::after {
+    transform: scaleX(0.7);
+  }
+}
+
+/* 移除所有导航链接的focus outline */
+nav a:focus {
+  outline: none;
+}
+
+/* 移除Safari的默认focus样式 */
+nav a:focus-visible {
+  outline: none;
+}
+
+/* 确保Safari上的active状态正确显示 */
+@supports (-webkit-touch-callout: none) {
+  nav a:active {
+    color: var(--color-accent);
+  }
+  
   nav a:active::after {
     transform: scaleX(0.7);
   }
