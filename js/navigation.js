@@ -1,4 +1,5 @@
 // 导航栏脚本 - v1.4
+// 更新于2024年3月 - 优化导航链接激活状态逻辑
 function createNavigation() {
   // 获取当前页面路径和基础路径
   const currentPath = window.location.pathname;
