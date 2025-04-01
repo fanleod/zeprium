@@ -20,8 +20,11 @@
   <link rel="stylesheet" href="../../css/hide-scrollbar.css" />
   <title>Design Principles for Modern Web - Zeprium</title>
   <script src="../../js/theme.js" defer></script>
-  <script src="../../js/navigation.js" defer></script>
   <script src="../../js/lang-switcher.js" defer></script>
+  <script type="module">
+    import { createNavigation } from '../../js/navigation.js';
+    createNavigation('../../');
+  </script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>

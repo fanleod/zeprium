@@ -1,12 +1,11 @@
 /* 隐藏所有滚动条但保留滚动功能 - 增强版 */
 
-/* 重置所有元素的滚动条样式 */
+/* 全局滚动条样式重置 */
 * {
-  scrollbar-width: none !important; /* Firefox */
-  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-/* 对所有元素的滚动条应用隐藏 */
 *::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
@@ -14,55 +13,14 @@
   display: none !important;
 }
 
-/* 特别针对根元素 */
+/* 根元素滚动条处理 */
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
 }
 
-body {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-/* 紧急修复特定元素滚动条问题 */
-body > * {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-body > *::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  display: none !important;
-}
-
-/* 特别针对常见元素 */
-div, section, article, nav, main, aside, header, footer, ul, ol, pre, code {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-div::-webkit-scrollbar,
-section::-webkit-scrollbar,
-article::-webkit-scrollbar,
-nav::-webkit-scrollbar,
-main::-webkit-scrollbar,
-aside::-webkit-scrollbar,
-header::-webkit-scrollbar,
-footer::-webkit-scrollbar,
-ul::-webkit-scrollbar,
-ol::-webkit-scrollbar,
-pre::-webkit-scrollbar,
-code::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-/* 特别针对特定类名 */
+/* 特定元素滚动条处理 */
+.nav-container,
 .content-box,
 .blog-grid,
 .projects-grid,
@@ -88,6 +46,7 @@ code::-webkit-scrollbar {
   -ms-overflow-style: none !important;
 }
 
+.nav-container::-webkit-scrollbar,
 .content-box::-webkit-scrollbar,
 .blog-grid::-webkit-scrollbar,
 .projects-grid::-webkit-scrollbar,
