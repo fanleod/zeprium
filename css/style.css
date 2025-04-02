@@ -285,68 +285,7 @@ nav::-webkit-scrollbar {
 
 .nav-links {
   display: flex;
-  justify-content: center; /* 始终保持导航链接居中 */
-  width: auto;
-  white-space: nowrap; /* 确保链接不换行 */
-}
-
-/* Language switcher container */
-.lang-switcher-container {
-  position: absolute; /* 改为绝对定位 */
-  right: 0;
-  top: 50%; /* 垂直居中 */
-  transform: translateY(-50%); /* 确保完全居中 */
-  width: 60px;
-  height: auto; /* 改为自适应高度 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1001;
-  pointer-events: none; /* 允许点击穿透到下面的元素 */
-}
-
-/* Language switcher - 重新定位为容器内的元素 */
-.lang-switcher {
-  position: relative;
-  pointer-events: auto; /* 恢复按钮的点击事件 */
-  background-color: var(--color-bg);
-  border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.lang-switcher.scrolled {
-  background-color: var(--color-bg-translucent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-#lang-toggle {
-  background: transparent;
-  border: 1px solid var(--color-accent);
-  color: var(--color-accent);
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  font-size: 0.75rem;
-  padding: 0;
-  outline: none;
-}
-
-#lang-toggle:hover {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
-}
-
-/* Chinese language toggle */
-#lang-toggle.lang-zh {
-  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  align-items: center; /* 垂直居中 */
 }
 
 /* Navigation links - Base styles */
@@ -836,19 +775,41 @@ img, video {
   }
   
   .nav-container {
-    padding-left: max(2rem, 50vw - 240px); /* 动态计算左内边距，创造视觉居中效果 */
-    padding-right: 2rem;
-    justify-content: flex-start; /* 小屏幕左对齐容器 */
+    justify-content: space-between; /* Space out logo/links and switcher */
+    padding: 0 0.5rem; /* Reduce padding */
   }
   
-  .lang-switcher-container {
-    width: 50px;
+  .nav-links {
+    display: flex;
+    align-items: center; /* 垂直居中 */
   }
   
-  #lang-toggle {
-    width: 2rem;
-    height: 2rem;
-    font-size: 0.7rem;
+  header {
+    padding: 0.5rem 0;
+  }
+  
+  .video-container {
+    margin: 1.5rem 0;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+  
+  .content-box {
+    margin-bottom: 2.5rem;
+  }
+  
+  .video-container {
+    margin: 1.5rem 0;
   }
 }
 
@@ -862,17 +823,7 @@ img, video {
   }
   
   header {
-    padding: 0.5rem 0;
-  }
-  
-  .lang-switcher-container {
-    width: 45px;
-  }
-  
-  #lang-toggle {
-    width: 1.8rem;
-    height: 1.8rem;
-    font-size: 0.65rem;
+    padding: 0.3rem 0;
   }
   
   main {
@@ -937,14 +888,6 @@ nav.scrolled {
       filter: brightness(1.2);
     }
     
-  .lang-switcher {
-  background-color: var(--color-bg);
-  }
-  
-  .scrolled .lang-switcher {
-    background-color: var(--color-bg-translucent);
-  }
-  
   .error-message,
   .no-posts-message {
     text-align: center;

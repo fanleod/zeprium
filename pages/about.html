@@ -18,10 +18,12 @@
   <link rel="apple-touch-icon-precomposed" href="../images/apple-touch-icon-precomposed.png" />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/hide-scrollbar.css" />
-  <link rel="stylesheet" href="../css/nav.css" />
+  <!-- <link rel="stylesheet" href="../css/nav.css" /> --> <!-- Remove old nav CSS -->
+  <link rel="stylesheet" href="../css/components/navigation.css" /> <!-- Add component nav CSS -->
+  <link rel="stylesheet" href="../css/components/lang-switcher.css" /> <!-- Add component lang CSS -->
   <title>About - Zeprium</title>
   <script src="../js/theme.js" defer></script>
-  <script src="../js/lang-switcher.js" defer></script>
+  <!-- <script src="../js/lang-switcher.js" defer></script> --> <!-- Remove old lang switcher JS -->
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -58,6 +60,7 @@
   </script>
   <script type="module">
     import Navigation from '../js/components/navigation.js';
+    // LangSwitcher is initialized by Navigation
   </script>
 </body>
 </html>

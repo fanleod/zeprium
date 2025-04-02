@@ -1,0 +1,79 @@
+/* Lang Switcher Component Styles */
+
+.lang-switcher-container {
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+  padding-right: 1rem; /* Add padding to the right */
+}
+
+.lang-switcher {
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.lang-switcher.scrolled {
+  transform: scale(0.9); /* Slightly scale down when scrolled */
+}
+
+#lang-toggle {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: var(--font-nav);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--border-radius-small);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px; /* Ensure minimum width */
+  min-height: 30px; /* Ensure minimum height */
+  line-height: 1;
+}
+
+#lang-toggle:hover {
+  background-color: var(--hover-bg);
+  color: var(--hover-color);
+  transform: translateY(-1px);
+}
+
+#lang-toggle.lang-zh {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; /* Better font for Chinese */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lang-switcher-container {
+    padding-right: 0.5rem;
+  }
+
+  #lang-toggle {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lang-switcher-container {
+    padding-right: 0.3rem;
+  }
+
+  #lang-toggle {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .lang-switcher {
+    transform: scale(0.95);
+  }
+
+  .scrolled .lang-switcher {
+    transform: scale(0.85);
+  }
+} 

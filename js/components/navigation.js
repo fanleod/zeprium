@@ -1,4 +1,6 @@
-// 导航组件 - v2.0
+// 导航组件 - v2.1 (集成 LangSwitcher)
+import LangSwitcher from './lang-switcher.js';
+
 class Navigation {
   constructor(options = {}) {
     this.options = {
@@ -13,6 +15,8 @@ class Navigation {
   init() {
     this.createNavigation();
     this.setupEventListeners();
+    // Instantiate LangSwitcher after navigation is added to the DOM
+    this.langSwitcher = new LangSwitcher('.lang-switcher-container'); 
   }
 
   createNavigation() {
@@ -121,7 +125,8 @@ class Navigation {
   setupScrollDetection() {
     const nav = document.getElementById('site-nav');
     const header = document.querySelector('.site-header');
-    const langSwitcher = document.querySelector('.lang-switcher-container');
+    // LangSwitcher instance will handle its own scroll state changes
+    // const langSwitcherContainer = document.querySelector('.lang-switcher-container'); 
     
     if (!nav || !header) return;
     
@@ -129,44 +134,52 @@ class Navigation {
     
     const updateScrollStyle = (isScrolled) => {
       if (nav) {
+        const navWasScrolled = nav.classList.contains('scrolled');
         nav.classList.toggle('scrolled', isScrolled);
-        if (isScrolled) {
-          nav.style.webkitBackdropFilter = 'blur(10px)';
-          nav.style.backdropFilter = 'blur(10px)';
-          nav.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches 
-            ? 'rgba(18, 18, 18, 0.85)' 
-            : 'rgba(255, 255, 255, 0.8)';
-        } else {
-          nav.style.webkitBackdropFilter = '';
-          nav.style.backdropFilter = '';
-          nav.style.backgroundColor = '';
+        
+        // Only update styles if scroll state changed
+        if (navWasScrolled !== isScrolled) {
+            // Dispatch event for LangSwitcher
+            document.dispatchEvent(new CustomEvent('navScrolled', { detail: { isScrolled } }));
         }
       }
       
-      if (langSwitcher) {
-        langSwitcher.classList.toggle('scrolled', isScrolled);
-      }
+      // Removed direct manipulation of langSwitcherContainer class
+      // if (langSwitcherContainer) {
+      //   langSwitcherContainer.classList.toggle('scrolled', isScrolled);
+      // }
     };
     
-    // 初始检查
-    updateScrollStyle(window.scrollY > headerHeight);
-    
-    // 监听滚动事件
+    // Get initial scroll state correctly
+    let initialScrollY = window.scrollY;
+    let initialIsScrolled = initialScrollY > headerHeight;
+    updateScrollStyle(initialIsScrolled);
+    // Need to manually dispatch the initial state for LangSwitcher
+    document.dispatchEvent(new CustomEvent('navScrolled', { detail: { isScrolled: initialIsScrolled } }));
+
+    // Use passive: true for better scroll performance
     window.addEventListener('scroll', this.debounce(() => {
       updateScrollStyle(window.scrollY > headerHeight);
-    }, 10));
+    }, 10), { passive: true });
     
-    // 监听窗口大小改变
+    // Debounced resize listener
     window.addEventListener('resize', this.debounce(() => {
-      updateScrollStyle(window.scrollY > headerHeight);
+      // Re-calculate header height on resize and update scroll style
+      const newHeaderHeight = header.offsetHeight;
+      updateScrollStyle(window.scrollY > newHeaderHeight);
     }, 100));
     
-    // 监听颜色模式变化
+    // Color scheme change listener
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        // Re-apply background color based on new scheme if scrolled
+        /* 移除这里的直接样式修改，让 CSS 类和媒体查询处理
         if (nav.classList.contains('scrolled')) {
-          updateScrollStyle(true);
+            nav.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches 
+                ? 'rgba(18, 18, 18, 0.85)' 
+                : 'rgba(255, 255, 255, 0.8)';
         }
+        */
       });
     }
   }
@@ -183,37 +196,43 @@ class Navigation {
     };
   }
 
-  // 添加自动初始化方法
+  // REMOVE autoInit static method as initialization is now tied to the class instance
+  /* 
   static autoInit() {
-    // 检查是否已经存在导航
+    // Check if navigation already exists
     if (document.querySelector('.site-navigation')) {
       return;
     }
     
-    // 创建导航实例
+    // Create navigation instance
     const navigation = new Navigation();
     
-    // 添加语言切换器
-    const langSwitcher = document.createElement('div');
-    langSwitcher.className = 'lang-switcher';
-    langSwitcher.innerHTML = `
-      <button id="lang-toggle" aria-label="Switch language" title="切换语言">
-        <span class="lang-text">EN</span>
-      </button>
-    `;
-    
-    // 将语言切换器插入到插槽中
-    const langSwitcherContainer = document.querySelector('.lang-switcher-container');
-    if (langSwitcherContainer) {
-      langSwitcherContainer.appendChild(langSwitcher);
-    }
+    // Remove manual lang switcher creation
+    // const langSwitcher = document.createElement('div');
+    // langSwitcher.className = 'lang-switcher';
+    // langSwitcher.innerHTML = `
+    //   <button id="lang-toggle" aria-label="Switch language" title="切换语言">
+    //     <span class="lang-text">EN</span>
+    //   </button>
+    // `;
+    // 
+    // // Insert into the designated container (which might not exist yet if nav creates it)
+    // const langSwitcherContainer = document.querySelector('.lang-switcher-container');
+    // if (langSwitcherContainer) {
+    //   langSwitcherContainer.appendChild(langSwitcher);
+    // }
   }
+  */
 }
 
-// 自动初始化导航
+// Auto-initialize Navigation on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-  Navigation.autoInit();
+  // Only create one instance
+  if (!document.querySelector('.site-navigation')) {
+    new Navigation();
+    // LangSwitcher is now instantiated within the Navigation constructor
+  }
 });
 
-// 导出导航组件
+// Export Navigation component
 export default Navigation; 
