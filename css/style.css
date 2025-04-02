@@ -47,8 +47,29 @@
   --color-bg-translucent-p3: color(display-p3 1 1 1 / 0.8);
   
   /* Navigation */
-  --nav-item-spacing: 3rem; /* 增加导航项间距 */
-  --nav-left-padding: 1rem; /* 导航栏左侧内边距，设置为blog卡片左侧边距的两倍 */
+  --nav-item-spacing: 3rem;
+  --nav-left-padding: 1rem;
+  
+  /* 导航颜色变量 */
+  --text-color: #333;
+  --hover-bg: rgba(0,0,0,0.1);
+  --hover-color: #000;
+  --active-bg: rgba(0,0,0,0.2);
+  --active-color: #000;
+  
+  /* 暗色模式导航变量 */
+  --dark-text-color: #fff;
+  --dark-hover-bg: rgba(255,255,255,0.1);
+  --dark-hover-color: #fff;
+  --dark-active-bg: rgba(255,255,255,0.2);
+  --dark-active-color: #fff;
+  
+  /* 亮色模式导航变量 */
+  --light-text-color: #333;
+  --light-hover-bg: rgba(0,0,0,0.1);
+  --light-hover-color: #000;
+  --light-active-bg: rgba(0,0,0,0.2);
+  --light-active-color: #000;
 }
 
 /* Dark Mode Colors */

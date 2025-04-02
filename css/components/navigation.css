@@ -1,0 +1,142 @@
+/* 导航组件样式 */
+.site-header {
+  position: relative;
+  z-index: 100;
+  padding: 1rem;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.site-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  transition: all 0.3s ease;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link:hover {
+  background: var(--hover-bg);
+  color: var(--hover-color);
+}
+
+.nav-link.active {
+  background: var(--active-bg);
+  color: var(--active-color);
+}
+
+/* 滚动状态样式 */
+.site-navigation.scrolled {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .nav-link {
+    width: 100%;
+    padding: 0.75rem;
+    text-align: center;
+  }
+  
+  .lang-switcher-container {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+}
+
+/* 移动端触摸优化 */
+@media (hover: none) {
+  .nav-link {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  .nav-link:active {
+    background: var(--active-bg);
+    color: var(--active-color);
+    transform: scale(0.98);
+  }
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .site-navigation.scrolled {
+    background-color: rgba(18, 18, 18, 0.85);
+  }
+  
+  .nav-link {
+    color: var(--dark-text-color);
+  }
+  
+  .nav-link:hover {
+    background: var(--dark-hover-bg);
+    color: var(--dark-hover-color);
+  }
+  
+  .nav-link.active {
+    background: var(--dark-active-bg);
+    color: var(--dark-active-color);
+  }
+}
+
+/* 亮色模式支持 */
+@media (prefers-color-scheme: light) {
+  .site-navigation.scrolled {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .nav-link {
+    color: var(--light-text-color);
+  }
+  
+  .nav-link:hover {
+    background: var(--light-hover-bg);
+    color: var(--light-hover-color);
+  }
+  
+  .nav-link.active {
+    background: var(--light-active-bg);
+    color: var(--light-active-color);
+  }
+} 
