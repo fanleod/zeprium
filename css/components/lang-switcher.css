@@ -19,28 +19,34 @@
 }
 
 #lang-toggle {
-  background: none;
-  border: none;
-  color: var(--color-text);
-  cursor: pointer;
-  font-family: var(--font-nav);
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.5rem 0.8rem;
-  border-radius: var(--border-radius-small);
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 40px; /* Ensure minimum width */
-  min-height: 30px; /* Ensure minimum height */
-  line-height: 1;
+  width: 2.5rem; /* 设置固定宽度 */
+  height: 2.5rem; /* 设置固定高度，与宽度相等 */
+  padding: 0; /* 移除内边距，使用 flex 居中 */
+  border-radius: 50%; /* 圆形 */
+  border: 1px solid var(--text-color); /* 反色描边 */
+  background-color: var(--color-bg-translucent); /* 使用半透明背景色 */
+  color: var(--text-color); /* 文本颜色 */
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, backdrop-filter 0.2s ease, -webkit-backdrop-filter 0.2s ease;
+  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+  backdrop-filter: blur(10px); /* 默认背景模糊 */
+  -webkit-backdrop-filter: blur(10px); /* Safari 兼容 */
 }
 
 #lang-toggle:hover {
-  background-color: var(--hover-bg);
-  color: var(--hover-color);
-  transform: translateY(-1px);
+  background-color: var(--hover-bg, rgba(0, 0, 0, 0.05)); /* 悬停背景 */
+  backdrop-filter: none; /* 移除悬停时的模糊 */
+  -webkit-backdrop-filter: none; /* Safari 兼容 */
+  /* 可以选择性地改变边框颜色 */
+  /* border-color: var(--hover-color); */ 
+}
+
+#lang-toggle:active {
+   transform: scale(0.95); /* 点击反馈 */
 }
 
 #lang-toggle.lang-zh {

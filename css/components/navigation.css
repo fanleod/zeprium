@@ -8,18 +8,10 @@
 }
 
 .nav-container {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
-}
-
-.nav-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 1rem 0;
 }
 
 .nav-links {
@@ -27,6 +19,10 @@
   gap: 2rem;
   flex-wrap: nowrap;
   flex-shrink: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem 0;
+  margin-right: 0px;
 }
 
 .nav-link {
@@ -74,11 +70,15 @@
 /* 响应式设计 */
 @media (max-width: 768px) {
   .nav-container {
-    padding: 0 0.5rem;
+    padding: 0 2rem;
     max-width: 100%;
   }
-  .nav-content {
+  .nav-links {
     padding: 0.5rem 0;
+    gap: 1rem;
+  }
+  .lang-switcher-container {
+    right: 0.5rem;
   }
 }
 
@@ -142,4 +142,13 @@
     background: var(--light-active-bg);
     color: var(--light-active-color);
   }
+}
+
+/* 重新添加并修改语言切换按钮容器样式 */
+.lang-switcher-container {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
 }

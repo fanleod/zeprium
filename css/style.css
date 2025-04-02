@@ -269,9 +269,9 @@ nav::-webkit-scrollbar {
 
 .nav-container {
   display: flex;
-  justify-content: center; /* 居中对齐导航容器 */
+  justify-content: center; /* Center the nav links */
   align-items: center;
-  padding: 0.5rem 2rem;
+  padding: 0 0.5rem; /* Reduce padding */
   max-width: var(--container-width);
   margin: 0 auto;
   position: relative; /* 添加相对定位 */
@@ -284,8 +284,9 @@ nav::-webkit-scrollbar {
 }
 
 .nav-links {
-  display: flex;
-  align-items: center; /* 垂直居中 */
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
 }
 
 /* Navigation links - Base styles */
@@ -775,13 +776,14 @@ img, video {
   }
   
   .nav-container {
-    justify-content: space-between; /* Space out logo/links and switcher */
-    padding: 0 0.5rem; /* Reduce padding */
+    padding: 0 0.5rem;
+    text-align: center;
   }
   
   .nav-links {
-    display: flex;
-    align-items: center; /* 垂直居中 */
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
   }
   
   header {
