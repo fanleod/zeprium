@@ -82,14 +82,28 @@ class Navigation {
     ];
 
     return links.map(link => {
-      const currentFile = currentPath.split('/').pop();
-      const linkFile = link.href;
-      const isHomePage = currentFile === 'index.html';
-      const isActive = isHomePage ? false : currentFile === linkFile;
+      // 获取当前页面的完整路径
+      const currentPage = currentPath.split('/').pop();
+      // 获取链接的完整路径
+      const linkPage = link.href;
+      
+      // 检查是否是首页
+      const isHomePage = currentPage === 'index.html' || currentPage === '';
+      
+      // 检查当前页面是否匹配链接
+      const isActive = !isHomePage && currentPage === linkPage;
+      
+      // 如果是首页，检查是否在pages目录下
+      const isInPages = currentPath.includes('/pages/');
+      const isActiveInPages = isInPages && currentPage === linkPage;
+      
+      // 最终判断是否激活
+      const shouldBeActive = isActive || isActiveInPages;
       
       return `<a href="${basePath}pages/${link.href}" 
-                 class="nav-link ${isActive ? 'active' : ''}" 
-                 aria-label="${link.label}">${link.label}</a>`;
+                 class="nav-link ${shouldBeActive ? 'active' : ''}" 
+                 aria-label="${link.label}"
+                 data-page="${link.href}">${link.label}</a>`;
     }).join('');
   }
 
