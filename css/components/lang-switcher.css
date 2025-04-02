@@ -38,7 +38,7 @@
 }
 
 #lang-toggle:hover {
-  background-color: var(--hover-bg, rgba(0, 0, 0, 0.05)); /* 悬停背景 */
+  background-color: var(--color-bg); /* 悬停时使用页面背景色 (不透明) */
   backdrop-filter: none; /* 移除悬停时的模糊 */
   -webkit-backdrop-filter: none; /* Safari 兼容 */
   /* 可以选择性地改变边框颜色 */
