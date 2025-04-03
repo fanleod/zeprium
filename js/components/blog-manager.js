@@ -1,4 +1,4 @@
-// console.log('[BlogManager] blog-manager.js script executing...'); // DEBUG: Top-level execution check
+console.log('[BlogManager] blog-manager.js script executing...'); // DEBUG: Top-level execution check
 
 /**
  * 博客卡片管理系统
@@ -10,7 +10,7 @@
 // 博客卡片加载和渲染控制器
 class BlogManager {
   constructor(options = {}) {
-    // console.log('[BlogManager] Constructor called.'); // DEBUG: Confirm constructor starts
+    console.log('[BlogManager] Constructor called.'); // DEBUG: Confirm constructor starts
     // 默认配置
     this.config = {
       dataUrl: 'data/blog-posts.json',
@@ -22,7 +22,7 @@ class BlogManager {
     // **正确定义页面类型属性**
     this.isBlogListPage = window.location.pathname.includes('/blog.html');
     this.isSinglePostPage = !this.isBlogListPage && window.location.pathname.includes('/pages/blog/');
-    // console.log(`[BlogManager] Page type detected - isBlogListPage: ${this.isBlogListPage}, isSinglePostPage: ${this.isSinglePostPage}`); // DEBUG
+    console.log(`[BlogManager] Page type detected - isBlogListPage: ${this.isBlogListPage}, isSinglePostPage: ${this.isSinglePostPage}`); // DEBUG
     
     // 状态管理
     this.posts = [];
@@ -37,25 +37,25 @@ class BlogManager {
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
     
     // 初始化
-    // console.log(`[BlogManager] Constructor: Document readyState is ${document.readyState}`); // DEBUG
+    console.log(`[BlogManager] Constructor: Document readyState is ${document.readyState}`); // DEBUG
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      // console.log('[BlogManager] Constructor: Calling init() immediately.'); // DEBUG
+      console.log('[BlogManager] Constructor: Calling init() immediately.'); // DEBUG
       this.init();
     } else {
-      // console.log('[BlogManager] Constructor: Adding DOMContentLoaded listener for init().'); // DEBUG
+      console.log('[BlogManager] Constructor: Adding DOMContentLoaded listener for init().'); // DEBUG
       document.addEventListener('DOMContentLoaded', () => {
-         // console.log('[BlogManager] DOMContentLoaded event fired, calling init().'); // DEBUG
+         console.log('[BlogManager] DOMContentLoaded event fired, calling init().'); // DEBUG
          this.init()
       });
     }
-    // console.log('[BlogManager] Constructor finished.'); // DEBUG
+    console.log('[BlogManager] Constructor finished.'); // DEBUG
   }
   
   /**
    * 初始化博客管理器
    */
   init() {
-    // console.log('[BlogManager] init() method started.'); // DEBUG: Confirm init starts
+    console.log('[BlogManager] init() method started.'); // DEBUG: Confirm init starts
     // 监听语言变更事件 (所有页面都需要)
     document.addEventListener('languageChanged', this.handleLanguageChange);
 
@@ -64,7 +64,7 @@ class BlogManager {
     const postIdFromUrl = urlParams.get('post');
 
     if (this.isBlogListPage) {
-        // console.log('[BlogManager] init(): Initializing on Blog List Page.'); // DEBUG
+        console.log('[BlogManager] init(): Initializing on Blog List Page.'); // DEBUG
         if (blogGrid) {
             this.loadBlogCards().then(() => {
                  // 数据加载完成后检查 URL 参数
@@ -646,22 +646,43 @@ class BlogManager {
             throw new Error(`Failed to fetch post content dynamically. Status: ${response.status}. Path: ${articlePath}. Response: ${errorBody}`);
         }
         
-        const postHtml = await response.text();
+        const postHTML = await response.text();
         console.log('[BlogManager] Dynamic post HTML fetched successfully.'); // DEBUG
 
-        // 1. 解析 HTML 内容
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = postHtml;
-
-        // 2. 提取文章内容
-        const articleContent = tempDiv.querySelector('article.blog-article-container');
-        if (!articleContent) {
-            throw new Error('Could not find article content in fetched HTML');
+        // Inject the HTML content
+        try {
+            // --- MODIFIED Injection Logic --- 
+            // 1. Parse the fetched HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(postHTML, 'text/html');
+            // 2. Find the main article container within the fetched HTML
+            //    Adjust selector based on the actual structure of individual post HTML files
+            const fetchedArticle = doc.querySelector('article.blog-article-container'); 
+            
+            if (fetchedArticle) {
+                // 3. Clear the existing container 
+                contentBox.innerHTML = ''; 
+                // 4. Append the fetched article content into the container
+                contentBox.appendChild(fetchedArticle);
+                console.log(`[BlogManager] Fetched article content injected into container for ${postId}.`); // Log: Injection Success
+            } else {
+                 console.error(`[BlogManager] displayBlogPost ERROR: Could not find 'article.blog-article-container' within fetched HTML for ${postId}. Injecting raw HTML as fallback.`);
+                 // Fallback to old method if parsing fails, though this might still cause issues
+                 contentBox.innerHTML = postHTML; 
+            }
+            // --- END MODIFIED --- 
+            
+            // Old simple injection:
+            // postContentContainer.innerHTML = postHTML;
+            // console.log(`[BlogManager] Content injected into container for ${postId}. Container child count: ${postContentContainer.children.length}`); // Log: Injection
+            // if (postContentContainer.children.length === 0 && postHTML.length > 0) {
+            //      console.warn(`[BlogManager] Container is empty after injecting non-empty HTML for ${postId}! Possible parsing issue?`);
+            // }
+        } catch (injectError) {
+            console.error(`[BlogManager] Error injecting dynamic blog post content for ${postId}:`, injectError); // DEBUG
+            this.displayPostNotFoundErrorInContainer(contentBox, postId, injectError.message);
+            return;
         }
-
-        // 3. 清空现有内容并注入文章内容 (只清空 contentBox)
-        contentBox.innerHTML = ''; 
-        contentBox.appendChild(articleContent);
 
         // 4. 更新页面标题
         const title = this.currentLanguage === 'zh' && post.title_zh ? post.title_zh : post.title;

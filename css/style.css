@@ -1078,3 +1078,12 @@ body {
    X. BLOG SPECIFIC STYLES (This section is now in blog.css)
 ==================================== */
 /* REMOVED All styles previously under this section */
+
+/* Show the active language version */
+[data-lang-en].lang-active,
+[data-lang-zh].lang-active {
+  display: block !important; /* ADDED !important for diagnostics */
+  /* visibility: visible; */
+}
+/* Optional: You might need specific rules for different element types */
+/* E.g., span[data-lang-en].lang-active { display: inline !important; } */

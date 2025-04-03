@@ -102,12 +102,15 @@ class Navigation {
 
   createNavLinks(basePath, currentPath) {
     const links = [
-      { href: 'about.html', label: 'About' },
-      { href: 'projects.html', label: 'Projects' },
-      { href: 'blog.html', label: 'Blog' },
-      { href: 'contact.html', label: 'Contact' },
-      { href: 'styleguide.html', label: 'Style Guide' }
+      { href: 'about.html', en: 'About', zh: '关于' },
+      { href: 'projects.html', en: 'Projects', zh: '项目' },
+      { href: 'blog.html', en: 'Blog', zh: '博客' },
+      { href: 'contact.html', en: 'Contact', zh: '联系' },
+      { href: 'styleguide.html', en: 'Style Guide', zh: '样式指南' }
     ];
+
+    // Get current language to set initial text correctly
+    const currentLang = document.documentElement.lang || 'en';
 
     return links.map(link => {
       // 获取当前页面的完整路径
@@ -128,10 +131,15 @@ class Navigation {
       // 最终判断是否激活
       const shouldBeActive = isActive || isActiveInPages;
       
+      // Determine initial text based on current language
+      const initialText = currentLang === 'zh' ? link.zh : link.en;
+
       return `<a href="${basePath}pages/${link.href}" 
                  class="nav-link ${shouldBeActive ? 'active' : ''}" 
-                 aria-label="${link.label}"
-                 data-page="${link.href}">${link.label}</a>`;
+                 aria-label="${link.en}"
+                 data-page="${link.href}"
+                 data-lang-en="${link.en}"
+                 data-lang-zh="${link.zh}">${initialText}</a>`;
     }).join('');
   }
 

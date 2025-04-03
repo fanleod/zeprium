@@ -46,6 +46,11 @@ class LangSwitcher {
     this.updatePageTitle(savedLang);
     // Set html lang attribute
     document.documentElement.lang = savedLang;
+    // *** Call updatePageContent AFTER initial paint/layout ***
+    requestAnimationFrame(() => {
+        console.log('[LangSwitcher] initLanguageState: Requesting updatePageContent via requestAnimationFrame.');
+        this.updatePageContent(savedLang);
+    });
   }
 
   setupEventListeners() {
@@ -58,6 +63,9 @@ class LangSwitcher {
       // Update UI and page title immediately
       this.updateLanguageUI(newLang);
       this.updatePageTitle(newLang);
+      
+      // *** ADDED: Call updatePageContent on language switch ***
+      this.updatePageContent(newLang);
 
       // Dispatch a custom event for other components if needed
       document.dispatchEvent(new CustomEvent('languageChanged', {
@@ -124,6 +132,68 @@ class LangSwitcher {
       const defaultTitleMeta = document.querySelector('meta[name="title-en"]');
       document.title = defaultTitleMeta ? defaultTitleMeta.getAttribute('content') : 'Zeprium';
     }
+  }
+
+  updatePageContent(lang) {
+    console.log(`[LangSwitcher] updatePageContent started for lang: ${lang}.`); // Log: Start
+    // Select all elements with data-lang-* attributes
+    document.querySelectorAll('[data-lang-en], [data-lang-zh]').forEach(el => {
+      // Construct a more descriptive identifier
+      let elIdentifier = el.tagName;
+      if (el.id) elIdentifier += `#${el.id}`;
+      if (el.classList.length > 0) elIdentifier += `.${Array.from(el.classList).join('.')}`;
+      // Get first few characters of text content for context
+      const textSample = (el.textContent || "").trim().substring(0, 30).replace(/\n/g, ' '); 
+      
+      console.log(`[LangSwitcher] ---> Processing element: ${elIdentifier} (Sample: "${textSample}...")`); // Log: Processing Element
+
+      // Determine if this element should be active based on its data-lang-* attributes
+      const hasEn = el.hasAttribute('data-lang-en');
+      const hasZh = el.hasAttribute('data-lang-zh');
+      const shouldBeActive = (lang === 'en' && hasEn) || (lang === 'zh' && hasZh);
+      
+      // --- Step 1: Always toggle visibility class --- 
+      el.classList.toggle('lang-active', shouldBeActive);
+      el.classList.toggle('lang-inactive', !shouldBeActive); // Explicitly add inactive for clarity
+      console.log(`[LangSwitcher] --> Visibility set: ${shouldBeActive ? 'ACTIVE' : 'INACTIVE'} for ${elIdentifier}`);
+
+      // --- Step 2: ONLY update text content if element has BOTH attributes --- 
+      if (hasEn && hasZh && shouldBeActive) { 
+          let newContent = null;
+          if (lang === 'zh' && textZh !== null) {
+              newContent = textZh;
+          } else if (lang === 'en' && textEn !== null) {
+              newContent = textEn;
+          } else if (textEn !== null) { // Fallback
+              newContent = textEn;
+          } else if (textZh !== null) { // Fallback
+              newContent = textZh;
+          }
+          
+          if (newContent !== null) {
+              try {
+                  const oldContent = el.textContent; 
+                  // Only update if different, to avoid unnecessary changes
+                  if (el.textContent !== newContent) { 
+                      console.log(`[LangSwitcher] ---> Updating INLINE TEXT for ${elIdentifier}. Old: "${oldContent.substring(0,30)}..." New: "${newContent.substring(0,30)}..."`); 
+                      el.textContent = newContent;
+                      console.log(`[LangSwitcher] ----> INLINE TEXT AFTER update attempt for ${elIdentifier}: "${(el.textContent || "").substring(0,30)}..."`); 
+                  } else {
+                       console.log(`[LangSwitcher] ---> Inline text already correct for ${elIdentifier}`);
+                  }
+              } catch (e) {
+                  console.error(`[LangSwitcher] ERROR assigning textContent for INLINE TEXT element ${elIdentifier}:`, e);
+              }
+          }
+      } else if (shouldBeActive) {
+           console.log(`[LangSwitcher] ---> Element ${elIdentifier} is active but only has one lang attribute. Skipping inline text update.`);
+      }
+      // --- END Text Content Update Logic --- 
+      
+      // REMOVED previous combined/forced text update logic
+      
+    });
+     console.log(`[LangSwitcher] updatePageContent finished for lang: ${lang}.`); // Log: End
   }
 
   // --- Optional Utility ---

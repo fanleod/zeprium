@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="../../css/components/lang-switcher.css" />
   <title>Project Title - Zeprium</title>
   <script src="../../js/theme.js" defer></script>
-  <script src="../../js/lang-switcher.js" defer></script>
+  <script type="module" src="../../js/components/navigation.js" defer></script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -232,25 +232,8 @@
   </footer>
 
   <script>
-    // Update copyright year to current year
+    // Only keep the copyright year update logic
     document.getElementById('current-year').textContent = new Date().getFullYear();
-    
-    // 显示正确的语言内容
-    document.addEventListener('DOMContentLoaded', function() {
-      const savedLang = localStorage.getItem('zeprium-lang') || 'en';
-      document.documentElement.lang = savedLang;
-      
-      // 监听语言变化
-      document.addEventListener('languageChanged', function(event) {
-        if (event.detail && event.detail.language) {
-          document.documentElement.lang = event.detail.language;
-        }
-      });
-    });
-  </script>
-
-  <script type="module">
-    import Navigation from '../../js/components/navigation.js';
   </script>
 </body>
 </html> 
