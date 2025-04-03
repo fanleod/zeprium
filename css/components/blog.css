@@ -125,8 +125,10 @@
   transition: transform 0.3s ease;
 }
 
-.read-more:hover::after {
-  transform: translateX(4px);
+@media (hover: hover) {
+  .read-more:hover::after {
+    transform: translateX(4px);
+  }
 }
 
 /* Blog Filters Container */
@@ -152,10 +154,12 @@
   font-size: 0.9rem;
 }
 
-.filter-button:hover {
-  background-color: rgba(var(--color-text-rgb, 0, 0, 0), 0.05); /* Subtle hover */
-  border-color: var(--color-text);
-  color: var(--color-text);
+@media (hover: hover) {
+  .filter-button:not(.active):hover {
+    background-color: rgba(var(--color-text-rgb, 0, 0, 0), 0.05); /* Subtle hover */
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
 }
 
 .filter-button.active {
