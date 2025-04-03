@@ -158,8 +158,16 @@ class LangSwitcher {
       console.log(`[LangSwitcher] --> Visibility set: ${shouldBeActive ? 'ACTIVE' : 'INACTIVE'} for ${elIdentifier}`);
 
       // --- Step 2: ONLY update text content if element has BOTH attributes --- 
+      // Let's add detailed logging here
+      console.log(`[LangSwitcher DEBUG] Checking inline text update for ${elIdentifier}. HasEn: ${hasEn}, HasZh: ${hasZh}, ShouldBeActive: ${shouldBeActive}`);
+      
       if (hasEn && hasZh && shouldBeActive) { 
+          console.log(`[LangSwitcher DEBUG] ---> ENTERED inline text update block for ${elIdentifier}`);
           let newContent = null;
+          const textEn = el.getAttribute('data-lang-en');
+          const textZh = el.getAttribute('data-lang-zh');
+          console.log(`[LangSwitcher DEBUG] ----> Read Attributes: textEn="${textEn}", textZh="${textZh}"`);
+          
           if (lang === 'zh' && textZh !== null) {
               newContent = textZh;
           } else if (lang === 'en' && textEn !== null) {
@@ -169,6 +177,7 @@ class LangSwitcher {
           } else if (textZh !== null) { // Fallback
               newContent = textZh;
           }
+          console.log(`[LangSwitcher DEBUG] ----> Determined newContent: "${newContent !== null ? newContent.substring(0,30)+'...' : 'null'}"`);
           
           if (newContent !== null) {
               try {
@@ -186,7 +195,11 @@ class LangSwitcher {
               }
           }
       } else if (shouldBeActive) {
-           console.log(`[LangSwitcher] ---> Element ${elIdentifier} is active but only has one lang attribute. Skipping inline text update.`);
+           // This case is for elements active but only one lang attr (e.g., content divs)
+           console.log(`[LangSwitcher DEBUG] ---> Element ${elIdentifier} is active but only has one lang attribute. Skipping inline text update.`);
+      } else {
+            // This case is for elements that are inactive
+             console.log(`[LangSwitcher DEBUG] ---> Element ${elIdentifier} is inactive. Skipping inline text update.`);
       }
       // --- END Text Content Update Logic --- 
       
