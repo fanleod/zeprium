@@ -97,7 +97,6 @@
     // Import necessary components
     import Navigation from './js/components/navigation.js';
     import BlogManager from './js/components/blog-manager.js';
-    import LangSwitcher from './js/components/lang-switcher.js';
     
     // Initialize Navigation
     if (typeof Navigation === 'function') {
@@ -109,11 +108,6 @@
     // Initialize Blog Manager
     if (typeof BlogManager === 'function') {
         new BlogManager(); // Instantiate to load featured posts on homepage
-    }
-
-    // Initialize LangSwitcher
-    if (typeof LangSwitcher === 'function') {
-        new LangSwitcher(); 
     }
 
   </script>

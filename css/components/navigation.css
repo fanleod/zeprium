@@ -37,11 +37,9 @@
   text-align: center;
 }
 
-@media (hover: hover) {
-  .nav-link:not(.active):hover {
-    background: var(--hover-bg);
-    color: var(--hover-color);
-  }
+.nav-link:hover {
+  background: var(--hover-bg);
+  color: var(--hover-color);
 }
 
 .nav-link.active {
@@ -111,11 +109,9 @@
     color: var(--dark-text-color);
   }
   
-  @media (hover: hover) {
-    .nav-link:not(.active):hover {
-      background: var(--dark-hover-bg);
-      color: var(--dark-hover-color);
-    }
+  .nav-link:hover {
+    background: var(--dark-hover-bg);
+    color: var(--dark-hover-color);
   }
   
   .nav-link.active {
@@ -133,11 +129,9 @@
     color: var(--light-text-color);
   }
   
-  @media (hover: hover) {
-    .nav-link:not(.active):hover {
-      background: var(--light-hover-bg);
-      color: var(--light-hover-color);
-    }
+  .nav-link:hover {
+    background: var(--light-hover-bg);
+    color: var(--light-hover-color);
   }
   
   .nav-link.active {

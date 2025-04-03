@@ -40,10 +40,12 @@ class LangSwitcher {
 
   initLanguageState() {
     const savedLang = localStorage.getItem('zeprium-lang') || 'en';
-    document.documentElement.lang = savedLang; // Set lang attribute early
-    this.updateLanguageUI(savedLang); // Update button
-    this.updatePageTitle(savedLang); // Update title
-    this.updatePageContent(savedLang); // Update page content
+    // Update button UI immediately
+    this.updateLanguageUI(savedLang);
+    // Apply language to the page title
+    this.updatePageTitle(savedLang);
+    // Set html lang attribute
+    document.documentElement.lang = savedLang;
   }
 
   setupEventListeners() {
@@ -52,12 +54,10 @@ class LangSwitcher {
       const newLang = currentLang === 'en' ? 'zh' : 'en';
       
       localStorage.setItem('zeprium-lang', newLang);
-      document.documentElement.lang = newLang; // Update lang attribute immediately
-
-      // Update UI, title, and page content
+      
+      // Update UI and page title immediately
       this.updateLanguageUI(newLang);
       this.updatePageTitle(newLang);
-      this.updatePageContent(newLang);
 
       // Dispatch a custom event for other components if needed
       document.dispatchEvent(new CustomEvent('languageChanged', {
@@ -124,35 +124,6 @@ class LangSwitcher {
       const defaultTitleMeta = document.querySelector('meta[name="title-en"]');
       document.title = defaultTitleMeta ? defaultTitleMeta.getAttribute('content') : 'Zeprium';
     }
-  }
-
-  // --- NEW METHOD to update general page content ---
-  updatePageContent(lang) {
-    const elements = document.querySelectorAll('[data-lang-en], [data-lang-zh]');
-    elements.forEach(el => {
-      const text = el.getAttribute(`data-lang-${lang}`);
-      // Check if text exists for the target language, fallback to 'en' if not
-      const fallbackText = el.getAttribute('data-lang-en') || el.textContent; // Use existing content as last resort
-      const contentToSet = text !== null ? text : fallbackText;
-
-      // Basic check for HTML content vs plain text
-      // More robust checking might be needed depending on content complexity
-      if (contentToSet.trim().startsWith('<') && contentToSet.trim().endsWith('>')) {
-         // Avoid replacing interactive elements or complex structures unintentionally.
-         // Only set innerHTML if it seems relatively safe (e.g., simple tags like span, strong)
-         // For complex content, consider more targeted updates or specific data attributes.
-         // Currently, let's stick to textContent for safety unless explicitly marked.
-         // A better approach might be a data-lang-type="html" attribute.
-         // For now, we'll primarily use textContent.
-          if (el.hasAttribute('data-lang-allow-html')) {
-              el.innerHTML = contentToSet;
-          } else {
-              el.textContent = contentToSet;
-          }
-      } else {
-          el.textContent = contentToSet;
-      }
-    });
   }
 
   // --- Optional Utility ---
