@@ -42,8 +42,7 @@ class LangSwitcher {
     const savedLang = localStorage.getItem('zeprium-lang') || 'en';
     // Update button UI immediately
     this.updateLanguageUI(savedLang);
-    // Apply language to the page content and title
-    this.updatePageContent(savedLang);
+    // Apply language to the page title
     this.updatePageTitle(savedLang);
     // Set html lang attribute
     document.documentElement.lang = savedLang;
@@ -56,12 +55,11 @@ class LangSwitcher {
       
       localStorage.setItem('zeprium-lang', newLang);
       
-      // Update UI and page content immediately
+      // Update UI and page title immediately
       this.updateLanguageUI(newLang);
-      this.updatePageContent(newLang);
       this.updatePageTitle(newLang);
 
-      // Dispatch a custom event for other components if needed (optional)
+      // Dispatch a custom event for other components if needed
       document.dispatchEvent(new CustomEvent('languageChanged', {
         detail: { language: newLang }
       }));
@@ -125,59 +123,6 @@ class LangSwitcher {
       // Fallback or default title logic if needed
       const defaultTitleMeta = document.querySelector('meta[name="title-en"]');
       document.title = defaultTitleMeta ? defaultTitleMeta.getAttribute('content') : 'Zeprium';
-    }
-  }
-
-  updatePageContent(lang) {
-    // Update elements with data-lang attributes
-    const elements = document.querySelectorAll('[data-lang-en], [data-lang-zh]');
-    elements.forEach(element => {
-      const content = element.getAttribute(`data-lang-${lang}`);
-      // Only update if the target language content exists
-      if (content !== null) {
-        // Basic check for HTML content
-        if (content.trim().startsWith('<') && content.trim().endsWith('>')) {
-           if (element.innerHTML !== content) { element.innerHTML = content; }
-        } else {
-           if (element.textContent !== content) { element.textContent = content; }
-        }
-      } else {
-          // Optional: Handle cases where content for the selected language is missing
-          // For example, fallback to English or hide the element
-          const fallbackContent = element.getAttribute('data-lang-en'); // Default to English
-          if (fallbackContent !== null) {
-              if (fallbackContent.trim().startsWith('<') && fallbackContent.trim().endsWith('>')) {
-                  if (element.innerHTML !== fallbackContent) element.innerHTML = fallbackContent;
-              } else {
-                  if (element.textContent !== fallbackContent) element.textContent = fallbackContent;
-              }
-          } else {
-              // Hide element if no content is available for either language?
-              // element.style.display = 'none'; 
-          }
-      }
-    });
-
-    // Specifically handle project content visibility on project detail pages
-    this.updateProjectContentVisibility(lang);
-  }
-
-  updateProjectContentVisibility(lang) {
-    // Select only project content blocks that have language attributes
-    const projectContents = document.querySelectorAll('.project-content[data-lang-en], .project-content[data-lang-zh]');
-    if (projectContents.length > 0) {
-        // Check if we are on a project detail page (presence of .project-container)
-        const isProjectDetail = document.querySelector('.project-container') !== null;
-        if (isProjectDetail) {
-            projectContents.forEach(el => {
-                // Determine the language this block is for
-                const elLang = el.matches('[data-lang-zh]') ? 'zh' : 'en';
-                // Show the block if its language matches the selected language, hide otherwise
-                el.style.display = (elLang === lang) ? 'block' : 'none';
-            });
-        }
-        // On non-project pages, we assume these blocks should be handled by the general data-lang logic
-        // or are always visible. No action needed here for non-project pages.
     }
   }
 

@@ -700,9 +700,11 @@ class BlogManager {
   }
 
   updatePostLanguageDisplay() {
-    console.log(`[BlogManager] Updating language elements for lang: ${this.currentLanguage}`); // DEBUG
-    let scope = document;
+    // **将 pageType 声明移到使用之前**
     let pageType = 'Unknown'; // For logging
+    
+    console.log(`[BlogManager][${pageType}] === Starting updatePostLanguageDisplay for lang: ${this.currentLanguage} ===`); // DEBUG: Mark start
+    let scope = document;
 
     if (this.isBlogListPage) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -710,47 +712,57 @@ class BlogManager {
         if(postId) {
             scope = document.querySelector('main#main-content section.content-box') || document;
             pageType = 'Blog List (Dynamic Post)';
-            console.log(`[BlogManager] Scope set to contentBox for dynamic article on ${pageType}`); // DEBUG
+            console.log(`[BlogManager][${pageType}] Scope set to contentBox for dynamic article on ${pageType}`); // DEBUG
         } else {
             pageType = 'Blog List (List View)';
-            console.log(`[BlogManager] On ${pageType}, skipping post language update.`); // DEBUG
+            console.log(`[BlogManager][${pageType}] On ${pageType}, skipping post language update.`); // DEBUG
             return; 
         }
     } else if (this.isSinglePostPage) {
         scope = document;
         pageType = 'Single Post Page';
-        console.log(`[BlogManager] Scope set to document for ${pageType}`); // DEBUG
+        console.log(`[BlogManager][${pageType}] Scope set to document.`); // DEBUG
     } else {
         pageType = 'Other Page (e.g., Homepage)';
-        console.log(`[BlogManager] Not on article page (${pageType}), skipping post language update.`); // DEBUG
+        console.log(`[BlogManager][${pageType}] Not on article page (${pageType}), skipping post language update.`); // DEBUG
         return;
     }
 
-    // 1. 隐藏所有语言版本 (在指定范围内)
+    // 1. 查找所有语言元素
     const allLangElements = scope.querySelectorAll('[data-lang-en], [data-lang-zh]');
-    console.log(`[BlogManager][${pageType}] Found ${allLangElements.length} language elements to potentially hide.`); // DEBUG
+    console.log(`[BlogManager][${pageType}] Found ${allLangElements.length} total language elements.`); // DEBUG
+    
+    // 2. 移除 active 类
     let hiddenCount = 0;
-    allLangElements.forEach(el => {
+    console.log(`[BlogManager][${pageType}] --- Attempting to remove 'active' class ---`); // DEBUG
+    allLangElements.forEach((el, index) => {
         if (el.classList.contains('active')) {
             el.classList.remove('active');
             hiddenCount++;
+            // console.log(`[BlogManager][${pageType}] Removed active from [${index}]:`, el.tagName, el.getAttribute('data-lang-en') !== null ? 'EN' : 'ZH', el.textContent.substring(0, 30) + '...'); // DEBUG: Verbose logging
         }
     });
-    console.log(`[BlogManager][${pageType}] Removed 'active' class from ${hiddenCount} elements.`); // DEBUG
+    console.log(`[BlogManager][${pageType}] --- Finished removing active class. Count: ${hiddenCount} ---`); // DEBUG
 
-    // 2. 显示当前语言版本 (在指定范围内)
+    // 3. 查找当前语言元素
     const selector = `[data-lang-${this.currentLanguage}]`;
     const currentLangElements = scope.querySelectorAll(selector);
     console.log(`[BlogManager][${pageType}] Found ${currentLangElements.length} elements for selector '${selector}' to show.`); // DEBUG
+    
+    // 4. 添加 active 类
     let shownCount = 0;
-    currentLangElements.forEach(el => {
+    console.log(`[BlogManager][${pageType}] --- Attempting to add 'active' class for ${this.currentLanguage} ---`); // DEBUG
+    currentLangElements.forEach((el, index) => {
+        // 检查是否已经有 active (理论上不应该有，除非逻辑问题)
         if (!el.classList.contains('active')) {
-            el.classList.add('active');
-            shownCount++;
-            console.log(`[BlogManager][${pageType}] Added 'active' class to:`, el.tagName, el.textContent.substring(0, 50) + '...'); // DEBUG: Log element details
+             el.classList.add('active');
+             shownCount++;
+             console.log(`[BlogManager][${pageType}] Added active to [${index}]:`, el.tagName, el.textContent.substring(0, 50) + '...'); // DEBUG
+        } else {
+             console.warn(`[BlogManager][${pageType}] Element already had active class? [${index}]:`, el.tagName); // DEBUG
         }
     });
-    console.log(`[BlogManager][${pageType}] Added 'active' class to ${shownCount} elements.`); // DEBUG
+    console.log(`[BlogManager][${pageType}] --- Finished adding active class. Count: ${shownCount} ---`); // DEBUG
 
     // 确保文章容器本身可见 (主要用于动态加载场景)
     if (this.isBlogListPage) {
@@ -767,6 +779,7 @@ class BlogManager {
              console.warn(`[BlogManager][${pageType}] Article container 'article.blog-article-container' is computed as display:none. Check CSS.`);
         }
     }
+    console.log(`[BlogManager][${pageType}] === Finished updatePostLanguageDisplay for lang: ${this.currentLanguage} ===`); // DEBUG: Mark end
   }
 }
 
