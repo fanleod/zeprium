@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="../css/hide-scrollbar.css" />
   <link rel="stylesheet" href="../css/components/navigation.css" />
   <link rel="stylesheet" href="../css/components/lang-switcher.css" />
+  <link rel="stylesheet" href="../css/components/blog.css" />
   <title>Blog - Zeprium</title>
   <script src="../js/theme.js" defer></script>
 </head>
@@ -47,6 +48,24 @@
   </script>
   <script type="module">
     import Navigation from '../js/components/navigation.js';
+    import BlogManager from '../js/components/blog-manager.js';
+
+    // Initialize Blog Manager - it will handle both grid and single post display
+    const blogManager = new BlogManager();
+
+    // Explicitly initialize Navigation after DOM is likely ready
+    // Ensure Navigation class is designed to be instantiated or called if needed
+    if (typeof Navigation === 'function') {
+       // Assuming Navigation needs instantiation
+       new Navigation(); 
+    } else if (Navigation && typeof Navigation.init === 'function'){
+        // Assuming Navigation has a static init method
+        Navigation.init();
+    }
+
+    // Remove the previously added loadBlogPost function and its DOMContentLoaded listener
+    // The logic is now handled within BlogManager
+
   </script>
 </body>
 </html> 

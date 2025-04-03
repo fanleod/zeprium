@@ -1,5 +1,20 @@
 [
   {
+    "id": "the-making-of-zeprium",
+    "category": "Self-Dialogue, Design-Reflection",
+    "category_zh": "自我对话, 设计反思",
+    "title": "The Making of Zeprium",
+    "title_zh": "Zeprium 的诞生",
+    "summary": "A website is not just a showcase — it can be a space of reflection, evolution, and dialogue. In this opening post, I share the thoughts behind Zeprium's making: how it was built not by code alone, but by a series of intentional decisions, questions, and collaborations — including with AI.",
+    "summary_zh": "一个网站，不只是作品的展台，更是思考流动与自我协作的空间。在这篇开篇文章中，我分享了 Zeprium 的诞生故事：它不是靠一行行代码堆砌出来的，而是由一个个决定、一次次重构和一次独特的 AI 协作共同完成的。",
+    "url": "pages/blog.html",
+    "urlParams": "?post=the-making-of-zeprium",
+    "color": "#3a3a3a",
+    "date": "2025-04-01",
+    "featured": true,
+    "image": "../images/blog/the-making-of-zeprium.jpg"
+  },
+  {
     "id": "design-principles",
     "category": "Design",
     "category_zh": "设计",

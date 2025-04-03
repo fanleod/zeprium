@@ -24,8 +24,9 @@
   <link rel="stylesheet" href="css/copyright-protection.css">
   <link rel="stylesheet" href="css/components/navigation.css">
   <link rel="stylesheet" href="css/components/lang-switcher.css">
+  <link rel="stylesheet" href="css/components/blog.css">
   <script src="js/theme.js" defer></script>
-  <script src="js/blog-cards.js" defer></script>
+  <script type="module" src="js/components/blog-manager.js" defer></script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -93,7 +94,22 @@
     document.getElementById('current-year').textContent = new Date().getFullYear();
   </script>
   <script type="module">
+    // Import necessary components
     import Navigation from './js/components/navigation.js';
+    import BlogManager from './js/components/blog-manager.js';
+    
+    // Initialize Navigation
+    if (typeof Navigation === 'function') {
+       new Navigation(); 
+    } else if (Navigation && typeof Navigation.init === 'function'){
+        Navigation.init();
+    }
+
+    // Initialize Blog Manager
+    if (typeof BlogManager === 'function') {
+        new BlogManager(); // Instantiate to load featured posts on homepage
+    }
+
   </script>
 </body>
 </html>

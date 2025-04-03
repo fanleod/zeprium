@@ -1,0 +1,303 @@
+/* ====================================
+   BLOG COMPONENTS
+==================================== */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center; /* Center grid items horizontally */
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  border-radius: var(--border-radius-medium);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-hover);
+}
+
+.blog-image {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 56.25%; /* 16:9 */
+  overflow: hidden;
+  background-color: var(--color-bg);
+  border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
+}
+
+.blog-image.no-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--color-bg); /* Assuming background color provides contrast */
+  font-weight: bold;
+  font-size: 1.2rem;
+  height: auto; /* Override height: 0 */
+  min-height: 150px; /* Ensure some minimum height */
+  padding: 1rem; 
+}
+
+.blog-image.no-image span {
+    /* Optional: Add styles for the category text inside */
+}
+
+
+.blog-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-image img {
+  transform: scale(1.05);
+}
+
+.blog-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-content h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.blog-content p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.blog-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.blog-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-radius: var(--border-radius-small);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.read-more {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.read-more::after {
+  content: '→';
+  margin-left: 0.25rem;
+  transition: transform 0.3s ease;
+}
+
+.read-more:hover::after {
+  transform: translateX(4px);
+}
+
+/* Blog Filters Container */
+.blog-filters {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  justify-content: center; /* Center buttons horizontally */
+  gap: 0.75rem; /* Space between buttons */
+  margin-bottom: 2rem; /* Space below the filters */
+  padding: 0.5rem 0;
+}
+
+/* Filter Button Styles */
+.filter-button {
+  /* Inherit base button styles or define specific ones */
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--color-muted);
+  background-color: transparent;
+  color: var(--color-muted);
+  border-radius: var(--border-radius-large); /* Match other buttons if applicable */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.filter-button:hover {
+  background-color: rgba(var(--color-text-rgb, 0, 0, 0), 0.05); /* Subtle hover */
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+.filter-button.active {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+  font-weight: 500;
+}
+
+/* Blog post specific container (loaded dynamically) */
+.blog-article-container {
+   /* Styles specific to the loaded article page if needed */
+   /* Example: max-width, margin, etc. */
+   max-width: 800px; /* Example */
+   margin: 0 auto;
+}
+
+.blog-article-container header {
+    /* Styles for the header within a single blog post */
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.blog-article-container .post-categories {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-article-container .post-category {
+    /* Reuse existing .blog-category styles or define specifics */
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    /* background-color set inline */
+    color: var(--color-bg);
+    border-radius: var(--border-radius-small);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.blog-article-container h1 {
+    /* Styles for the main title of the blog post */
+    font-size: 2.8rem; /* Example */
+    margin-bottom: 0.5rem;
+}
+
+.blog-article-container .post-meta {
+    /* Styles for date/time */
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.blog-article-container .blog-post-image {
+    /* Styles for the main image of the post */
+    margin-bottom: 2rem;
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+}
+
+.blog-article-container .blog-post-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.blog-article-container .post-content {
+    /* Styles for the main content area */
+    font-size: 1.1rem; /* Example */
+    line-height: 1.7;
+    text-align: left; /* Adjust as needed */
+}
+
+.blog-article-container .post-content h2 {
+    font-size: 2rem; /* Example */
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-article-container .post-content h3 {
+    font-size: 1.6rem; /* Example */
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+}
+
+.blog-article-container .post-content p {
+    text-align: left; /* Override default centered p */
+    margin-bottom: 1.5rem;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.blog-article-container .post-content .conclusion {
+    font-style: italic;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+
+.blog-article-container footer {
+    /* Styles for the footer within the blog post (e.g., back button) */
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(var(--color-text-rgb, 0, 0, 0), 0.1); /* Subtle border */
+    text-align: center;
+}
+
+/* Error and No Posts Messages */
+.error-message,
+.no-posts-message {
+  text-align: center;
+  width: 100%;
+  padding: 2rem 1rem;
+  margin: 2rem auto;
+  /* background-color: rgba(var(--color-text-rgb, 0, 0, 0), 0.03); Optionally add subtle background */
+  /* border: 1px solid rgba(var(--color-text-rgb, 0, 0, 0), 0.1); Optionally add border */
+  border-radius: var(--border-radius-medium);
+}
+
+.error-message p,
+.no-posts-message p {
+    margin-bottom: 1rem; /* Space between message and link */
+    font-size: 1.1rem;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 1.1rem;
+    color: var(--color-muted);
+}
+
+/* Dark mode adjustments for error/no posts */
+@media (prefers-color-scheme: dark) {
+  .error-message,
+  .no-posts-message {
+    /* background-color: rgba(255, 255, 255, 0.05); */
+    /* border-color: rgba(255, 255, 255, 0.1); */
+  }
+  
+  .blog-article-container footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+} 
