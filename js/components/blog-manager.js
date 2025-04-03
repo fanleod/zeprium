@@ -241,13 +241,34 @@ class BlogManager {
    * @returns {String} - 处理后的 URL
    */
   getPostUrl(post) {
-    let postUrl = post.url;
-    if (post.urlParams) {
-      postUrl += post.urlParams + (this.currentLanguage === 'zh' ? '&lang=zh' : '');
-    } else if (this.currentLanguage === 'zh') {
-      postUrl += (postUrl.includes('?') ? '&' : '?') + 'lang=zh';
+    // Correct logic: Always link to the page specified in post.url (pages/blog.html) 
+    // and append the parameters from post.urlParams.
+    // Ensure the base path starts with a '/' to make it absolute from the root.
+    let targetPageUrl = post.url; // Should be "pages/blog.html"
+    if (!targetPageUrl.startsWith('/')) {
+        targetPageUrl = '/' + targetPageUrl; // Make it absolute: "/pages/blog.html"
     }
-    return postUrl;
+    
+    let urlParams = post.urlParams || ''; // e.g., "?post=the-making-of-zeprium"
+
+    // No complex relative path adjustments needed for the link destination itself.
+    let finalUrl = targetPageUrl; // Starts with "/pages/blog.html"
+
+    // Append urlParams
+    if (urlParams) {
+        finalUrl += urlParams;
+    }
+    
+    console.log(`[BlogManager] getPostUrl: Target page (absolute): ${targetPageUrl}, Params: ${urlParams}`); // DEBUG
+
+    // Append language parameter
+    const langParam = this.currentLanguage === 'zh' ? 'lang=zh' : '';
+    if (langParam) {
+        finalUrl += (finalUrl.includes('?') ? '&' : '?') + langParam;
+    }
+
+    console.log(`[BlogManager] getPostUrl: Final generated URL: ${finalUrl}`); // DEBUG
+    return finalUrl;
   }
   
   /**
@@ -306,6 +327,13 @@ class BlogManager {
    * 设置博客页面的分类过滤器
    */
   setupFilters() {
+    // Do not setup filters if we are displaying a single post
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('post')) {
+      console.log('[BlogManager] Skipping filter setup because a single post is being displayed.');
+      return; 
+    }
+
     // 确保文章数据已加载
     if (!this.isLoaded || !this.posts || this.posts.length === 0) {
         console.warn('[BlogManager] Cannot setup filters: Blog posts not loaded or empty.');
@@ -480,15 +508,25 @@ class BlogManager {
    */
   hideBlogListElements() {
     const contentBox = document.querySelector('main#main-content section.content-box');
-    if (!contentBox) return;
+    if (!contentBox) {
+        console.warn('[BlogManager] hideBlogListElements: Content box not found.'); // DEBUG
+        return;
+    }
 
     const blogGrid = contentBox.querySelector(this.config.gridSelector);
     const filters = contentBox.querySelector('.blog-filters');
     const blogIntroH1 = contentBox.querySelector('h1'); 
     const blogIntroP = contentBox.querySelector('p');
     
+    console.log('[BlogManager] Attempting to hide blog list elements:', { grid: !!blogGrid, filters: !!filters, h1: !!blogIntroH1, p: !!blogIntroP }); // DEBUG
+
     if (blogGrid) blogGrid.style.display = 'none';
-    if (filters) filters.style.display = 'none';
+    if (filters) {
+        filters.style.display = 'none';
+        console.log('[BlogManager] Filters hidden.'); // DEBUG
+    } else {
+        console.warn('[BlogManager] hideBlogListElements: Filters element (.blog-filters) not found in contentBox.'); // DEBUG
+    }
     if (blogIntroH1) blogIntroH1.style.display = 'none'; 
     if (blogIntroP) blogIntroP.style.display = 'none'; 
   }
@@ -498,15 +536,26 @@ class BlogManager {
    */
    showBlogListElements() {
     const contentBox = document.querySelector('main#main-content section.content-box');
-    if (!contentBox) return;
+    if (!contentBox) {
+        console.warn('[BlogManager] showBlogListElements: Content box not found.'); // DEBUG
+        return;
+    }
 
     const blogGrid = contentBox.querySelector(this.config.gridSelector);
     const filters = contentBox.querySelector('.blog-filters');
     const blogIntroH1 = contentBox.querySelector('h1');
     const blogIntroP = contentBox.querySelector('p');
 
+    console.log('[BlogManager] Attempting to show blog list elements:', { grid: !!blogGrid, filters: !!filters, h1: !!blogIntroH1, p: !!blogIntroP }); // DEBUG
+
     if (blogGrid) blogGrid.style.display = ''; // Reset to default display
-    if (filters) filters.style.display = ''; // Reset to default display
+    if (filters) {
+        filters.style.display = ''; // Reset to default display
+         console.log('[BlogManager] Filters shown (display reset).'); // DEBUG
+    } else {
+        // This might be expected if filters haven't been created yet or aren't needed on this view
+        console.log('[BlogManager] showBlogListElements: Filters element (.blog-filters) not found (might be normal if not yet created or not applicable).'); // DEBUG
+    }
     if (blogIntroH1) blogIntroH1.style.display = ''; // Reset display
     if (blogIntroP) blogIntroP.style.display = ''; // Reset display
   }
@@ -525,7 +574,6 @@ class BlogManager {
 
     if (!contentBox) {
         console.error('[BlogManager] Target content container `main section.content-box` not found.');
-        // Attempt to display error in main as fallback
         const mainContent = document.getElementById('main-content');
         if(mainContent) {
              mainContent.innerHTML = '<p class="error-message">Page structure error. Cannot load post.</p>';
@@ -536,16 +584,34 @@ class BlogManager {
     contentBox.innerHTML = '<p class="loading-message">Loading post...</p>';
 
     try {
-      const fetchUrl = `blog/${postId}.html`;
-      console.log(`[BlogManager] Fetching post HTML from: ${fetchUrl}`); // DEBUG
+      // Correct logic: Fetch the HTML file based on postId.
+      // Since this runs on pages/blog.html, and the post HTML 
+      // (e.g., the-making-of-zeprium.html) is in the *same* directory (pages/blog/),
+      // the fetch URL is simply the filename.
+      const filename = `${postId}.html`;
+      // const fetchUrl = filename; // Fetch relative to the current page (pages/blog.html) - Original
+      // Force absolute path for fetch, as direct access works but relative fetch fails.
+      const fetchUrl = `/pages/blog/${filename}`; 
+      
+      console.log(`[BlogManager] Fetching post HTML using *absolute* path: ${fetchUrl}`); // DEBUG
       const response = await fetch(fetchUrl); 
       console.log(`[BlogManager] Fetch response status: ${response.status}`); // DEBUG
       if (!response.ok) {
          let errorDetail = '';
+         let responseText = '';
          try {
-             errorDetail = await response.text();
-         } catch {}
-         throw new Error(`HTTP error! status: ${response.status}. ${errorDetail}`);
+             // Try to get text even on error, might contain helpful server message
+             responseText = await response.text(); 
+             errorDetail = responseText.substring(0, 500); // Limit length
+         } catch (textError) {
+             errorDetail = `(Could not read error response body: ${textError})`;
+         }
+         // Log more details
+         console.error(`[BlogManager] Fetch failed! Status: ${response.status}, StatusText: ${response.statusText}, URL: ${response.url}. Response snippet: ${errorDetail}`);
+         // Also log request details used
+         console.error(`[BlogManager] Fetch was initiated for postId: ${postId}, requested filename: ${filename}, absolute URL used: ${fetchUrl}`);
+
+         throw new Error(`HTTP error fetching post content! Status: ${response.status}. URL: ${fetchUrl}. Response snippet: ${errorDetail}`);
       }
       const postHtml = await response.text();
       console.log('[BlogManager] Post HTML fetched successfully.'); // DEBUG
@@ -554,10 +620,14 @@ class BlogManager {
       tempDiv.innerHTML = postHtml;
 
       const postArticle = tempDiv.querySelector('article.blog-article-container');
+      // Find the language script within the fetched HTML's article section
+      const languageScriptElement = postArticle?.querySelector('script:not([src])');
+      const languageScriptContent = languageScriptElement?.textContent;
       const fetchedTitle = tempDiv.querySelector('title')?.textContent || `${post.title} - Zeprium`;
       const fetchedMetaEn = tempDiv.querySelector('meta[name="title-en"]')?.getAttribute('content');
       const fetchedMetaZh = tempDiv.querySelector('meta[name="title-zh"]')?.getAttribute('content');
-      const languageScriptContent = tempDiv.querySelector('article.blog-article-container script:not([src])')?.textContent;
+      // Remove the script from the article before injecting to avoid duplicate execution if browser somehow runs it
+      languageScriptElement?.remove(); 
 
       if (postArticle) {
         console.log('[BlogManager] Article container found in fetched HTML.'); // DEBUG
@@ -573,17 +643,18 @@ class BlogManager {
         contentBox.appendChild(postArticle);
         console.log('[BlogManager] Article injected successfully.'); // DEBUG
 
-        // Execute the inline language script if found
+        // Execute the extracted inline language script AFTER injecting the content
         if (languageScriptContent) {
-          // console.log('[BlogManager] Found inline script. Execution temporarily disabled for debugging.'); // DEBUG
+           console.log('[BlogManager] Attempting to execute extracted inline script.'); // DEBUG
           try {
-            (new Function(languageScriptContent))(); // Re-enabled
+            // Use a function constructor for slightly safer execution than eval
+            (new Function(languageScriptContent))(); 
             console.log('[BlogManager] Executed inline language script for post:', postId);
           } catch (scriptError) {
             console.error('[BlogManager] Error executing inline script from loaded post:', scriptError);
           } 
         } else {
-          console.log('[BlogManager] No inline script found in article.'); // DEBUG
+          console.log('[BlogManager] No inline script found in article or script content missing.'); // DEBUG
         }
       } else {
         console.error('[BlogManager] Could not find `<article class="blog-article-container">` in fetched HTML.'); // DEBUG
