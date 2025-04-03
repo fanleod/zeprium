@@ -43,19 +43,16 @@
 }
 
 .nav-link.active {
-  background: var(--active-bg);
   color: var(--active-color);
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .nav-link.active::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
+  bottom: -1px;
+  left: 0.5rem;
+  right: 0.5rem;
   height: 2px;
   background: var(--active-color);
   border-radius: 2px;
@@ -118,7 +115,6 @@
   }
   
   .nav-link.active {
-    background: var(--dark-active-bg);
     color: var(--dark-active-color);
   }
 }
@@ -139,7 +135,6 @@
   }
   
   .nav-link.active {
-    background: var(--light-active-bg);
     color: var(--light-active-color);
   }
 }
