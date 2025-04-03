@@ -11,21 +11,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="title-en" content="The Making of Zeprium - Zeprium">
   <meta name="title-zh" content="Zeprium 的诞生 - Zeprium">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';" />
   <link rel="icon" type="image/png" href="../../images/favicon.png" />
   <link rel="icon" type="image/svg+xml" href="../../images/icon.svg" />
   <link rel="apple-touch-icon" href="../../images/apple-touch-icon.png" />
   <link rel="apple-touch-icon-precomposed" href="../../images/apple-touch-icon-precomposed.png" />
   <link rel="stylesheet" href="../../css/style.css" />
   <link rel="stylesheet" href="../../css/hide-scrollbar.css" />
+  <link rel="stylesheet" href="../../css/copyright-protection.css" />
   <link rel="stylesheet" href="../../css/components/navigation.css" />
   <link rel="stylesheet" href="../../css/components/lang-switcher.css" />
+  <link rel="stylesheet" href="../../css/components/blog.css" />
   <title>The Making of Zeprium - Zeprium</title>
   <script src="../../js/theme.js" defer></script>
-  <script src="../../js/lang-switcher.js" defer></script>
-  <script type="module">
-    import Navigation from '../../js/components/navigation.js';
-  </script>
+  <script type="module" src="../../js/components/blog-manager.js" defer></script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -128,40 +127,36 @@
   <script>
     // Update copyright year to current year
     document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+  <script type="module">
+    // Import necessary components
+    import Navigation from '../../js/components/navigation.js';
+    import BlogManager from '../../js/components/blog-manager.js';
     
-    // 显示正确的语言内容
-    document.addEventListener('DOMContentLoaded', function() {
-      const savedLang = localStorage.getItem('zeprium-lang') || 'en';
-      
-      // 隐藏所有语言版本内容
-      document.querySelectorAll('.post-content').forEach(el => {
-        el.style.display = 'none';
-      });
-      
-      // 显示当前语言版本内容
-      const currentLangContent = document.querySelector(`.post-content[data-lang-${savedLang}]`);
-      if (currentLangContent) {
-        currentLangContent.style.display = 'block';
-      }
-      
-      // 监听语言变化
-      document.addEventListener('languageChanged', function(event) {
-        if (event.detail && event.detail.language) {
-          const lang = event.detail.language;
-          
-          // 隐藏所有语言版本内容
-          document.querySelectorAll('.post-content').forEach(el => {
-            el.style.display = 'none';
-          });
-          
-          // 显示当前语言版本内容
-          const content = document.querySelector(`.post-content[data-lang-${lang}]`);
-          if (content) {
-            content.style.display = 'block';
-          }
+    console.log('[HTML Init Script] Initializing components...'); // DEBUG
+
+    // Initialize Navigation
+    if (typeof Navigation === 'function') {
+       console.log('[HTML Init Script] Initializing Navigation...'); // DEBUG
+       new Navigation(); 
+    } else if (Navigation && typeof Navigation.init === 'function'){
+        // This path is unlikely if using ES modules correctly
+        console.log('[HTML Init Script] Initializing Navigation via init()...'); // DEBUG
+        Navigation.init();
+    }
+
+    // Initialize Blog Manager
+    if (typeof BlogManager === 'function') {
+        console.log('[HTML Init Script] Initializing BlogManager...'); // DEBUG
+        try {
+          new BlogManager();
+          console.log('[HTML Init Script] BlogManager initialized successfully.'); // DEBUG
+        } catch (error) {
+           console.error('[HTML Init Script] Error initializing BlogManager:', error); // DEBUG
         }
-      });
-    });
+    } else {
+        console.error('[HTML Init Script] BlogManager class not found or not a function!'); // DEBUG
+    }
   </script>
 </body>
 </html> 

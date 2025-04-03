@@ -1,3 +1,5 @@
+console.log('[BlogManager] blog-manager.js script executing...'); // DEBUG: Top-level execution check
+
 /**
  * 博客卡片管理系统
  * 
@@ -8,6 +10,7 @@
 // 博客卡片加载和渲染控制器
 class BlogManager {
   constructor(options = {}) {
+    console.log('[BlogManager] Constructor called.'); // DEBUG: Confirm constructor starts
     // 默认配置
     this.config = {
       dataUrl: 'data/blog-posts.json',
@@ -15,6 +18,11 @@ class BlogManager {
       maxHomePageCards: 3,
       ...options
     };
+    
+    // **正确定义页面类型属性**
+    this.isBlogListPage = window.location.pathname.includes('/blog.html');
+    this.isSinglePostPage = !this.isBlogListPage && window.location.pathname.includes('/pages/blog/');
+    console.log(`[BlogManager] Page type detected - isBlogListPage: ${this.isBlogListPage}, isSinglePostPage: ${this.isSinglePostPage}`); // DEBUG
     
     // 状态管理
     this.posts = [];
@@ -29,31 +37,67 @@ class BlogManager {
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
     
     // 初始化
+    console.log(`[BlogManager] Constructor: Document readyState is ${document.readyState}`); // DEBUG
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      console.log('[BlogManager] Constructor: Calling init() immediately.'); // DEBUG
       this.init();
     } else {
-      document.addEventListener('DOMContentLoaded', () => this.init());
+      console.log('[BlogManager] Constructor: Adding DOMContentLoaded listener for init().'); // DEBUG
+      document.addEventListener('DOMContentLoaded', () => {
+         console.log('[BlogManager] DOMContentLoaded event fired, calling init().'); // DEBUG
+         this.init()
+      });
     }
+    console.log('[BlogManager] Constructor finished.'); // DEBUG
   }
   
   /**
    * 初始化博客管理器
    */
   init() {
+    console.log('[BlogManager] init() method started.'); // DEBUG: Confirm init starts
+    // 监听语言变更事件 (所有页面都需要)
+    document.addEventListener('languageChanged', this.handleLanguageChange);
+
     const blogGrid = document.querySelector(this.config.gridSelector);
-    
-    if (blogGrid) {
-      // 加载博客卡片
-      this.loadBlogCards();
-      
-      // 在博客页面设置分类过滤器
-      if (window.location.pathname.includes('/blog.html')) {
-        this.setupFilters();
-      }
-      
-      // 监听语言变更事件
-      document.addEventListener('languageChanged', this.handleLanguageChange);
+    const urlParams = new URLSearchParams(window.location.search);
+    const postIdFromUrl = urlParams.get('post');
+
+    if (this.isBlogListPage) {
+        console.log('[BlogManager] init(): Initializing on Blog List Page.'); // DEBUG
+        if (blogGrid) {
+            this.loadBlogCards().then(() => {
+                 // 数据加载完成后检查 URL 参数
+                const currentUrlParams = new URLSearchParams(window.location.search);
+                const currentPostId = currentUrlParams.get('post');
+                if (currentPostId) {
+                    // URL 有 post 参数，handleBlogPostDisplay 会处理
+                    this.handleBlogPostDisplay(); 
+                } else {
+                    // URL 没有 post 参数，是纯列表视图
+                    this.setupFilters(); // 设置过滤器
+                    this.renderCards(null, true); // 确保列表已渲染
+                }
+            });
+        } else {
+             console.warn('[BlogManager] Blog grid not found on blog list page.');
+        }
+    } else if (this.isSinglePostPage) {
+        console.log('[BlogManager] init(): Initializing on Single Post Page.'); // DEBUG
+        // 单文章页面: 不需要加载所有卡片，不需要 setupFilters
+        // 只需确保语言显示正确
+        // DOMContentLoaded 可能触发 navigation.js 比这个脚本晚
+        // 稍微延迟执行语言更新，确保导航栏的语言切换器可能已初始化
+        requestAnimationFrame(() => {
+             console.log('[BlogManager][Single Post Page] Calling updatePostLanguageDisplay.')
+            this.updatePostLanguageDisplay(); 
+        });
+       
+    } else if (blogGrid) { // Handle homepage or other pages with blog grid
+        console.log('[BlogManager] init(): Initializing on Homepage or other page with grid.'); // DEBUG
+        this.loadBlogCards(); // 加载特色卡片 (renderCards 会在 load 完成后调用)
     }
+    console.log('[BlogManager] init() method finished.'); // DEBUG
   }
   
   /**
@@ -62,8 +106,38 @@ class BlogManager {
    */
   handleLanguageChange(event) {
     if (event.detail?.language) {
+      console.log(`[BlogManager] Language changed event received: ${event.detail.language}`); // DEBUG
       this.currentLanguage = event.detail.language;
-      this.renderCards(null, true);
+      
+      // **恢复正确的逻辑：根据页面类型决定操作**
+      if (this.isSinglePostPage) {
+        console.log('[BlogManager] Updating language display for single article HTML page'); // DEBUG
+        this.updatePostLanguageDisplay(); // 直接更新当前页面的语言元素
+      } else if (this.isBlogListPage) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('post');
+        if (postId) {
+          console.log('[BlogManager] Updating language display for dynamically loaded article'); // DEBUG
+          this.updatePostLanguageDisplay(); // 更新动态加载的文章内容
+        } else {
+          console.log('[BlogManager] Updating language display for blog list'); // DEBUG
+          // 列表页需要重新渲染卡片和过滤器
+          if (this.isLoaded) {
+            this.renderCards(null, true); 
+            this.setupFilters(); // 重新设置过滤器文本
+          } else {
+            this.loadBlogCards(); // 如果未加载，则加载
+          }
+        }
+      } else {
+           console.log('[BlogManager] Updating language display for homepage/other grid'); // DEBUG
+           // 首页或其他页面，重新渲染卡片
+           if (this.isLoaded) {
+             this.renderCards(null, true);
+           } else {
+             this.loadBlogCards();
+           }
+      }
     }
   }
   
@@ -241,34 +315,29 @@ class BlogManager {
    * @returns {String} - 处理后的 URL
    */
   getPostUrl(post) {
-    // Correct logic: Always link to the page specified in post.url (pages/blog.html) 
-    // and append the parameters from post.urlParams.
-    // Ensure the base path starts with a '/' to make it absolute from the root.
-    let targetPageUrl = post.url; // Should be "pages/blog.html"
-    if (!targetPageUrl.startsWith('/')) {
-        targetPageUrl = '/' + targetPageUrl; // Make it absolute: "/pages/blog.html"
+    const postId = post.id;
+    
+    // 判断当前是否在 blog.html 页面
+    const onBlogListPage = window.location.pathname.includes('/blog.html');
+    
+    let targetUrl;
+    
+    if (onBlogListPage) {
+        // 在 blog.html 页面，生成动态加载链接 (?post=...)
+        targetUrl = `blog.html?post=${postId}`;
+    } else {
+        // 在其他页面 (如首页)，生成直接指向文章 HTML 的链接
+        // 确保路径是从根目录开始的绝对路径
+        targetUrl = `/pages/blog/${postId}.html`; 
     }
     
-    let urlParams = post.urlParams || ''; // e.g., "?post=the-making-of-zeprium"
-
-    // No complex relative path adjustments needed for the link destination itself.
-    let finalUrl = targetPageUrl; // Starts with "/pages/blog.html"
-
-    // Append urlParams
-    if (urlParams) {
-        finalUrl += urlParams;
+    // 为目标 URL 添加 lang 参数 (如果需要且不在参数中)
+    if (this.currentLanguage === 'zh' && !targetUrl.includes('lang=')) {
+        targetUrl += (targetUrl.includes('?') ? '&' : '?') + 'lang=zh';
     }
     
-    console.log(`[BlogManager] getPostUrl: Target page (absolute): ${targetPageUrl}, Params: ${urlParams}`); // DEBUG
-
-    // Append language parameter
-    const langParam = this.currentLanguage === 'zh' ? 'lang=zh' : '';
-    if (langParam) {
-        finalUrl += (finalUrl.includes('?') ? '&' : '?') + langParam;
-    }
-
-    console.log(`[BlogManager] getPostUrl: Final generated URL: ${finalUrl}`); // DEBUG
-    return finalUrl;
+    console.log(`[BlogManager] Generated post URL: ${targetUrl} (onBlogListPage: ${onBlogListPage})`); // DEBUG
+    return targetUrl;
   }
   
   /**
@@ -325,15 +394,19 @@ class BlogManager {
   
   /**
    * 设置博客页面的分类过滤器
+   * !! 重要: 此函数只应在博客列表页调用 !!
    */
   setupFilters() {
-    // Do not setup filters if we are displaying a single post
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('post')) {
-      console.log('[BlogManager] Skipping filter setup because a single post is being displayed.');
-      return; 
+    // **增加严格检查：确保不在单文章页面执行**
+    if (this.isSinglePostPage) {
+        console.warn('[BlogManager] Attempted to run setupFilters on a single post page. Aborting.');
+        return; 
     }
-
+    // 确保我们在博客列表页面
+    if (!this.isBlogListPage) {
+         console.warn('[BlogManager] Attempted to run setupFilters outside the blog list page. Aborting.');
+        return;
+    }
     // 确保文章数据已加载
     if (!this.isLoaded || !this.posts || this.posts.length === 0) {
         console.warn('[BlogManager] Cannot setup filters: Blog posts not loaded or empty.');
@@ -358,6 +431,11 @@ class BlogManager {
     }
 
     const filterContainer = this.getOrCreateFilterContainer();
+    // Only proceed if filterContainer exists and is on the blog list page
+    if (!filterContainer) {
+        console.error('[BlogManager] Filter container not found when trying to setup filters.');
+        return;
+    }
     filterContainer.innerHTML = ''; // 清空现有按钮以防重复添加
     
     // 创建 "All" 按钮
@@ -508,25 +586,15 @@ class BlogManager {
    */
   hideBlogListElements() {
     const contentBox = document.querySelector('main#main-content section.content-box');
-    if (!contentBox) {
-        console.warn('[BlogManager] hideBlogListElements: Content box not found.'); // DEBUG
-        return;
-    }
+    if (!contentBox) return;
 
     const blogGrid = contentBox.querySelector(this.config.gridSelector);
     const filters = contentBox.querySelector('.blog-filters');
     const blogIntroH1 = contentBox.querySelector('h1'); 
     const blogIntroP = contentBox.querySelector('p');
     
-    console.log('[BlogManager] Attempting to hide blog list elements:', { grid: !!blogGrid, filters: !!filters, h1: !!blogIntroH1, p: !!blogIntroP }); // DEBUG
-
     if (blogGrid) blogGrid.style.display = 'none';
-    if (filters) {
-        filters.style.display = 'none';
-        console.log('[BlogManager] Filters hidden.'); // DEBUG
-    } else {
-        console.warn('[BlogManager] hideBlogListElements: Filters element (.blog-filters) not found in contentBox.'); // DEBUG
-    }
+    if (filters) filters.style.display = 'none';
     if (blogIntroH1) blogIntroH1.style.display = 'none'; 
     if (blogIntroP) blogIntroP.style.display = 'none'; 
   }
@@ -536,26 +604,15 @@ class BlogManager {
    */
    showBlogListElements() {
     const contentBox = document.querySelector('main#main-content section.content-box');
-    if (!contentBox) {
-        console.warn('[BlogManager] showBlogListElements: Content box not found.'); // DEBUG
-        return;
-    }
+    if (!contentBox) return;
 
     const blogGrid = contentBox.querySelector(this.config.gridSelector);
     const filters = contentBox.querySelector('.blog-filters');
     const blogIntroH1 = contentBox.querySelector('h1');
     const blogIntroP = contentBox.querySelector('p');
 
-    console.log('[BlogManager] Attempting to show blog list elements:', { grid: !!blogGrid, filters: !!filters, h1: !!blogIntroH1, p: !!blogIntroP }); // DEBUG
-
     if (blogGrid) blogGrid.style.display = ''; // Reset to default display
-    if (filters) {
-        filters.style.display = ''; // Reset to default display
-         console.log('[BlogManager] Filters shown (display reset).'); // DEBUG
-    } else {
-        // This might be expected if filters haven't been created yet or aren't needed on this view
-        console.log('[BlogManager] showBlogListElements: Filters element (.blog-filters) not found (might be normal if not yet created or not applicable).'); // DEBUG
-    }
+    if (filters) filters.style.display = ''; // Reset to default display
     if (blogIntroH1) blogIntroH1.style.display = ''; // Reset display
     if (blogIntroP) blogIntroP.style.display = ''; // Reset display
   }
@@ -566,103 +623,57 @@ class BlogManager {
    * @param {String} postId - 文章 ID
    */
   async displayBlogPost(post, postId) {
-    console.log(`[BlogManager] Starting displayBlogPost for postId: ${postId}`); // DEBUG
+    // 这个函数现在只应该在 blog.html?post=... 的场景下被调用
+    console.log(`[BlogManager] Starting displayBlogPost for postId: ${postId} (Dynamic Injection)`); // DEBUG
+    
     const contentBox = document.querySelector('main#main-content section.content-box');
-    const pageTitleElement = document.querySelector('title');
-    const metaTitleEn = document.querySelector('meta[name="title-en"]');
-    const metaTitleZh = document.querySelector('meta[name="title-zh"]');
-
     if (!contentBox) {
-        console.error('[BlogManager] Target content container `main section.content-box` not found.');
-        const mainContent = document.getElementById('main-content');
-        if(mainContent) {
-             mainContent.innerHTML = '<p class="error-message">Page structure error. Cannot load post.</p>';
-        }
+        console.error('[BlogManager] Target content container not found for dynamic injection');
         return;
     }
-    console.log('[BlogManager] Target container found. Clearing and showing loading message.'); // DEBUG
-    contentBox.innerHTML = '<p class="loading-message">Loading post...</p>';
 
     try {
-      // Correct logic: Fetch the HTML file based on postId.
-      // Since this runs on pages/blog.html, and the post HTML 
-      // (e.g., the-making-of-zeprium.html) is in the *same* directory (pages/blog/),
-      // the fetch URL is simply the filename.
-      const filename = `${postId}.html`;
-      // const fetchUrl = filename; // Fetch relative to the current page (pages/blog.html) - Original
-      // Force absolute path for fetch, as direct access works but relative fetch fails.
-      const fetchUrl = `/pages/blog/${filename}`; 
-      
-      console.log(`[BlogManager] Fetching post HTML using *absolute* path: ${fetchUrl}`); // DEBUG
-      const response = await fetch(fetchUrl); 
-      console.log(`[BlogManager] Fetch response status: ${response.status}`); // DEBUG
-      if (!response.ok) {
-         let errorDetail = '';
-         let responseText = '';
-         try {
-             // Try to get text even on error, might contain helpful server message
-             responseText = await response.text(); 
-             errorDetail = responseText.substring(0, 500); // Limit length
-         } catch (textError) {
-             errorDetail = `(Could not read error response body: ${textError})`;
-         }
-         // Log more details
-         console.error(`[BlogManager] Fetch failed! Status: ${response.status}, StatusText: ${response.statusText}, URL: ${response.url}. Response snippet: ${errorDetail}`);
-         // Also log request details used
-         console.error(`[BlogManager] Fetch was initiated for postId: ${postId}, requested filename: ${filename}, absolute URL used: ${fetchUrl}`);
-
-         throw new Error(`HTTP error fetching post content! Status: ${response.status}. URL: ${fetchUrl}. Response snippet: ${errorDetail}`);
-      }
-      const postHtml = await response.text();
-      console.log('[BlogManager] Post HTML fetched successfully.'); // DEBUG
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = postHtml;
-
-      const postArticle = tempDiv.querySelector('article.blog-article-container');
-      // Find the language script within the fetched HTML's article section
-      const languageScriptElement = postArticle?.querySelector('script:not([src])');
-      const languageScriptContent = languageScriptElement?.textContent;
-      const fetchedTitle = tempDiv.querySelector('title')?.textContent || `${post.title} - Zeprium`;
-      const fetchedMetaEn = tempDiv.querySelector('meta[name="title-en"]')?.getAttribute('content');
-      const fetchedMetaZh = tempDiv.querySelector('meta[name="title-zh"]')?.getAttribute('content');
-      // Remove the script from the article before injecting to avoid duplicate execution if browser somehow runs it
-      languageScriptElement?.remove(); 
-
-      if (postArticle) {
-        console.log('[BlogManager] Article container found in fetched HTML.'); // DEBUG
-        // Update page title and meta first
-        console.log(`[BlogManager] Updating title to: ${fetchedTitle}`); // DEBUG
-        if (pageTitleElement) pageTitleElement.textContent = fetchedTitle;
-        if (metaTitleEn && fetchedMetaEn) metaTitleEn.setAttribute('content', fetchedMetaEn);
-        if (metaTitleZh && fetchedMetaZh) metaTitleZh.setAttribute('content', fetchedMetaZh);
-
-        // Clear loading message from contentBox and inject the fetched article
-        console.log('[BlogManager] Clearing container and injecting article.'); // DEBUG
-        contentBox.innerHTML = ''; 
-        contentBox.appendChild(postArticle);
-        console.log('[BlogManager] Article injected successfully.'); // DEBUG
-
-        // Execute the extracted inline language script AFTER injecting the content
-        if (languageScriptContent) {
-           console.log('[BlogManager] Attempting to execute extracted inline script.'); // DEBUG
-          try {
-            // Use a function constructor for slightly safer execution than eval
-            (new Function(languageScriptContent))(); 
-            console.log('[BlogManager] Executed inline language script for post:', postId);
-          } catch (scriptError) {
-            console.error('[BlogManager] Error executing inline script from loaded post:', scriptError);
-          } 
-        } else {
-          console.log('[BlogManager] No inline script found in article or script content missing.'); // DEBUG
+        const filename = `${postId}.html`;
+        // 恢复使用绝对路径进行 fetch
+        const articlePath = `/pages/blog/${filename}`; 
+        
+        console.log(`[BlogManager] Attempting to fetch dynamic content from absolute path: ${articlePath}`); // DEBUG
+        const response = await fetch(articlePath);
+        
+        if (!response.ok) {
+            let errorBody = '';
+            try { errorBody = await response.text(); } catch {}
+            throw new Error(`Failed to fetch post content dynamically. Status: ${response.status}. Path: ${articlePath}. Response: ${errorBody}`);
         }
-      } else {
-        console.error('[BlogManager] Could not find `<article class="blog-article-container">` in fetched HTML.'); // DEBUG
-        throw new Error('Could not find `<article class="blog-article-container">` in the fetched HTML.');
-      }
+        
+        const postHtml = await response.text();
+        console.log('[BlogManager] Dynamic post HTML fetched successfully.'); // DEBUG
+
+        // 1. 解析 HTML 内容
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = postHtml;
+
+        // 2. 提取文章内容
+        const articleContent = tempDiv.querySelector('article.blog-article-container');
+        if (!articleContent) {
+            throw new Error('Could not find article content in fetched HTML');
+        }
+
+        // 3. 清空现有内容并注入文章内容 (只清空 contentBox)
+        contentBox.innerHTML = ''; 
+        contentBox.appendChild(articleContent);
+
+        // 4. 更新页面标题
+        const title = this.currentLanguage === 'zh' && post.title_zh ? post.title_zh : post.title;
+        document.title = `${title} - Zeprium`;
+
+        // 5. 更新语言显示 (重要: updatePostLanguageDisplay 会处理 .active 类)
+        this.updatePostLanguageDisplay(); 
+        
+        console.log('[BlogManager] Dynamic article displayed successfully.'); // DEBUG
     } catch (error) {
-      console.error('[BlogManager] Error loading or displaying blog post:', error); // DEBUG
-      this.displayPostNotFoundErrorInContainer(contentBox, postId, error.message);
+        console.error('[BlogManager] Error loading or displaying dynamic blog post:', error); // DEBUG
+        this.displayPostNotFoundErrorInContainer(contentBox, postId, error.message);
     }
   }
 
@@ -686,6 +697,76 @@ class BlogManager {
           `<a href="blog.html" class="button secondary">${backLinkText}</a>` +
           `</div>`;
       // We don't call hideBlogListElements here because the target container was already cleared
+  }
+
+  updatePostLanguageDisplay() {
+    console.log(`[BlogManager] Updating language elements for lang: ${this.currentLanguage}`); // DEBUG
+    let scope = document;
+    let pageType = 'Unknown'; // For logging
+
+    if (this.isBlogListPage) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('post');
+        if(postId) {
+            scope = document.querySelector('main#main-content section.content-box') || document;
+            pageType = 'Blog List (Dynamic Post)';
+            console.log(`[BlogManager] Scope set to contentBox for dynamic article on ${pageType}`); // DEBUG
+        } else {
+            pageType = 'Blog List (List View)';
+            console.log(`[BlogManager] On ${pageType}, skipping post language update.`); // DEBUG
+            return; 
+        }
+    } else if (this.isSinglePostPage) {
+        scope = document;
+        pageType = 'Single Post Page';
+        console.log(`[BlogManager] Scope set to document for ${pageType}`); // DEBUG
+    } else {
+        pageType = 'Other Page (e.g., Homepage)';
+        console.log(`[BlogManager] Not on article page (${pageType}), skipping post language update.`); // DEBUG
+        return;
+    }
+
+    // 1. 隐藏所有语言版本 (在指定范围内)
+    const allLangElements = scope.querySelectorAll('[data-lang-en], [data-lang-zh]');
+    console.log(`[BlogManager][${pageType}] Found ${allLangElements.length} language elements to potentially hide.`); // DEBUG
+    let hiddenCount = 0;
+    allLangElements.forEach(el => {
+        if (el.classList.contains('active')) {
+            el.classList.remove('active');
+            hiddenCount++;
+        }
+    });
+    console.log(`[BlogManager][${pageType}] Removed 'active' class from ${hiddenCount} elements.`); // DEBUG
+
+    // 2. 显示当前语言版本 (在指定范围内)
+    const selector = `[data-lang-${this.currentLanguage}]`;
+    const currentLangElements = scope.querySelectorAll(selector);
+    console.log(`[BlogManager][${pageType}] Found ${currentLangElements.length} elements for selector '${selector}' to show.`); // DEBUG
+    let shownCount = 0;
+    currentLangElements.forEach(el => {
+        if (!el.classList.contains('active')) {
+            el.classList.add('active');
+            shownCount++;
+            console.log(`[BlogManager][${pageType}] Added 'active' class to:`, el.tagName, el.textContent.substring(0, 50) + '...'); // DEBUG: Log element details
+        }
+    });
+    console.log(`[BlogManager][${pageType}] Added 'active' class to ${shownCount} elements.`); // DEBUG
+
+    // 确保文章容器本身可见 (主要用于动态加载场景)
+    if (this.isBlogListPage) {
+        const articleContainer = scope.querySelector('.blog-article-container');
+        if (articleContainer && articleContainer.style.display !== 'block') {
+            articleContainer.style.display = 'block'; 
+            console.log(`[BlogManager][${pageType}] Ensured dynamic article container is visible.`); // DEBUG
+        }
+    } 
+    // For Single Post Page, the container should naturally be visible unless CSS hides it.
+    else if (this.isSinglePostPage) {
+        const articleContainer = scope.querySelector('article.blog-article-container');
+        if (articleContainer && window.getComputedStyle(articleContainer).display === 'none') {
+             console.warn(`[BlogManager][${pageType}] Article container 'article.blog-article-container' is computed as display:none. Check CSS.`);
+        }
+    }
   }
 }
 

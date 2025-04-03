@@ -29,19 +29,43 @@ class Navigation {
   }
 
   getBasePath(pathParts) {
+    // 根目录或首页
     if (pathParts.length === 0 || (pathParts.length === 1 && pathParts[0] === 'index.html')) {
       return '';
     }
     
-    if (pathParts[pathParts.length - 1].endsWith('.html') && pathParts[pathParts.length - 2] === 'pages') {
-      return '../';
+    // 在 /pages/ 但不在子目录 (e.g., /pages/about.html)
+    if (pathParts.length === 2 && pathParts[0] === 'pages' && pathParts[1].endsWith('.html')) {
+        return '../'; // 从 pages/xxx.html 回到根目录
     }
     
-    if (pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'projects') {
-      return '../../';
+    // 在 /pages/ 的子目录中 (e.g., /pages/blog/xxx.html, /pages/projects/xxx.html)
+    if (pathParts.length >= 2 && pathParts[0] === 'pages' && pathParts[1] !== '') {
+        // 计算需要回退的层级数，相对于 /pages/ 目录
+        // e.g., pages/blog/ -> 需要 ../../ (2)
+        // e.g., pages/projects/ -> 需要 ../../ (2)
+        // e.g., pages/foo/bar/ -> 需要 ../../../../ (4)
+        // pathParts.length gives total segments. Need to go up (length) levels.
+        // Let's rethink. Base path relates to the *root*. 
+        // If path starts with 'pages', we need to go up relative to that.
+        // /pages/about.html -> needs ../ to get to root for images/
+        // /pages/blog/post.html -> needs ../../ to get to root for images/
+        // /pages/projects/detail.html -> needs ../../
+        
+        // Simpler logic: If the path starts with 'pages' and has more than one segment after 'pages'
+        if (pathParts.length > 2 && pathParts[0] === 'pages') {
+            return '../../'; // Assumes max one level deep under /pages like /pages/blog/
+        }
+        // If exactly /pages/something.html
+        if (pathParts.length === 2 && pathParts[0] === 'pages') {
+             return '../';
+        }
     }
     
-    return '../';
+    // 默认情况或其他未预料的结构 (尝试 ../)
+    // This might catch cases like /blog.html if it exists at root.
+    console.warn(`[Navigation] Unhandled path structure for basePath calculation: ${pathParts.join('/')}. Defaulting to '../'.`);
+    return '../'; 
   }
 
   createNavHTML(basePath, currentPath) {
