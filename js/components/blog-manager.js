@@ -1,4 +1,4 @@
-console.log('[BlogManager] blog-manager.js script executing...'); // DEBUG: Top-level execution check
+// console.log('[BlogManager] blog-manager.js script executing...'); // DEBUG: Top-level execution check
 
 /**
  * 博客卡片管理系统
@@ -10,7 +10,7 @@ console.log('[BlogManager] blog-manager.js script executing...'); // DEBUG: Top-
 // 博客卡片加载和渲染控制器
 class BlogManager {
   constructor(options = {}) {
-    console.log('[BlogManager] Constructor called.'); // DEBUG: Confirm constructor starts
+    // console.log('[BlogManager] Constructor called.'); // DEBUG: Confirm constructor starts
     // 默认配置
     this.config = {
       dataUrl: 'data/blog-posts.json',
@@ -22,7 +22,7 @@ class BlogManager {
     // **正确定义页面类型属性**
     this.isBlogListPage = window.location.pathname.includes('/blog.html');
     this.isSinglePostPage = !this.isBlogListPage && window.location.pathname.includes('/pages/blog/');
-    console.log(`[BlogManager] Page type detected - isBlogListPage: ${this.isBlogListPage}, isSinglePostPage: ${this.isSinglePostPage}`); // DEBUG
+    // console.log(`[BlogManager] Page type detected - isBlogListPage: ${this.isBlogListPage}, isSinglePostPage: ${this.isSinglePostPage}`); // DEBUG
     
     // 状态管理
     this.posts = [];
@@ -37,25 +37,25 @@ class BlogManager {
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
     
     // 初始化
-    console.log(`[BlogManager] Constructor: Document readyState is ${document.readyState}`); // DEBUG
+    // console.log(`[BlogManager] Constructor: Document readyState is ${document.readyState}`); // DEBUG
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      console.log('[BlogManager] Constructor: Calling init() immediately.'); // DEBUG
+      // console.log('[BlogManager] Constructor: Calling init() immediately.'); // DEBUG
       this.init();
     } else {
-      console.log('[BlogManager] Constructor: Adding DOMContentLoaded listener for init().'); // DEBUG
+      // console.log('[BlogManager] Constructor: Adding DOMContentLoaded listener for init().'); // DEBUG
       document.addEventListener('DOMContentLoaded', () => {
-         console.log('[BlogManager] DOMContentLoaded event fired, calling init().'); // DEBUG
+         // console.log('[BlogManager] DOMContentLoaded event fired, calling init().'); // DEBUG
          this.init()
       });
     }
-    console.log('[BlogManager] Constructor finished.'); // DEBUG
+    // console.log('[BlogManager] Constructor finished.'); // DEBUG
   }
   
   /**
    * 初始化博客管理器
    */
   init() {
-    console.log('[BlogManager] init() method started.'); // DEBUG: Confirm init starts
+    // console.log('[BlogManager] init() method started.'); // DEBUG: Confirm init starts
     // 监听语言变更事件 (所有页面都需要)
     document.addEventListener('languageChanged', this.handleLanguageChange);
 
@@ -64,7 +64,7 @@ class BlogManager {
     const postIdFromUrl = urlParams.get('post');
 
     if (this.isBlogListPage) {
-        console.log('[BlogManager] init(): Initializing on Blog List Page.'); // DEBUG
+        // console.log('[BlogManager] init(): Initializing on Blog List Page.'); // DEBUG
         if (blogGrid) {
             this.loadBlogCards().then(() => {
                  // 数据加载完成后检查 URL 参数
