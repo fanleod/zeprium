@@ -26,11 +26,28 @@ class Navigation {
   }
 
   init() {
-    console.log(`[Navigation Init] init() called. Current Href: ${window.location.href}, ReadyState: ${document.readyState}`); // DEBUG
-    this.createNavigation();
-    this.setupEventListeners();
-    // Instantiate LangSwitcher after navigation is added to the DOM
-    this.langSwitcher = new LangSwitcher('.lang-switcher-container'); 
+    console.log(`[Nav Debug] init() called. Href: ${window.location.href}, State: ${document.readyState}`);
+    try {
+        this.createNavigation();
+        this.setupEventListeners();
+        this.langSwitcher = new LangSwitcher('.lang-switcher-container'); 
+
+        // Check classes immediately after creation (might be too early for full render)
+        this.logLinkClasses("Immediately after creation");
+
+        // Check classes after a minimal delay
+        setTimeout(() => {
+            this.logLinkClasses("After 10ms Timeout");
+        }, 10);
+
+    } catch (error) {
+        console.error('[Nav Debug] Error during init:', error);
+    }
+
+    // Check classes after the window fully loads
+    window.addEventListener('load', () => {
+        this.logLinkClasses("After window.onload");
+    });
   }
 
   createNavigation() {
@@ -158,19 +175,35 @@ class Navigation {
         }
       }
       
-      console.log(`[Navigation Debug] Link: ${link.href}, isSection: ${link.isSection}, linkBasename: ${linkBasename}, currentFilename: ${currentFilename}, Result shouldBeActive: ${shouldBeActive}`); // Keep debug log
+      // Enhanced Debug Log:
+      console.log(`[Nav Status Check] Href: ${window.location.href} | Path: ${normalizedPath} | Segments: ${JSON.stringify(pathSegments)} | Link: ${link.href} | Should be active: ${shouldBeActive}`);
 
       // Determine initial text based on current language
       const initialText = currentLang === 'zh' ? link.zh : link.en;
+      const activeClass = shouldBeActive ? 'active' : '';
 
-      // Corrected template literal without unnecessary escapes
+      // Log the class being added just before returning the HTML string
+      console.log(`[Nav Debug] --> Applying class: '${activeClass}' to link ${link.href}`);
+
       return `<a href="${basePath}pages/${link.href}" 
-                 class="nav-link ${shouldBeActive ? 'active' : ''}" 
+                 class="nav-link ${activeClass}" 
                  aria-label="${link.en}"
                  data-page="${link.href}"
                  data-lang-en="${link.en}"
                  data-lang-zh="${link.zh}">${initialText}</a>`;
     }).join('');
+
+    // Add a log AFTER the map function, attempting to query the DOM 
+    // (This might run before elements are fully rendered, but worth a try)
+    /* 
+    setTimeout(() => {
+        const renderedLinks = document.querySelectorAll('.nav-links .nav-link');
+        console.log('[Nav Status Check] Post-Map DOM Check (may be early):');
+        renderedLinks.forEach(el => {
+            console.log(`  - Link ${el.dataset.page}: Classes = ${el.className}`);
+        });
+    }, 0);
+    */
   }
 
   setupEventListeners() {
@@ -256,6 +289,21 @@ class Navigation {
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
     };
+  }
+
+  // Helper function to log link classes
+  logLinkClasses(stage) {
+    console.log(`[Nav Debug - ${stage}] Checking link classes...`);
+    const renderedLinks = document.querySelectorAll('.nav-links .nav-link');
+    if (renderedLinks.length === 0) {
+        console.log(`  ... No .nav-link elements found yet at stage: ${stage}`);
+        return;
+    }
+    renderedLinks.forEach(el => {
+        // Get the text content or data-page for easier identification
+        const linkId = el.dataset.page || el.textContent.trim();
+        console.log(`  - Link [${linkId}]: Classes = '${el.className}'`);
+    });
   }
 
   // REMOVE autoInit static method as initialization is now tied to the class instance

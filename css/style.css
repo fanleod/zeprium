@@ -293,15 +293,12 @@ nav a {
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.3s ease;
-  padding-bottom: 4px; /* ADDED: Space for border */
-  border-bottom: 2px solid transparent; /* ADDED: Default transparent border */
 }
 
 /* Active state styles */
 .nav-links a.active {
   color: var(--color-accent);
   font-weight: 600;
-  border-bottom-color: var(--active-color); /* CHANGED: Set border color for active link */
 }
 
 /* Hover state - desktop only */

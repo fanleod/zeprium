@@ -41,7 +41,7 @@
   font-weight: 600;
 }
 
-.nav-link.active::after {
+/*.nav-link.active::after {
   content: '';
   position: absolute;
   bottom: -1px;
@@ -50,7 +50,7 @@
   height: 2px;
   background: var(--active-color);
   border-radius: 2px;
-}
+}*/
 
 /* 滚动状态样式 */
 .site-navigation.scrolled {
