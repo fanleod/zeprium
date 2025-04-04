@@ -137,7 +137,7 @@
 
 /* ADDED: Explicitly remove underline on hover */
 .filter-button:hover {
-  text-decoration: none !important; /* Force no underline on hover */
+  text-decoration: none; /* REMOVED !important */
 }
 
 .filter-button.active {

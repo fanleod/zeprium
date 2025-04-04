@@ -135,7 +135,8 @@
     
     console.log('[HTML Init Script] Initializing components...'); // DEBUG
 
-    // Initialize Navigation
+    // Initialize Navigation - REMOVED instantiation from here
+    /*
     if (typeof Navigation === 'function') {
        console.log('[HTML Init Script] Initializing Navigation...'); // DEBUG
        new Navigation(); 
@@ -144,6 +145,7 @@
         console.log('[HTML Init Script] Initializing Navigation via init()...'); // DEBUG
         Navigation.init();
     }
+    */
 
     // Initialize Blog Manager
     if (typeof BlogManager === 'function') {

@@ -98,12 +98,14 @@
     import Navigation from './js/components/navigation.js';
     import BlogManager from './js/components/blog-manager.js';
     
-    // Initialize Navigation
+    // Initialize Navigation - REMOVED instantiation from here
+    /*
     if (typeof Navigation === 'function') {
        new Navigation(); 
     } else if (Navigation && typeof Navigation.init === 'function'){
         Navigation.init();
     }
+    */
 
     // Initialize Blog Manager
     if (typeof BlogManager === 'function') {

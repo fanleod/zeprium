@@ -1,18 +1,32 @@
 // 导航组件 - v2.1 (集成 LangSwitcher)
 import LangSwitcher from './lang-switcher.js';
 
+console.log('[Navigation Init] Script loaded.'); // DEBUG
+
 class Navigation {
   constructor(options = {}) {
+    console.log('[Navigation Init] Constructor called.'); // DEBUG
     this.options = {
       basePath: '',
       logoPath: 'images/zeprium-logo',
       ...options
     };
     
-    this.init();
+    // Delay initialization until DOM is ready
+    if (document.readyState === 'loading') {
+      console.log('[Navigation Init] DOM not ready, adding listener.'); // DEBUG
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('[Navigation Init] DOMContentLoaded event fired.'); // DEBUG
+        this.init();
+      });
+    } else {
+      console.log('[Navigation Init] DOM ready, initializing immediately.'); // DEBUG
+      this.init();
+    }
   }
 
   init() {
+    console.log(`[Navigation Init] init() called. Current Href: ${window.location.href}, ReadyState: ${document.readyState}`); // DEBUG
     this.createNavigation();
     this.setupEventListeners();
     // Instantiate LangSwitcher after navigation is added to the DOM
@@ -20,6 +34,7 @@ class Navigation {
   }
 
   createNavigation() {
+    console.log(`[Navigation Logic] createNavigation called. Current Href: ${window.location.href}, ReadyState: ${document.readyState}`); // DEBUG
     const currentPath = window.location.pathname;
     const pathParts = currentPath.split('/').filter(Boolean);
     const basePath = this.options.basePath || this.getBasePath(pathParts);
@@ -101,7 +116,7 @@ class Navigation {
   }
 
   createNavLinks(basePath, currentPath) {
-    console.log(`[Navigation Debug] createNavLinks called. currentPath: ${currentPath}, basePath: ${basePath}`); // DEBUG
+    console.log(`[Navigation Logic] createNavLinks called. Current Href: ${window.location.href}, Pathname: ${currentPath}, basePath: ${basePath}`); // Keep and enhance this log
     const links = [
       { href: 'about.html', en: 'About', zh: '关于', isSection: false },
       { href: 'projects.html', en: 'Projects', zh: '项目', isSection: true }, // Assume projects might have sub-pages
@@ -272,14 +287,12 @@ class Navigation {
   */
 }
 
-// Auto-initialize Navigation on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Only create one instance
-  if (!document.querySelector('.site-navigation')) {
-    new Navigation();
-    // LangSwitcher is now instantiated within the Navigation constructor
-  }
-});
+// Remove automatic instantiation if it exists outside the class
+// new Navigation(); // REMOVE this if it's outside the class
+
+// Instantiate the class (this will now handle the DOMContentLoaded logic internally)
+console.log('[Navigation Init] Instantiating Navigation class...'); // DEBUG
+new Navigation();
 
 // Export Navigation component
 export default Navigation; 

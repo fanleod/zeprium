@@ -53,8 +53,8 @@
     // Initialize Blog Manager - it will handle both grid and single post display
     const blogManager = new BlogManager();
 
-    // Explicitly initialize Navigation after DOM is likely ready
-    // Ensure Navigation class is designed to be instantiated or called if needed
+    // Explicitly initialize Navigation after DOM is likely ready - REMOVED
+    /*
     if (typeof Navigation === 'function') {
        // Assuming Navigation needs instantiation
        new Navigation(); 
@@ -62,6 +62,7 @@
         // Assuming Navigation has a static init method
         Navigation.init();
     }
+    */
 
     // Remove the previously added loadBlogPost function and its DOMContentLoaded listener
     // The logic is now handled within BlogManager
