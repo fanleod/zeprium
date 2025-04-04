@@ -120,28 +120,30 @@ class Navigation {
     console.log(`[Navigation Debug] normalizedPath: ${normalizedPath}, pathSegments:`, pathSegments); // DEBUG
 
     return links.map(link => {
-      const linkFilename = link.href; // e.g., 'blog.html'
-      const linkBasename = linkFilename.replace('.html', ''); // e.g., 'blog'
-      const currentFilename = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : ''; // Last segment
+      const linkFilename = link.href; 
+      const linkBasename = linkFilename.replace('.html', ''); 
+      const currentFilename = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : '';
       
       let shouldBeActive = false;
 
       if (link.isSection) {
-        // For sections (Blog, Projects): Check if current path is within this section
-        // e.g., for 'blog.html', check if path segments start with ['pages', 'blog']
-        if (pathSegments.length >= 2 && pathSegments[0] === 'pages' && pathSegments[1] === linkBasename) {
-          shouldBeActive = true;
+        // CORRECTED LOGIC for sections:
+        // Active if EITHER the second segment matches the basename (subpage)
+        // OR the last segment matches the filename (main section page)
+        if (pathSegments.length >= 2 && pathSegments[0] === 'pages') {
+            if (pathSegments[1] === linkBasename || 
+                (pathSegments.length === 2 && currentFilename === linkFilename)) {
+                 shouldBeActive = true;
+            }
         }
       } else {
-        // For non-section pages (About, Contact, Styleguide): Check for exact page match
-        // e.g., for 'about.html', check if segments are ['pages', 'about.html']
+        // Logic for non-section pages remains the same
         if (pathSegments.length === 2 && pathSegments[0] === 'pages' && currentFilename === linkFilename) {
           shouldBeActive = true;
         }
       }
       
-      // DEBUG: Log the decision for each link
-      console.log(`[Navigation Debug] Link: ${link.href}, isSection: ${link.isSection}, linkBasename: ${linkBasename}, currentFilename: ${currentFilename}, Result shouldBeActive: ${shouldBeActive}`);
+      console.log(`[Navigation Debug] Link: ${link.href}, isSection: ${link.isSection}, linkBasename: ${linkBasename}, currentFilename: ${currentFilename}, Result shouldBeActive: ${shouldBeActive}`); // Keep debug log
 
       // Determine initial text based on current language
       const initialText = currentLang === 'zh' ? link.zh : link.en;

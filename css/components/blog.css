@@ -132,6 +132,12 @@
   border-radius: var(--border-radius-large); /* Match other buttons if applicable */
   cursor: pointer;
   font-size: 0.9rem;
+  text-decoration: none; /* Ensure no underline */
+}
+
+/* ADDED: Explicitly remove underline on hover */
+.filter-button:hover {
+  text-decoration: none !important; /* Force no underline on hover */
 }
 
 .filter-button.active {

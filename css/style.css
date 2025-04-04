@@ -293,33 +293,15 @@ nav a {
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.3s ease;
+  padding-bottom: 4px; /* ADDED: Space for border */
+  border-bottom: 2px solid transparent; /* ADDED: Default transparent border */
 }
 
-/* Underline effect */
-nav a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 2px;
-  background-color: var(--color-accent);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.3s ease;
-  pointer-events: none;
-}
-
-/* Active state - unified selector */
-.nav-links a.active,
-nav a.active {
+/* Active state styles */
+.nav-links a.active {
   color: var(--color-accent);
   font-weight: 600;
-}
-
-/* Style for the active link */
-.nav-links a.active::after {
-  transform: scaleX(1); /* Show underline */
+  border-bottom-color: var(--active-color); /* CHANGED: Set border color for active link */
 }
 
 /* Hover state - desktop only */
@@ -470,7 +452,7 @@ body > footer {
   margin-top: auto;
   color: var(--color-text);
   font-family: var(--font-footer);
-  font-size: 0.6rem !important;
+  font-size: 0.6rem ;
   font-weight: 200;
   line-height: 1.5;
   letter-spacing: 0.02em;
@@ -1097,8 +1079,7 @@ body {
 /* Show the active language version */
 [data-lang-en].lang-active,
 [data-lang-zh].lang-active {
-  display: block !important; /* ADDED !important for diagnostics */
-  /* visibility: visible; */
+  display: block; /* Ensure !important is removed */
 }
 /* Optional: You might need specific rules for different element types */
 /* E.g., span[data-lang-en].lang-active { display: inline !important; } */
