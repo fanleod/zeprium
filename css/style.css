@@ -1079,6 +1079,44 @@ body {
 ==================================== */
 /* REMOVED All styles previously under this section */
 
+/* ====================================
+   Y. BUTTON STYLES (General & Specific)
+==================================== */
+/* Common Button Styles (including read-more and back-to-posts) */
+.button,
+.project-content .read-more,
+.back-to-posts /* Assuming this class exists */ {
+  color: var(--color-accent);
+  text-decoration: underline;
+  font-weight: 700; /* Bold */
+  background-color: transparent; /* Ensure no background interference */
+  border: none; /* Ensure no border interference */
+  padding: 0; /* Reset padding if needed, adjust per button type if necessary */
+  cursor: pointer;
+  transition: none; /* Remove transitions */
+}
+
+/* Override hover/active states to maintain default appearance */
+.button:hover,
+.project-content .read-more:hover,
+.back-to-posts:hover,
+.button:active,
+.project-content .read-more:active,
+.back-to-posts:active {
+  color: var(--color-accent); /* Keep original color */
+  text-decoration: underline; /* Keep underline */
+  background-color: transparent; /* Keep transparent background */
+  transform: none; /* Prevent any transform effects */
+  box-shadow: none; /* Prevent any shadow effects */
+}
+
+/* Specific adjustments if needed, e.g., for .read-more alignment */
+.project-content .read-more {
+  margin-top: auto; /* Keep vertical alignment */
+  margin-bottom: 0.75rem; /* Keep original margin */
+  align-self: center; /* Keep centered */
+}
+
 /* Show the active language version */
 [data-lang-en].lang-active,
 [data-lang-zh].lang-active {

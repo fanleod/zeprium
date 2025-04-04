@@ -175,43 +175,57 @@
 
 .blog-article-container header {
     /* Styles for the header within a single blog post */
+    display: block; /* ADDED: Ensure block layout */
     margin-bottom: 2rem;
-    text-align: center;
 }
 
 .blog-article-container .post-categories {
-    display: flex;
-    justify-content: center;
+    display: flex; /* Ensure it's flex */
+    justify-content: center; /* Center tags inside */
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-top: 1.5rem; /* ADJUSTED: Increased space below title */
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content; /* Fit width to content */
+    margin-bottom: 1.5rem; /* Re-apply bottom margin */
 }
 
 .blog-article-container .post-category {
     /* Reuse existing .blog-category styles or define specifics */
     display: inline-block;
-    padding: 0.25rem 0.75rem;
-    /* background-color set inline */
+    padding: 0.15rem 0.5rem;
+    background-color: #666666; /* ADDED: Lighter background color */
     color: var(--color-bg);
     border-radius: var(--border-radius-small);
-    font-size: 0.85rem;
+    font-size: 10px;
     font-weight: 500;
+}
+
+/* ADDED: Style for the text inside the category tag */
+.blog-article-container .post-category span {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .blog-article-container h1 {
     /* Styles for the main title of the blog post */
-    font-size: 2.8rem; /* Example */
-    margin-bottom: 0.5rem;
+    font-size: 2.8rem;
+    margin-bottom: 0;
+    text-align: center;
 }
 
 .blog-article-container .post-meta {
     /* Styles for date/time */
     color: var(--color-muted);
     font-size: 0.9rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem; /* ADJUSTED: Reduced space below meta */
+    text-align: center;
 }
 
 .blog-article-container .blog-post-image {
     /* Styles for the main image of the post */
+    max-width: 720px; /* ADJUSTED: Limit image width to 720px */
+    margin-left: auto; /* ADDED: Center image block */
+    margin-right: auto; /* ADDED: Center image block */
     margin-bottom: 2rem;
     border-radius: var(--border-radius-medium);
     overflow: hidden;
@@ -225,6 +239,9 @@
 
 .blog-article-container .post-content {
     /* Styles for the main content area */
+    max-width: 640px; /* ADJUSTED: Limit content width to 640px */
+    margin-left: auto; /* ADDED: Center content block */
+    margin-right: auto; /* ADDED: Center content block */
     font-size: 1.1rem; /* Example */
     line-height: 1.7;
     text-align: left; /* Adjust as needed */
@@ -321,4 +338,28 @@
 /* 当前语言版本显示规则 */
 .blog-article-container .post-content.active {
   display: block !important;
+}
+
+/* Responsive adjustments for blog articles */
+@media (max-width: 768px) {
+  .blog-article-container .post-content {
+    padding-left: 1.5rem; 
+    padding-right: 1.5rem;
+  }
+  
+  .blog-article-container h1 {
+      font-size: 2.2rem; /* Adjust heading size on smaller screens */
+      text-align: center;
+  }
+  
+  .blog-article-container .post-content h2 {
+      font-size: 1.8rem;
+  }
+  
+  .blog-article-container .post-content h3 {
+       font-size: 1.4rem;
+  }
+  .blog-article-container .post-meta {
+      text-align: center;
+  }
 } 
