@@ -1,57 +1,33 @@
 // 导航组件 - v2.1 (集成 LangSwitcher)
 import LangSwitcher from './lang-switcher.js';
 
-console.log('[Navigation Init] Script loaded.'); // DEBUG
-
 class Navigation {
   constructor(options = {}) {
-    console.log('[Navigation Init] Constructor called.'); // DEBUG
     this.options = {
       basePath: '',
       logoPath: 'images/zeprium-logo',
       ...options
     };
     
-    // Delay initialization until DOM is ready
     if (document.readyState === 'loading') {
-      console.log('[Navigation Init] DOM not ready, adding listener.'); // DEBUG
-      document.addEventListener('DOMContentLoaded', () => {
-        console.log('[Navigation Init] DOMContentLoaded event fired.'); // DEBUG
-        this.init();
-      });
+      document.addEventListener('DOMContentLoaded', () => this.init());
     } else {
-      console.log('[Navigation Init] DOM ready, initializing immediately.'); // DEBUG
       this.init();
     }
   }
 
   init() {
-    console.log(`[Nav Debug] init() called. Href: ${window.location.href}, State: ${document.readyState}`);
     try {
         this.createNavigation();
         this.setupEventListeners();
         this.langSwitcher = new LangSwitcher('.lang-switcher-container'); 
 
-        // Check classes immediately after creation (might be too early for full render)
-        this.logLinkClasses("Immediately after creation");
-
-        // Check classes after a minimal delay
-        setTimeout(() => {
-            this.logLinkClasses("After 10ms Timeout");
-        }, 10);
-
     } catch (error) {
-        console.error('[Nav Debug] Error during init:', error);
+        console.error('[Navigation] Error during init:', error);
     }
-
-    // Check classes after the window fully loads
-    window.addEventListener('load', () => {
-        this.logLinkClasses("After window.onload");
-    });
   }
 
   createNavigation() {
-    console.log(`[Navigation Logic] createNavigation called. Current Href: ${window.location.href}, ReadyState: ${document.readyState}`); // DEBUG
     const currentPath = window.location.pathname;
     const pathParts = currentPath.split('/').filter(Boolean);
     const basePath = this.options.basePath || this.getBasePath(pathParts);
@@ -61,41 +37,23 @@ class Navigation {
   }
 
   getBasePath(pathParts) {
-    // 根目录或首页
     if (pathParts.length === 0 || (pathParts.length === 1 && pathParts[0] === 'index.html')) {
       return '';
     }
     
-    // 在 /pages/ 但不在子目录 (e.g., /pages/about.html)
     if (pathParts.length === 2 && pathParts[0] === 'pages' && pathParts[1].endsWith('.html')) {
-        return '../'; // 从 pages/xxx.html 回到根目录
+        return '../';
     }
     
-    // 在 /pages/ 的子目录中 (e.g., /pages/blog/xxx.html, /pages/projects/xxx.html)
     if (pathParts.length >= 2 && pathParts[0] === 'pages' && pathParts[1] !== '') {
-        // 计算需要回退的层级数，相对于 /pages/ 目录
-        // e.g., pages/blog/ -> 需要 ../../ (2)
-        // e.g., pages/projects/ -> 需要 ../../ (2)
-        // e.g., pages/foo/bar/ -> 需要 ../../../../ (4)
-        // pathParts.length gives total segments. Need to go up (length) levels.
-        // Let's rethink. Base path relates to the *root*. 
-        // If path starts with 'pages', we need to go up relative to that.
-        // /pages/about.html -> needs ../ to get to root for images/
-        // /pages/blog/post.html -> needs ../../ to get to root for images/
-        // /pages/projects/detail.html -> needs ../../
-        
-        // Simpler logic: If the path starts with 'pages' and has more than one segment after 'pages'
         if (pathParts.length > 2 && pathParts[0] === 'pages') {
-            return '../../'; // Assumes max one level deep under /pages like /pages/blog/
+            return '../../';
         }
-        // If exactly /pages/something.html
         if (pathParts.length === 2 && pathParts[0] === 'pages') {
              return '../';
         }
     }
     
-    // 默认情况或其他未预料的结构 (尝试 ../)
-    // This might catch cases like /blog.html if it exists at root.
     console.warn(`[Navigation] Unhandled path structure for basePath calculation: ${pathParts.join('/')}. Defaulting to '../'.`);
     return '../'; 
   }
@@ -133,23 +91,18 @@ class Navigation {
   }
 
   createNavLinks(basePath, currentPath) {
-    console.log(`[Navigation Logic] createNavLinks called. Current Href: ${window.location.href}, Pathname: ${currentPath}, basePath: ${basePath}`); // Keep and enhance this log
     const links = [
       { href: 'about.html', en: 'About', zh: '关于', isSection: false },
-      { href: 'projects.html', en: 'Projects', zh: '项目', isSection: true }, // Assume projects might have sub-pages
-      { href: 'blog.html', en: 'Blog', zh: '博客', isSection: true },        // Blog definitely has sub-pages
+      { href: 'projects.html', en: 'Projects', zh: '项目', isSection: true },
+      { href: 'blog.html', en: 'Blog', zh: '博客', isSection: true },
       { href: 'contact.html', en: 'Contact', zh: '联系', isSection: false },
       { href: 'styleguide.html', en: 'Style Guide', zh: '样式指南', isSection: false }
     ];
 
-    // Get current language to set initial text correctly
     const currentLang = document.documentElement.lang || 'en';
     
-    // Normalize currentPath: remove leading/trailing slashes, remove index.html
     const normalizedPath = currentPath.replace(/^\/|\/$/g, '').replace(/index\.html$/, '');
-    // Get path segments: e.g., ['pages', 'blog', 'post.html'] or ['pages', 'about.html']
     const pathSegments = normalizedPath.split('/').filter(Boolean); 
-    console.log(`[Navigation Debug] normalizedPath: ${normalizedPath}, pathSegments:`, pathSegments); // DEBUG
 
     return links.map(link => {
       const linkFilename = link.href; 
@@ -159,9 +112,6 @@ class Navigation {
       let shouldBeActive = false;
 
       if (link.isSection) {
-        // CORRECTED LOGIC for sections:
-        // Active if EITHER the second segment matches the basename (subpage)
-        // OR the last segment matches the filename (main section page)
         if (pathSegments.length >= 2 && pathSegments[0] === 'pages') {
             if (pathSegments[1] === linkBasename || 
                 (pathSegments.length === 2 && currentFilename === linkFilename)) {
@@ -169,21 +119,13 @@ class Navigation {
             }
         }
       } else {
-        // Logic for non-section pages remains the same
         if (pathSegments.length === 2 && pathSegments[0] === 'pages' && currentFilename === linkFilename) {
           shouldBeActive = true;
         }
       }
       
-      // Enhanced Debug Log:
-      console.log(`[Nav Status Check] Href: ${window.location.href} | Path: ${normalizedPath} | Segments: ${JSON.stringify(pathSegments)} | Link: ${link.href} | Should be active: ${shouldBeActive}`);
-
-      // Determine initial text based on current language
       const initialText = currentLang === 'zh' ? link.zh : link.en;
       const activeClass = shouldBeActive ? 'active' : '';
-
-      // Log the class being added just before returning the HTML string
-      console.log(`[Nav Debug] --> Applying class: '${activeClass}' to link ${link.href}`);
 
       return `<a href="${basePath}pages/${link.href}" 
                  class="nav-link ${activeClass}" 
@@ -192,36 +134,20 @@ class Navigation {
                  data-lang-en="${link.en}"
                  data-lang-zh="${link.zh}">${initialText}</a>`;
     }).join('');
-
-    // Add a log AFTER the map function, attempting to query the DOM 
-    // (This might run before elements are fully rendered, but worth a try)
-    /* 
-    setTimeout(() => {
-        const renderedLinks = document.querySelectorAll('.nav-links .nav-link');
-        console.log('[Nav Status Check] Post-Map DOM Check (may be early):');
-        renderedLinks.forEach(el => {
-            console.log(`  - Link ${el.dataset.page}: Classes = ${el.className}`);
-        });
-    }, 0);
-    */
   }
 
   setupEventListeners() {
-    // 阻止logo右键点击
     const logoImage = document.querySelector('.site-logo');
     if (logoImage) {
       logoImage.addEventListener('contextmenu', e => e.preventDefault());
     }
     
-    // 设置滚动检测
     this.setupScrollDetection();
   }
 
   setupScrollDetection() {
     const nav = document.getElementById('site-nav');
     const header = document.querySelector('.site-header');
-    // LangSwitcher instance will handle its own scroll state changes
-    // const langSwitcherContainer = document.querySelector('.lang-switcher-container'); 
     
     if (!nav || !header) return;
     
@@ -232,49 +158,28 @@ class Navigation {
         const navWasScrolled = nav.classList.contains('scrolled');
         nav.classList.toggle('scrolled', isScrolled);
         
-        // Only update styles if scroll state changed
         if (navWasScrolled !== isScrolled) {
-            // Dispatch event for LangSwitcher
             document.dispatchEvent(new CustomEvent('navScrolled', { detail: { isScrolled } }));
         }
       }
-      
-      // Removed direct manipulation of langSwitcherContainer class
-      // if (langSwitcherContainer) {
-      //   langSwitcherContainer.classList.toggle('scrolled', isScrolled);
-      // }
     };
     
-    // Get initial scroll state correctly
     let initialScrollY = window.scrollY;
     let initialIsScrolled = initialScrollY > headerHeight;
     updateScrollStyle(initialIsScrolled);
-    // Need to manually dispatch the initial state for LangSwitcher
     document.dispatchEvent(new CustomEvent('navScrolled', { detail: { isScrolled: initialIsScrolled } }));
 
-    // Use passive: true for better scroll performance
     window.addEventListener('scroll', this.debounce(() => {
       updateScrollStyle(window.scrollY > headerHeight);
     }, 10), { passive: true });
     
-    // Debounced resize listener
     window.addEventListener('resize', this.debounce(() => {
-      // Re-calculate header height on resize and update scroll style
       const newHeaderHeight = header.offsetHeight;
       updateScrollStyle(window.scrollY > newHeaderHeight);
     }, 100));
     
-    // Color scheme change listener
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        // Re-apply background color based on new scheme if scrolled
-        /* 移除这里的直接样式修改，让 CSS 类和媒体查询处理
-        if (nav.classList.contains('scrolled')) {
-            nav.style.backgroundColor = window.matchMedia('(prefers-color-scheme: dark)').matches 
-                ? 'rgba(18, 18, 18, 0.85)' 
-                : 'rgba(255, 255, 255, 0.8)';
-        }
-        */
       });
     }
   }
@@ -290,57 +195,8 @@ class Navigation {
       timeout = setTimeout(later, wait);
     };
   }
-
-  // Helper function to log link classes
-  logLinkClasses(stage) {
-    console.log(`[Nav Debug - ${stage}] Checking link classes...`);
-    const renderedLinks = document.querySelectorAll('.nav-links .nav-link');
-    if (renderedLinks.length === 0) {
-        console.log(`  ... No .nav-link elements found yet at stage: ${stage}`);
-        return;
-    }
-    renderedLinks.forEach(el => {
-        // Get the text content or data-page for easier identification
-        const linkId = el.dataset.page || el.textContent.trim();
-        console.log(`  - Link [${linkId}]: Classes = '${el.className}'`);
-    });
-  }
-
-  // REMOVE autoInit static method as initialization is now tied to the class instance
-  /* 
-  static autoInit() {
-    // Check if navigation already exists
-    if (document.querySelector('.site-navigation')) {
-      return;
-    }
-    
-    // Create navigation instance
-    const navigation = new Navigation();
-    
-    // Remove manual lang switcher creation
-    // const langSwitcher = document.createElement('div');
-    // langSwitcher.className = 'lang-switcher';
-    // langSwitcher.innerHTML = `
-    //   <button id="lang-toggle" aria-label="Switch language" title="切换语言">
-    //     <span class="lang-text">EN</span>
-    //   </button>
-    // `;
-    // 
-    // // Insert into the designated container (which might not exist yet if nav creates it)
-    // const langSwitcherContainer = document.querySelector('.lang-switcher-container');
-    // if (langSwitcherContainer) {
-    //   langSwitcherContainer.appendChild(langSwitcher);
-    // }
-  }
-  */
 }
 
-// Remove automatic instantiation if it exists outside the class
-// new Navigation(); // REMOVE this if it's outside the class
-
-// Instantiate the class (this will now handle the DOMContentLoaded logic internally)
-console.log('[Navigation Init] Instantiating Navigation class...'); // DEBUG
 new Navigation();
 
-// Export Navigation component
 export default Navigation; 

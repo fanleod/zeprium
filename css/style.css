@@ -929,15 +929,29 @@ nav.scrolled {
 }
 
 /* Language-specific content visibility */
-.project-content[data-lang-en],
-.project-content[data-lang-zh] {
-  display: none;
+/* Hide elements by default unless they have the visibility class */
+[data-lang-en],
+[data-lang-zh] {
+    display: none; 
 }
 
-html[lang="en"] .project-content[data-lang-en],
-html[lang="zh"] .project-content[data-lang-zh] {
-  display: block;
+/* Show the element corresponding to the active language */
+.language-visible {
+  display: block; /* Or inline, inline-block depending on the element type */
 }
+
+/* Optional: Explicitly hide the inactive language (redundant with default hide, but clearer) */
+.language-hidden {
+    display: none !important; /* Use !important just in case of specificity issues */
+}
+
+/* Remove the old rules */
+/*
+[data-lang-en].lang-active,
+[data-lang-zh].lang-active {
+  display: block; 
+}
+*/
 
 /* Responsive adjustments */
 @media (max-width: 1200px) {

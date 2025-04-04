@@ -152,10 +152,10 @@ class LangSwitcher {
       const hasZh = el.hasAttribute('data-lang-zh');
       const shouldBeActive = (lang === 'en' && hasEn) || (lang === 'zh' && hasZh);
       
-      // --- Step 1: Always toggle visibility class --- 
-      el.classList.toggle('lang-active', shouldBeActive);
-      el.classList.toggle('lang-inactive', !shouldBeActive); // Explicitly add inactive for clarity
-      console.log(`[LangSwitcher] --> Visibility set: ${shouldBeActive ? 'ACTIVE' : 'INACTIVE'} for ${elIdentifier}`);
+      // --- Step 1: Use distinct class names for language visibility --- 
+      el.classList.toggle('language-visible', shouldBeActive);
+      el.classList.toggle('language-hidden', !shouldBeActive);
+      console.log(`[LangSwitcher] --> Visibility set: ${shouldBeActive ? 'VISIBLE' : 'HIDDEN'} for ${elIdentifier}`);
 
       // --- Step 2: ONLY update text content if element has BOTH attributes --- 
       // Let's add detailed logging here
