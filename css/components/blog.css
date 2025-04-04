@@ -16,13 +16,7 @@
   border-radius: var(--border-radius-medium);
   overflow: hidden;
   box-shadow: var(--box-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
-}
-
-.blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--box-shadow-hover);
 }
 
 .blog-image {
@@ -52,7 +46,6 @@
     /* Optional: Add styles for the category text inside */
 }
 
-
 .blog-image img {
   position: absolute;
   top: 0;
@@ -61,11 +54,6 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.3s ease;
-}
-
-.blog-card:hover .blog-image img {
-  transform: scale(1.05);
 }
 
 .blog-content {
@@ -122,11 +110,6 @@
 .read-more::after {
   content: '→';
   margin-left: 0.25rem;
-  transition: transform 0.3s ease;
-}
-
-.read-more:hover::after {
-  transform: translateX(4px);
 }
 
 /* Blog Filters Container */
@@ -148,14 +131,7 @@
   color: var(--color-muted);
   border-radius: var(--border-radius-large); /* Match other buttons if applicable */
   cursor: pointer;
-  transition: all 0.3s ease;
   font-size: 0.9rem;
-}
-
-.filter-button:hover {
-  background-color: rgba(var(--color-text-rgb, 0, 0, 0), 0.05); /* Subtle hover */
-  border-color: var(--color-text);
-  color: var(--color-text);
 }
 
 .filter-button.active {
@@ -271,7 +247,6 @@
     text-align: center;
     margin-top: 3rem;
 }
-
 
 .blog-article-container footer {
     /* Styles for the footer within the blog post (e.g., back button) */

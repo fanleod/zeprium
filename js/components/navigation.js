@@ -101,39 +101,52 @@ class Navigation {
   }
 
   createNavLinks(basePath, currentPath) {
+    console.log(`[Navigation Debug] createNavLinks called. currentPath: ${currentPath}, basePath: ${basePath}`); // DEBUG
     const links = [
-      { href: 'about.html', en: 'About', zh: '关于' },
-      { href: 'projects.html', en: 'Projects', zh: '项目' },
-      { href: 'blog.html', en: 'Blog', zh: '博客' },
-      { href: 'contact.html', en: 'Contact', zh: '联系' },
-      { href: 'styleguide.html', en: 'Style Guide', zh: '样式指南' }
+      { href: 'about.html', en: 'About', zh: '关于', isSection: false },
+      { href: 'projects.html', en: 'Projects', zh: '项目', isSection: true }, // Assume projects might have sub-pages
+      { href: 'blog.html', en: 'Blog', zh: '博客', isSection: true },        // Blog definitely has sub-pages
+      { href: 'contact.html', en: 'Contact', zh: '联系', isSection: false },
+      { href: 'styleguide.html', en: 'Style Guide', zh: '样式指南', isSection: false }
     ];
 
     // Get current language to set initial text correctly
     const currentLang = document.documentElement.lang || 'en';
+    
+    // Normalize currentPath: remove leading/trailing slashes, remove index.html
+    const normalizedPath = currentPath.replace(/^\/|\/$/g, '').replace(/index\.html$/, '');
+    // Get path segments: e.g., ['pages', 'blog', 'post.html'] or ['pages', 'about.html']
+    const pathSegments = normalizedPath.split('/').filter(Boolean); 
+    console.log(`[Navigation Debug] normalizedPath: ${normalizedPath}, pathSegments:`, pathSegments); // DEBUG
 
     return links.map(link => {
-      // 获取当前页面的完整路径
-      const currentPage = currentPath.split('/').pop();
-      // 获取链接的完整路径
-      const linkPage = link.href;
+      const linkFilename = link.href; // e.g., 'blog.html'
+      const linkBasename = linkFilename.replace('.html', ''); // e.g., 'blog'
+      const currentFilename = pathSegments.length > 0 ? pathSegments[pathSegments.length - 1] : ''; // Last segment
       
-      // 检查是否是首页
-      const isHomePage = currentPage === 'index.html' || currentPage === '';
+      let shouldBeActive = false;
+
+      if (link.isSection) {
+        // For sections (Blog, Projects): Check if current path is within this section
+        // e.g., for 'blog.html', check if path segments start with ['pages', 'blog']
+        if (pathSegments.length >= 2 && pathSegments[0] === 'pages' && pathSegments[1] === linkBasename) {
+          shouldBeActive = true;
+        }
+      } else {
+        // For non-section pages (About, Contact, Styleguide): Check for exact page match
+        // e.g., for 'about.html', check if segments are ['pages', 'about.html']
+        if (pathSegments.length === 2 && pathSegments[0] === 'pages' && currentFilename === linkFilename) {
+          shouldBeActive = true;
+        }
+      }
       
-      // 检查当前页面是否匹配链接
-      const isActive = !isHomePage && currentPage === linkPage;
-      
-      // 如果是首页，检查是否在pages目录下
-      const isInPages = currentPath.includes('/pages/');
-      const isActiveInPages = isInPages && currentPage === linkPage;
-      
-      // 最终判断是否激活
-      const shouldBeActive = isActive || isActiveInPages;
-      
+      // DEBUG: Log the decision for each link
+      console.log(`[Navigation Debug] Link: ${link.href}, isSection: ${link.isSection}, linkBasename: ${linkBasename}, currentFilename: ${currentFilename}, Result shouldBeActive: ${shouldBeActive}`);
+
       // Determine initial text based on current language
       const initialText = currentLang === 'zh' ? link.zh : link.en;
 
+      // Corrected template literal without unnecessary escapes
       return `<a href="${basePath}pages/${link.href}" 
                  class="nav-link ${shouldBeActive ? 'active' : ''}" 
                  aria-label="${link.en}"

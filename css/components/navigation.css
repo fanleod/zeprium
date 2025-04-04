@@ -31,15 +31,9 @@
   font-weight: 500;
   padding: 0.5rem;
   border-radius: 4px;
-  transition: all 0.2s ease;
   position: relative;
   display: inline-block;
   text-align: center;
-}
-
-.nav-link:hover {
-  background: var(--hover-bg);
-  color: var(--hover-color);
 }
 
 .nav-link.active {
@@ -109,11 +103,6 @@
     color: var(--dark-text-color);
   }
   
-  .nav-link:hover {
-    background: var(--dark-hover-bg);
-    color: var(--dark-hover-color);
-  }
-  
   .nav-link.active {
     color: var(--dark-active-color);
   }
@@ -127,11 +116,6 @@
   
   .nav-link {
     color: var(--light-text-color);
-  }
-  
-  .nav-link:hover {
-    background: var(--light-hover-bg);
-    color: var(--light-hover-color);
   }
   
   .nav-link.active {
