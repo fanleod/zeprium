@@ -1094,3 +1094,31 @@ body {
 }
 /* Optional: You might need specific rules for different element types */
 /* E.g., span[data-lang-en].lang-active { display: inline !important; } */
+
+/* 确保联系页面的链接可点击 - 增强版 */
+.contact-list a,
+.social-links a {
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: auto;
+  -webkit-tap-highlight-color: rgba(0,0,0,.1);
+  position: relative;
+  z-index: 10;
+  text-decoration: underline;
+  color: var(--color-link);
+}
+
+/* 修复所有链接的交互问题 */
+a[href] {
+  pointer-events: auto;
+  cursor: pointer;
+  position: relative;
+  z-index: 5;
+}
+
+/* 确保列表项不阻挡链接交互 */
+.contact-list li,
+.social-links li {
+  margin-bottom: 1rem;
+  position: relative;
+}

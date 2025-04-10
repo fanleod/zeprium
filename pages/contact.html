@@ -22,6 +22,28 @@
   <link rel="stylesheet" href="../css/components/lang-switcher.css" />
   <title>Contact - Zeprium</title>
   <script src="../js/theme.js" defer></script>
+  <style>
+    /* 联系页面的专有样式 */
+    .contact-item {
+      color: var(--color-link);
+      text-decoration: underline;
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+      padding: 2px 4px;
+      border-radius: 3px;
+      transition: background-color 0.2s ease;
+    }
+    
+    .contact-item:hover {
+      background-color: rgba(0, 0, 255, 0.05);
+    }
+    
+    /* 允许本页面内容选择 */
+    .content-box {
+      user-select: text;
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -31,25 +53,22 @@
       <p data-lang-en="Have a question or want to collaborate? Get in touch!" data-lang-zh="有问题或想合作？请联系我！">Have a question or want to collaborate? Get in touch!</p>
       
       <ul class="contact-list">
-        <li data-lang-en="Email: <a href='mailto:hello@zeprium.com'>hello@zeprium.com</a>" data-lang-zh="邮箱：<a href='mailto:hello@zeprium.com'>hello@zeprium.com</a>">
-          Email: <a href="mailto:hello@zeprium.com">hello@zeprium.com</a>
+        <li data-lang-en="For business inquiries: zeprium@gmail.com" data-lang-zh="商务合作：zeprium@gmail.com">
+          For business inquiries: <a href="mailto:zeprium@gmail.com" class="contact-item">zeprium@gmail.com</a>
         </li>
-        <li data-lang-en="For business inquiries: <a href='mailto:business@zeprium.com'>business@zeprium.com</a>" data-lang-zh="商务合作：<a href='mailto:business@zeprium.com'>business@zeprium.com</a>">
-          For business inquiries: <a href="mailto:business@zeprium.com">business@zeprium.com</a>
+        <li data-lang-en="Hire me in Fiverr" data-lang-zh="在Fiverr上雇佣我">
+          <a href="https://www.fiverr.com/s/pd6Y23Z" target="_blank" rel="noopener noreferrer" class="contact-item">Fiverr</a>
         </li>
       </ul>
       
       <div class="social-links-container">
         <h2 data-lang-en="Find Me Online" data-lang-zh="在线找到我">Find Me Online</h2>
         <ul class="social-links">
-          <li data-lang-en="<a href='https://twitter.com/zeprium' target='_blank' rel='noopener noreferrer'>Twitter</a>" data-lang-zh="<a href='https://twitter.com/zeprium' target='_blank' rel='noopener noreferrer'>Twitter</a>">
-            <a href="https://twitter.com/zeprium" target="_blank" rel="noopener noreferrer">Twitter</a>
+          <li data-lang-en="Follow me on X" data-lang-zh="在X上关注我">
+            <a href="https://twitter.com/zeprium" target="_blank" rel="noopener noreferrer" class="contact-item">Twitter</a>
           </li>
-          <li data-lang-en="<a href='https://instagram.com/zeprium' target='_blank' rel='noopener noreferrer'>Instagram</a>" data-lang-zh="<a href='https://instagram.com/zeprium' target='_blank' rel='noopener noreferrer'>Instagram</a>">
-            <a href="https://instagram.com/zeprium" target="_blank" rel="noopener noreferrer">Instagram</a>
-          </li>
-          <li data-lang-en="<a href='https://linkedin.com/in/zeprium' target='_blank' rel='noopener noreferrer'>LinkedIn</a>" data-lang-zh="<a href='https://linkedin.com/in/zeprium' target='_blank' rel='noopener noreferrer'>领英</a>">
-            <a href="https://linkedin.com/in/zeprium" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <li data-lang-en="Follow me on Instagram" data-lang-zh="在Instagram上关注我">
+            <a href="https://instagram.com/faleod" target="_blank" rel="noopener noreferrer" class="contact-item">Instagram</a>
           </li>
         </ul>
       </div>
@@ -66,6 +85,28 @@
   </script>
   <script type="module">
     import Navigation from '../js/components/navigation.js';
+  </script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 获取所有联系链接
+      const contactLinks = document.querySelectorAll('.contact-item');
+      
+      // 恢复链接的交互能力
+      contactLinks.forEach(link => {
+        // 确保链接可点击和可交互
+        link.style.pointerEvents = 'auto';
+        
+        // 处理鼠标移入移出效果
+        link.addEventListener('mouseover', function() {
+          this.style.backgroundColor = 'rgba(0, 0, 255, 0.05)';
+        });
+        
+        link.addEventListener('mouseout', function() {
+          this.style.backgroundColor = 'transparent';
+        });
+      });
+    });
   </script>
 </body>
 </html>

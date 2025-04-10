@@ -95,8 +95,7 @@ class Navigation {
       { href: 'about.html', en: 'About', zh: '关于', isSection: false },
       { href: 'projects.html', en: 'Projects', zh: '项目', isSection: true },
       { href: 'blog.html', en: 'Blog', zh: '博客', isSection: true },
-      { href: 'contact.html', en: 'Contact', zh: '联系', isSection: false },
-      { href: 'styleguide.html', en: 'Style Guide', zh: '样式指南', isSection: false }
+      { href: 'contact.html', en: 'Contact', zh: '联系', isSection: false }
     ];
 
     const currentLang = document.documentElement.lang || 'en';
